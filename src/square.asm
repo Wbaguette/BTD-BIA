@@ -3,18 +3,21 @@
 
 .code
     main proc
-      ;set video mode
+      ;set video mode 
       mov ah, 00h
       mov al, 13h
 
-      int 10h
+      int 10h ; 640x350 16-bit color mode
 
-      ;write pixels on screen
-      mov ah, 0ch
-      mov bh, 0
-      mov dx, 5
-      mov cx, 5
-      mov al, 0100b
+      drawSomething:
+        ;write pixels on screen
+        mov ah, 0ch 
+        mov bh, 0
+        mov dx, 25 ; row
+
+        mov cx, 25 ; col
+        mov al, 010b ; color
+        loop drawSomething
 
       int 10h
     main endp
