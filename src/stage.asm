@@ -1,8 +1,8 @@
 .model small
-.stack 200h ; 512 bytes
+.stack 200h ; 512 bytes (book recommended it ¯\_(ツ)_/¯)
 ; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
 .data
-    VGA_VIDEO_SEGMENT       equ     0a000h  ;VGA display memory segment 
+    VRAM  equ 0a000h  ; VGA VRAM begins at this location
     color db 0
 .code
 main PROC
@@ -10,9 +10,11 @@ main PROC
     mov ah, 00h
     mov al, 13h ; video mode (320x200, 256 color)
             ; each pixel is one byte in this mode
+            ; note that pixels are sequential, 
+            ; so pixel 320 is the first pixel in the second row
     int 10h ; trigger change to video mode
 
-    mov ax, VGA_VIDEO_SEGMENT ; move vram to data segment
+    mov ax, VRAM ; move vram to data segment
     mov es, ax ; es points to VGA memory (es can only be accessed via register)
   
     mov al, color ; color
@@ -35,12 +37,12 @@ main PROC
 
     redraw:
         mov cx, 64000
-        xor bx, bx
-        xor ax, ax ; clear
-        mov al, color ; get previous draw color
+        xor bx, bx ; clear offset
+        xor ax, ax ; clear (usually keydata)
+        mov al, color ; get last color we drew
         add al, 5 ; change color
-        mov color, al ; save 
-        jmp drawloop 
+        mov color, al ; save as last color drawn
+        jmp drawloop  ; redraw
 
     exit: ; terminates program
         xor ax, ax ; zero out
