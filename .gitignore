@@ -1,6 +1,5 @@
 # Prerequisites
 *.d
-/8086
 
 # Object files
 *.o
