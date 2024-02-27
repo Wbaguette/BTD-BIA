@@ -9,6 +9,7 @@
    t_color db 0
 
 .code
+; TODO: Refactor this to maybe use DI register instead of BX
 ; Fills a chunk (8x8 pixels) with a desired color
 ; PARAMETERS:
 ;  AL : Color to draw with
@@ -29,14 +30,28 @@ dchunk proc far
    add bx, ax   ; Now the index to start drawing at is in bx
    xor ax, ax   ; clear
 
-   mov al, t_color      ; Move the color back to draw 
    draw: 
+      mov al, t_color     ; Move the color back to draw 
       mov es:[bx], ax ; draw pixel
+
       ; Check if we need to go to next line 
+      mov t_color, al     ; We need to borrow ax for division
+      mov ax, cx
+      mov di, 8
+      div di
+      cmp ah, 0
+      je new_row
+      
+      same_row:
+         inc bx          ; go to next pixel 
+         jmp lloop
+      new_row:
+         add bx, 320
+         jmp lloop
 
-      inc bx          ; go to next pixel
 
-      loop draw
+      lloop:
+         loop draw
    ret
 dchunk endp
 
