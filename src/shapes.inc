@@ -34,6 +34,7 @@ draw_horizontal_line proc far
    ; calc x offset
    xor bl, bl ; clear y coord since its already been accounted for
 
+   
    ; cant get shift working sooo
    mov bl, bh; we need to shift bh two bits to the right
    xor bh, bh ; otherwise its too large of an offset
