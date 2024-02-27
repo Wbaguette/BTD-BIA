@@ -3,7 +3,7 @@
 ; X/Y pass in. Otherwise it may get messy
 
 ; Multiply Y by 320 to determine which row an element should draw at
-; Multiply X by 200 to determine where in the row an element should be offset
+; X is simply an offset from 0-319
 
 .data
    t_color db 0
