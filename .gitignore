@@ -52,5 +52,5 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# Configs
-*.conf
+# DOSBox Configs
+DOSBox*
