@@ -25,13 +25,22 @@ main PROC
     mov cx, 64000 ;pixel count
 
     drawloop:
-        mov es:[bx], ax ; draw pixel
-        inc bx ; go to next pixel 
-        loop drawloop  
-        mov al, 44h ; color yellow
-        xor dx, dx ; set (0, 0) to draw at
+        ; mov es:[bx], ax ; draw pixel
+        ; inc bx ; go to next pixel 
+        ; loop drawloop  
+        mov bl, 44h ; color yellow
+        xor ax, ax ; set (0, 0) to draw at
         call draw_horizontal_line
-        jmp awaitkey
+        xor ax, ax
+        mov al, 1
+        mov ah, 99
+        mov bl, 33h ; teal
+        call draw_horizontal_line
+        xor ax, ax
+        mov al, 2
+        mov ah, 191
+        mov bl, 22h ; purple
+        call draw_horizontal_line
 
     awaitkey: ; terminates program on key press
         mov ah, 10h

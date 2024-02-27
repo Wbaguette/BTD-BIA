@@ -42,48 +42,91 @@ dchunk endp
 
 .data 
    tmp db 0
-; Draws a horizontal line on the screen, starting at DH
+; Draws a horizontal line on the screen, starting at AH
 ; and extending to the right to fill the chunk
-; AL : Color
-; DH : X (pixel)
-; DL : Y (pixel)
+; DL : Color
+; AH : X (pixel)
+; AL : Y (pixel)
 .code 
 draw_horizontal_line proc far 
-   mov tmp, al
    mov cx, 8 ; 8 pixels per chunk
+   xor bx, bx
+   mov ch, dl ; save color because dx gets reset on mul
+   ; xor dx, dx
 
-   ; Get row and just add X as offset
-   xor ax, ax
-   mov ax, 320
-   mul dl
-   xor dl, dl ; clear so we can add ax and dx
-   add ax, dx
-   mov bx, ax
-   mov al, tmp
+   mov bx, ax ; save x/y coords
+
+   ; calc y offset
+   xor ax, ax ; clear passed coords
+   mov ax, 320 ; vertical offset value
+   mov dx, bx  ; store coords in dx
+   xor dh, dh  ; clear x coord, we only care for y right now
+   mul dx      ; calculate y offset and store in ax
+
+   ; dx is now reset
+   mov dx, ax ; store calc in dx since it was 0'd 
+
+   ; calc x offset
+   xor bl, bl ; clear y coord since its already been accounted for
+
+   ; cant get shift working sooo
+   mov bl, bh; we need to shift bh two bits to the right
+   xor bh, bh ; otherwise its too large of an offset
+
+   add ax, bx ; add x offset to find true pixel position
+   xor dx, dx ; clear y offset - no longer needed
+   mov dl, ch ; restore color to original register
+   xor ch, ch ; zero out borrowed register
+
+   mov bx, ax ; must store pixel position in bx
+   
+   ; mov dl, al ; prep for y offset calc
+   ; mov bh, ah ; save x offset for later
+   ; xor ax, ax ; clear for math
+
+   ; ; calc y offset
+   ; mov ax, 320 ; put row length
+   ; mul dx ; get pixel offset (Y * row length)
+
+   ; ; prep for x offset
+   ; xor dx, dx ; clear used value
+   ; mov dx, ax ; save y offset
+
+   ; ; calc x offset
+   ; mov ax, 200
+   ; mov ch, bl ; save color 
+   ; mov bl, bh ; move x offset to bl 
+   ; xor bh, bh ; clear bh for mult with bx
+   ; mul bx     ; calc x offset
+   
+   ; ; restore color and reset values
+   ; mov bx, ax ; set bx to x offset
+   ; add ax, dx ; add y offset to get pixel address
+   ; mov dl, ch ; restore saved color
+   ; xor ch, ch ; clear borrowed register
+
    draw_line:
-      mov es:[bx], al
+      mov es:[bx], dl
       inc bx
       loop draw_line
    ret
 
-.data 
-   t_c db 0 
 .code
 draw_horizontal_line endp
 ; Draws a horizontal line on the screen, starting at DH
 ; and extending to the right to fill the chunk
-; AL : Color
-; DH : X (pixel)
-; DL : Y (pixel)
+; BL : Color
+; AH : X (pixel)
+; AL : Y (pixel)
 draw_chunk proc far
    mov cx, 8
 
-   draw_c: 
+   draw_c:   
       push cx
-      push dx
+      push ax
       call draw_horizontal_line
-      pop dx
-      inc dl
+      pop ax
+      inc al
       pop cx
       loop draw_c
    ret 
