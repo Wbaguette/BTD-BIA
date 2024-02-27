@@ -1,6 +1,9 @@
 .model small
 .stack 200h ; 512 bytes (book recommended it ¯\_(ツ)_/¯)
 ; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
+
+include shapes.inc
+
 .data
     VRAM  equ 0a000h  ; VGA VRAM begins at this location
     color db 0
@@ -25,6 +28,10 @@ main PROC
         mov es:[bx], ax ; draw pixel
         inc bx ; go to next pixel 
         loop drawloop  
+        mov al, 44h ; color yellow
+        xor dx, dx ; set (0, 0) to draw at
+        call draw_horizontal_line
+        jmp awaitkey
 
     awaitkey: ; terminates program on key press
         mov ah, 10h

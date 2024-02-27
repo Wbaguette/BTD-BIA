@@ -1,3 +1,10 @@
+; TODO: We are assuming good input right now, we likely will need a 
+; validator method to formalize these chunk coordinates instead of direct
+; X/Y pass in. Otherwise it may get messy
+
+; Multiply Y by 320 to determine which row an element should draw at
+; Multiply X by 200 to determine where in the row an element should be offset
+
 .data
    t_color db 0
 
@@ -20,6 +27,7 @@ dchunk proc far
    mov ax, 200  
    mul dl       ; Hopefully this doesn't overflow, there might something in dx   
    add bx, ax   ; Now the index to start drawing at is in bx
+   xor ax, ax   ; clear
 
    mov al, t_color      ; Move the color back to draw 
    draw: 
@@ -31,3 +39,72 @@ dchunk proc far
       loop draw
    ret
 dchunk endp
+
+.data 
+   tmp db 0
+; Draws a horizontal line on the screen, starting at DH
+; and extending to the right to fill the chunk
+; AL : Color
+; DH : X (pixel)
+; DL : Y (pixel)
+.code 
+draw_horizontal_line proc far 
+   mov tmp, al
+   mov cx, 8 ; 8 pixels per chunk
+
+   ; Get row and just add X as offset
+   xor ax, ax
+   mov ax, 320
+   mul dl
+   xor dl, dl ; clear so we can add ax and dx
+   add ax, dx
+   mov bx, ax
+   mov al, tmp
+   draw_line:
+      mov es:[bx], al
+      inc bx
+      loop draw_line
+   ret
+
+.data 
+   t_c db 0 
+.code
+draw_horizontal_line endp
+; Draws a horizontal line on the screen, starting at DH
+; and extending to the right to fill the chunk
+; AL : Color
+; DH : X (pixel)
+; DL : Y (pixel)
+draw_chunk proc far
+   mov cx, 8
+
+   draw_c: 
+      push cx
+      push dx
+      call draw_horizontal_line
+      pop dx
+      inc dl
+      pop cx
+      loop draw_c
+   ret 
+   ; mov t_c, al ; save color
+   ; mov cx, 8  ; chunk size
+   ; xor ax, ax ; clear
+
+   ; ; X offset
+   ; mov ax, 200
+   ; mul dh 
+   ; mov bx, ax
+
+   ; draw_c:
+   ;    xor ax, ax ; Y offset
+   ;    mov ax, 320
+   ;    mul dl
+
+   ;    add bx, ax
+   ;    mov al, t_c ; restore color
+   ;    mov es:[bx], al
+   ;    inc dl ; move down one row
+   ;    loop draw_c
+   ; ret
+draw_chunk endp
