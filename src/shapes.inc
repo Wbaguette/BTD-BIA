@@ -5,8 +5,6 @@
 ; Multiply Y by 320 to determine which row an element should draw at
 ; X is simply an offset from 0-319
 
-.data 
-   tmp db 0
 ; Draws a horizontal line on the screen, starting at AH
 ; and extending to the right to fill the chunk
 ; DL : Color
