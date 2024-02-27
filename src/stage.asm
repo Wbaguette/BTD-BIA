@@ -6,6 +6,14 @@ include shapes.inc
 
 .data
     VRAM  equ 0a000h  ; VGA VRAM begins at this location
+    PURPLE equ 22h
+    TEAL equ 33h
+    YELLOW equ 44h
+    PINK equ 55h
+    LIGHT_GRAY equ 66h
+    GREEN equ 77h
+    RED equ 88h
+
     color db 0
 .code
 main PROC
@@ -28,19 +36,39 @@ main PROC
         ; mov es:[bx], ax ; draw pixel
         ; inc bx ; go to next pixel 
         ; loop drawloop  
-        mov bl, 44h ; color yellow
+        mov dl, YELLOW
         xor ax, ax ; set (0, 0) to draw at
         call draw_horizontal_line
+        mov dl, PURPLE
         xor ax, ax
         mov al, 1
-        mov ah, 99
-        mov bl, 33h ; teal
         call draw_horizontal_line
+        mov dl, TEAL
         xor ax, ax
         mov al, 2
-        mov ah, 191
-        mov bl, 22h ; purple
         call draw_horizontal_line
+        mov dl, PINK
+        xor ax, ax
+        mov al, 3
+        call draw_horizontal_line
+        mov dl, LIGHT_GRAY
+        xor ax, ax
+        mov al, 4
+        call draw_horizontal_line
+        mov dl, GREEN
+        xor ax, ax
+        mov al, 5
+        call draw_horizontal_line
+        xor ax, ax
+        mov ah, 20
+        mov al, 20
+        mov dl, RED
+        call draw_chunk
+        xor ax, ax
+        mov ah, 0
+        mov al, 0
+        mov dl, TEAL
+        call draw_chunk
 
     awaitkey: ; terminates program on key press
         mov ah, 10h

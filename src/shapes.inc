@@ -115,7 +115,7 @@ draw_horizontal_line proc far
 draw_horizontal_line endp
 ; Draws a horizontal line on the screen, starting at DH
 ; and extending to the right to fill the chunk
-; BL : Color
+; DL : Color
 ; AH : X (pixel)
 ; AL : Y (pixel)
 draw_chunk proc far
