@@ -31,39 +31,11 @@ main PROC
     mov al, color ; color
     mov bx, 0 ;pixel offset 0 (none)
     mov cx, 64000 ;pixel count
-
+    
     drawloop:
         ; mov es:[bx], ax ; draw pixel
         ; inc bx ; go to next pixel 
         ; loop drawloop  
-        mov dl, YELLOW
-        xor ax, ax ; set (0, 0) to draw at
-        call draw_horizontal_line
-        mov dl, PURPLE
-        xor ax, ax
-        mov al, 1
-        call draw_horizontal_line
-        mov dl, TEAL
-        xor ax, ax
-        mov al, 2
-        call draw_horizontal_line
-        mov dl, PINK
-        xor ax, ax
-        mov al, 3
-        call draw_horizontal_line
-        mov dl, LIGHT_GRAY
-        xor ax, ax
-        mov al, 4
-        call draw_horizontal_line
-        mov dl, GREEN
-        xor ax, ax
-        mov al, 5
-        call draw_horizontal_line
-        xor ax, ax
-        mov ah, 20
-        mov al, 20
-        mov dl, RED
-        call draw_chunk
         xor ax, ax
         mov ah, 0
         mov al, 0
