@@ -54,3 +54,6 @@ dkms.conf
 
 # DOSBox Configs
 DOSBox*
+
+# LST files
+*.lst
