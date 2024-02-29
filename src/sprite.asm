@@ -14,7 +14,6 @@ main PROC
 
    mov dx, 10
    shl ax, SHIFT
-   ; maybe u tried shifting 8 bits?
    shl bx, SHIFT
    ror ax, SHIFT
 
