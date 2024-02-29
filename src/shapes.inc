@@ -5,8 +5,6 @@
 ; Multiply Y by 320 to determine which row an element should draw at
 ; X is simply an offset from 0-319
 
-.data 
-   tmp db 0
 ; Draws a horizontal line on the screen, starting at AH
 ; and extending to the right to fill the chunk
 ; DL : Color
@@ -34,6 +32,7 @@ draw_horizontal_line proc far
    ; calc x offset
    xor bl, bl ; clear y coord since its already been accounted for
 
+   
    ; cant get shift working sooo
    mov bl, bh; we need to shift bh two bits to the right
    xor bh, bh ; otherwise its too large of an offset

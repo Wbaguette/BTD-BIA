@@ -5,6 +5,9 @@
 include shapes.inc
 
 .data
+    X_PIXELS equ 320
+    Y_PIXELS equ 200
+    CHUNK_SIZE equ 8
     VRAM  equ 0a000h  ; VGA VRAM begins at this location
     PURPLE equ 22h
     TEAL equ 33h
@@ -27,20 +30,27 @@ main PROC
 
     mov ax, VRAM ; move vram to data segment
     mov es, ax ; es points to VGA memory (es can only be accessed via register)
-  
-    mov al, color ; color
+    mov al, TEAL ; color
     mov bx, 0 ;pixel offset 0 (none)
+    mov cx, X_PIXELS
     mov cx, 64000 ;pixel count
-    
+
+    ; calc number of horizontal chunks
+    ; mov ax, X_PIXELS
+    ; mov bx, CHUNK_SIZE
+    ; div bx
+    ; mov cx, ax ; number of chunks to draw
+    ; xor ax, ax
+    ; mov dl, TEAL
+
+    ; we need USES or something akin to it
     drawloop:
-        ; mov es:[bx], ax ; draw pixel
-        ; inc bx ; go to next pixel 
-        ; loop drawloop  
         xor ax, ax
-        mov ah, 0
-        mov al, 0
+        xor dx, dx
         mov dl, TEAL
         call draw_chunk
+        ; add ax, CHUNK_SIZE
+        ; loop drawloop
 
     awaitkey: ; terminates program on key press
         mov ah, 10h
