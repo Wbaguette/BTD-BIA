@@ -9,14 +9,6 @@ include macros.inc
 .code
 main PROC
    setup
-   mov ax, VRAM 
-   mov es, ax
-
-   mov dx, 10
-   shl ax, SHIFT
-   shl bx, SHIFT
-   ror ax, SHIFT
-
 
 
    
