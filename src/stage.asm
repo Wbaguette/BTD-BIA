@@ -35,7 +35,6 @@ main PROC
     mov cx, X_PIXELS
     mov cx, 64000 ;pixel count
 
-    ; we need USES or something akin to it
     drawloop:
         xor ax, ax
         xor dx, dx
