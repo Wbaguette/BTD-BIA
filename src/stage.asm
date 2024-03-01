@@ -35,21 +35,24 @@ main PROC
     mov cx, X_PIXELS
     mov cx, 64000 ;pixel count
 
-    ; calc number of horizontal chunks
-    ; mov ax, X_PIXELS
-    ; mov bx, CHUNK_SIZE
-    ; div bx
-    ; mov cx, ax ; number of chunks to draw
-    ; xor ax, ax
-    ; mov dl, TEAL
-
     ; we need USES or something akin to it
     drawloop:
         xor ax, ax
         xor dx, dx
         mov dl, TEAL
         call draw_chunk
-        ; add ax, CHUNK_SIZE
+        xor ax, ax
+        xor dx, dx 
+        mov dl, YELLOW
+        mov ah, 1
+        mov al, 1
+        call draw_chunk
+        xor ax, ax
+        xor dx, dx 
+        mov dl, PURPLE
+        mov ah, 2
+        mov al, 2
+        call draw_chunk
         ; loop drawloop
 
     awaitkey: ; terminates program on key press
