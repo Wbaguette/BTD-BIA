@@ -3,6 +3,7 @@
 ; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
 
 include shapes.inc
+include const.inc
 
 .data
     X_PIXELS equ 320
