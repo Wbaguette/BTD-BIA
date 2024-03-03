@@ -28,6 +28,7 @@ draw_horizontal_line endp
 .code
 draw_chunk proc far
    xor bx, bx ; clear
+   xor cx, cx ; clear
    mov ch, dl ; save color because dx gets reset on mul
    mov bl, ah ; save x chunk for later
    mov cl, 3  ; we will want to shift by this amount (equiv to * 8)
@@ -53,12 +54,12 @@ draw_chunk proc far
    mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
 
    draw_c:   
-      push cx  
-      push bx  ; we don't want to modify our start position for next iter
+      push cx  ; save which line of the chunk we are drawing
+      push bx  ; save our start position
       call draw_horizontal_line
-      pop bx   
-      add bx, X_PIXELS ; go to next row to be drawn
-      pop cx
+      pop bx   ; restore start position
+      add bx, X_PIXELS ; move start position to next row
+      pop cx   ; restore which line of the chunk we just drew
       loop draw_c
    ret 
 draw_chunk endp
@@ -71,23 +72,25 @@ draw_chunk endp
 .code 
 draw_perimeter proc far
    mov cx, TOTAL_CHUNKS
-   mov color, dl  ; save, dx is needed for math
+   mov color, dl ; save as dx is needed for chunk calcs
 
    perimeterloop:
-      push cx  ; save true iterator
-      dec cx   ; sub 1 since chunks are zero-based
+      push cx  ; save chunk iterator
+      dec cx   ; sub 1 since true chunks are zero-based
 
-      ; ZERO ZERO ZERO ZERO ZERO ZERO
+      ; ZERO ZERO ZERO ZERO ZERO ZERO or division fucking dies
       xor ax, ax
       xor bx, bx
-      xor dx, dx
+      xor dx, dx 
 
-      mov ax, cx ; setup for div
-      mov bx, Y_CHUNKS ; THIS BREAKS WITH DX IDK WHY
-      div bx  ; X chunk
-      mov ah, al ; conform to parameter order
-      mov al, dl ; y chunk
+      ; 1d to 2d chunk coordinate
+      mov ax, cx ; get 1d chunk index
+      mov bx, Y_CHUNKS 
+      div bx     ; 1D index / Y_CHUNKS = X (AX) and Y (DX) chunks
+      mov ah, al ; conform to parameter order by 
+      mov al, dl ;    moving X to AH and Y to AL
 
+      ; perimeter chunk checking
       cmp ah, 0 ; x=0
       je isperimeter
       cmp al, 0 ; y=0
@@ -99,10 +102,11 @@ draw_perimeter proc far
       jmp continue   ; skip drawing
 
       isperimeter:   ; draw
-         mov dl, color ; set color
+         mov dl, color ; restore color
          call draw_chunk
       continue:
-         pop cx
+         pop cx ; restore chunk iterator
          loop perimeterloop
    ret
 draw_perimeter endp
+
