@@ -20,44 +20,9 @@ main PROC
     mov bx, 0 ;pixel offset 0 (none)
     mov cx, TOTAL_CHUNKS
 
-    drawloop:
-        push cx 
-        dec cx ; sub 1 since chunks are zero-based
-
-        ; ZERO ZERO FUCKING ZERO ZERO ZERO ZERO
-        xor ax, ax
-        xor bx, bx
-        xor dx, dx
-
-        mov ax, cx ; setup for div
-        mov bx, Y_CHUNKS ; THIS BREAKS WITH DX IDK WHY
-        div bx  ; X chunk
-        mov ah, al ; conform to parameter order
-        mov al, dl ; y chunk
-
-        ; debug colors
-        xor bx, bx
-        inc bx
-        add bl, al
-        add bl, ah
-        mov dl, bl ; color is chunk X + chunk Y + 1
-
-        cmp ah, 0 ; x=0
-        je ddd
-        cmp al, 0 ; y=0
-        je ddd
-        cmp ah, 39
-        je ddd
-        cmp al, 24
-        je ddd
-        jmp con
-
-        ddd:
-            mov dl, TEAL ; set color
-            call draw_chunk
-        con:
-            pop cx
-        loop drawloop
+    xor dx, dx
+    mov dl, TEAL
+    call draw_perimeter
     
     awaitkey: ; terminates program on key press
         mov ah, 10h

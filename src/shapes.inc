@@ -11,7 +11,7 @@
 .code 
 draw_horizontal_line proc far 
    xor cx, cx  ; zero out for loop
-   mov cx, 8   ; 8 pixels per chunk line
+   mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
    
    draw_line:
       mov es:[bx], dl
@@ -30,12 +30,12 @@ draw_chunk proc far
    xor bx, bx ; clear
    mov ch, dl ; save color because dx gets reset on mul
    mov bl, ah ; save x chunk for later
-   mov cl, 3  ; we will want to shift by this amount
+   mov cl, 3  ; we will want to shift by this amount (equiv to * 8)
 
    ; calc y offset
    xor ah, ah  ; clear X chunk
-   mov dx, 320 ; 320 pixels per row 
-   shl dx, cl  ; 8 rows per chunk, so 8*320 is true vertical offset
+   mov dx, X_PIXELS ; pixels per row 
+   shl dx, cl  ; rows per chunk, so chunksize*rowsize is true vertical offset
    mul dx      ; vertical offset
    mov dx, ax  ; save y offset
 
@@ -50,15 +50,59 @@ draw_chunk proc far
    mov dl, ch  ; restore saved color
    mov bx, ax  ; must store pixel position in bx
    xor cx, cx  ; zero out for loop
-   mov cx, 8   ; 8 pixels per chunk line
+   mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
 
    draw_c:   
       push cx  
       push bx  ; we don't want to modify our start position for next iter
       call draw_horizontal_line
       pop bx   
-      add bx, 320 ; go to next row to be drawn
+      add bx, X_PIXELS ; go to next row to be drawn
       pop cx
       loop draw_c
    ret 
 draw_chunk endp
+
+; Draws a chunk along the perimeter of the screen, skipping
+; over non-perimeter chunks
+; DL : Color
+.data?
+   color db ?
+.code 
+draw_perimeter proc far
+   mov cx, TOTAL_CHUNKS
+   mov color, dl  ; save, dx is needed for math
+
+   perimeterloop:
+      push cx  ; save true iterator
+      dec cx   ; sub 1 since chunks are zero-based
+
+      ; ZERO ZERO ZERO ZERO ZERO ZERO
+      xor ax, ax
+      xor bx, bx
+      xor dx, dx
+
+      mov ax, cx ; setup for div
+      mov bx, Y_CHUNKS ; THIS BREAKS WITH DX IDK WHY
+      div bx  ; X chunk
+      mov ah, al ; conform to parameter order
+      mov al, dl ; y chunk
+
+      cmp ah, 0 ; x=0
+      je isperimeter
+      cmp al, 0 ; y=0
+      je isperimeter
+      cmp ah, XZ_CHUNKS ;x=X_CHUNKS-1
+      je isperimeter
+      cmp al, YZ_CHUNKS ;y=Y_CHUNKS-1
+      je isperimeter
+      jmp continue   ; skip drawing
+
+      isperimeter:   ; draw
+         mov dl, color ; set color
+         call draw_chunk
+      continue:
+         pop cx
+         loop perimeterloop
+   ret
+draw_perimeter endp
