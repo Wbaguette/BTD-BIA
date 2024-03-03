@@ -64,6 +64,10 @@ draw_chunk proc far
    ret 
 draw_chunk endp
 
+; ! The CHEAPEST way to do a perimeter would be to hard code iterations
+; for horizontal and vertical drawing, rather than going through every chunk
+; and skipping over. This would be much uglier though
+
 ; Draws a chunk along the perimeter of the screen, skipping
 ; over non-perimeter chunks
 ; DL : Color
