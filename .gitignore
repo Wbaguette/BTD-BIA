@@ -57,3 +57,6 @@ DOSBox*
 
 # LST files
 *.lst
+
+# test file
+test.asm
