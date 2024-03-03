@@ -1,3 +1,6 @@
+; ADDRESSES
+VRAM    equ 0a000h ; vram start address 
+
 ; SIZES 
 X_PIXELS equ 320
 Y_PIXELS equ 200

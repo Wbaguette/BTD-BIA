@@ -5,21 +5,6 @@
 include shapes.inc
 include const.inc
 
-.data
-    X_PIXELS equ 320
-    Y_PIXELS equ 200
-    CHUNK_SIZE equ 8
-    X_CHUNKS equ 40
-    Y_CHUNKS equ 25
-    TOTAL_CHUNKS equ 1000
-    VRAM  equ 0a000h  ; VGA VRAM begins at this location
-    PURPLE equ 22h
-    TEAL equ 33h
-    YELLOW equ 44h
-    PINK equ 55h
-    LIGHT_GRAY equ 66h
-    GREEN equ 77h
-    RED equ 88h
 .code
 main PROC
     ;set video mode 
@@ -36,6 +21,9 @@ main PROC
     mov cx, TOTAL_CHUNKS
 
     drawloop:
+        push cx 
+        dec cx ; sub 1 since chunks are zero-based
+
         ; ZERO ZERO FUCKING ZERO ZERO ZERO ZERO
         xor ax, ax
         xor bx, bx
@@ -47,13 +35,28 @@ main PROC
         mov ah, al ; conform to parameter order
         mov al, dl ; y chunk
 
-        ; only draw if a perimeter piece
+        ; debug colors
+        xor bx, bx
+        inc bx
+        add bl, al
+        add bl, ah
+        mov dl, bl ; color is chunk X + chunk Y + 1
+
+        cmp ah, 0 ; x=0
+        je ddd
+        cmp al, 0 ; y=0
+        je ddd
         cmp ah, 39
-        je dothing
+        je ddd
         cmp al, 24
-        je dothing
-        cmp al, 0
-        je dothing
+        je ddd
+        jmp con
+
+        ddd:
+            mov dl, TEAL ; set color
+            call draw_chunk
+        con:
+            pop cx
         loop drawloop
     
     awaitkey: ; terminates program on key press
@@ -63,14 +66,6 @@ main PROC
         je exit
         jmp awaitkey ; space was not pressed
     
-    dothing:
-        push cx
-        mov dl, TEAL ; set color
-        call draw_chunk
-        pop cx
-        dec cx
-        jmp drawloop
-
     exit: ; terminates program
         xor ax, ax ; zero out
         mov     ax,3    ;reset to text mode
