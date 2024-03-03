@@ -9,6 +9,10 @@ X_CHUNKS equ 40
 Y_CHUNKS equ 25
 TOTAL_CHUNKS equ 1000
 
+; Zero-based chunk sizes
+XZ_CHUNKS equ 39
+YZ_CHUNKS equ 24
+
 ; COLORS
 PURPLE equ 22h
 TEAL equ 33h
