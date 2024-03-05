@@ -22,25 +22,31 @@ main PROC
    ; Let's draw the sprite at chunk DH, DL
    mov dh, 3
    mov dl, 3
+   ; Sprite location
+   mov si, OFFSET sprite
+   ; Dimensions of sprite
+   mov ch, 8
+   mov cl, 8
    call ShowSprite
-   
-
-
-   
-   
+      
    exit
 main ENDP
 
 ; XORs the sprite map, meaning that we can easily restore the background, by XORing again
 ; Careful: Showing the sprite (calling this function) to the same position twice will REMOVE it
-; 
 ShowSprite PROC
-   ; DX gets modified so lets push this, chunks are 8
-   push dx
-   mov ax, 8
-   mul dh
+   push dx ; DX gets modified during mul so lets push this
+   ; Firstly, lets find the exact coordinates to start at
+   ; We are given chunks in dh, dl so we need to multiply by 8 (shl 3)
+   push cl ; cl is used to shift so we need to push it
+   mov cl, 3 ; we want to mul 8, which is shl 3
+   shl dh, cl
+   pop cl ; restore cl
+   movzx di, dh
+
+
    ; Use DI (Destination Index) as the start of where we need to draw
-   mov di, ax
+   ; mov di, ax
 
    mov ax, 8*320
    xor bx, bx
@@ -50,7 +56,6 @@ ShowSprite PROC
    add di, ax
    pop dx
 
-   mov si, OFFSET sprite
    ; Use cx for counting pixels drawn in chunk,  cl for height and ch for width
    mov cl, 8
    draw_y:
