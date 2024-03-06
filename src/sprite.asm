@@ -2,6 +2,7 @@
 .stack 200h
 
 include macros.inc
+include const.inc
 
 .data
   
@@ -20,8 +21,8 @@ main PROC
    mov ds, ax
 
    ; Let's draw the sprite at chunk DH, DL
-   mov dh, 3
-   mov dl, 3
+   mov dh, 3 ; WIDTH
+   mov dl, 3 ; HEIGHT
    ; Sprite location
    mov si, OFFSET sprite
    ; Dimensions of sprite
@@ -34,26 +35,41 @@ main ENDP
 
 ; XORs the sprite map, meaning that we can easily restore the background, by XORing again
 ; Careful: Showing the sprite (calling this function) to the same position twice will REMOVE it
+; Register Params Expected:
+;  DH : X Chunk to draw at
+;  DL : Y Chunk to draw at 
+;  SI : OFFSET of the sprite bitmap
+;  CH : Height of the sprite 
+;  CL : Width of the sprite 
 ShowSprite PROC
-   push dx ; DX gets modified during mul so lets push this
-   ; Firstly, lets find the exact coordinates to start at
-   ; We are given chunks in dh, dl so we need to multiply by 8 (shl 3)
-   push cl ; cl is used to shift so we need to push it
-   mov cl, 3 ; we want to mul 8, which is shl 3
-   shl dh, cl
-   pop cl ; restore cl
-   movzx di, dh
+   ; Calculating X pixel to draw at 
+   push dx ; Save DH and DL because we need them later, DX gets modified 
+   push cx ; CL is used to shift so we need to push it
 
+   mov cl, 3 ; we want to mul 8, which is shl 3. Mul by 8 to get the pixel location we ened
+   mov dl, dh ; Since shl could possibly overflow, lets move our X chunk value to the lower half of DX
+   xor dh, dh ; 0 out the top part (effectively a 'movzx' was done)
+   shl dx, cl ; shift left by cl = 3
+   mov di, dx ; Point DI to where we need to start
 
-   ; Use DI (Destination Index) as the start of where we need to draw
-   ; mov di, ax
+   pop cx ; restore CX as it contains our sprite dimensions
+   pop dx ; Restore DH and DL to now calculate Y pixel to draw at
 
-   mov ax, 8*320
-   xor bx, bx
-   add bl, dl
-   mul bx
    
+
+   ; Calculating Y pixel to draw at 
+   push dx
+   push cx
+   ; Multiply by 8 * 320 this should be width * 320      320 = 2^8 + 2^6 = 256 + 64
+   mov cl, 8
+   mov ax, 8*320 ; 320 bytes per line, 8 bytes per chunk
+   xor bx, bx
+   ; add bl, dl
+   mov bl, dl
+   mul bx
    add di, ax
+
+   pop cx
    pop dx
 
    ; Use cx for counting pixels drawn in chunk,  cl for height and ch for width
@@ -62,7 +78,8 @@ ShowSprite PROC
       push di
       mov ch, 8
    draw_x:
-      mov al, ds:[si]
+      ; mov al, ds:[si]
+      mov al, si
       xor al, es:[di]
       mov es:[di], al
       inc si
