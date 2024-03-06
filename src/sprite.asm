@@ -5,13 +5,13 @@ include macros.inc
 include const.inc
 
 .data
-sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h,
-		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h,
-		 db 0Eh, 0Eh, 03h, 0Eh, 0Eh, 03h, 0Eh, 0Eh,
-		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh,
-		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh,
-		 db 0Eh, 0Eh, 02h, 0Eh, 0Eh, 02h, 0Eh, 0Eh,
-		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h,
+sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
+		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
+		 db 0Eh, 0Eh, 03h, 0Eh, 0Eh, 03h, 0Eh, 0Eh
+		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
+		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
+		 db 0Eh, 0Eh, 02h, 0Eh, 0Eh, 02h, 0Eh, 0Eh
+		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 .code
 main PROC
@@ -43,16 +43,20 @@ main ENDP
 ShowSprite PROC
 	; Calculating X pixel to draw at 
 	push dx ; Save DH and DL because we need them later, DX gets modified 
+   mov ax, 8
+   mul dh
+   mov di, ax
+
 	push cx ; CL is used to shift so we need to push it
 
-	mov cl, 3 ; we want to mul 8, which is shl 3. Mul by 8 to get the pixel location we ened
-	mov dl, dh ; Since shl could possibly overflow, lets move our X chunk value to the lower half of DX
-	xor dh, dh ; 0 out the top part (effectively a 'movzx' was done)
-	shl dx, cl ; shift left by cl = 3
-	mov di, dx ; Point DI to where we need to start
+	; mov cl, 3 ; we want to mul 8, which is shl 3. Mul by 8 to get the pixel location we ened
+	; mov dl, dh ; Since shl could possibly overflow, lets move our X chunk value to the lower half of DX
+	; xor dh, dh ; 0 out the top part (effectively a 'movzx' was done)
+	; shl dx, cl ; shift left by cl = 3
+	; mov di, dx ; Point DI to where we need to start
 
 	pop cx ; restore CX as it contains our sprite dimensions
-	; pop dx ; Restore DH and DL to now calculate Y pixel to draw at
+	; ; pop dx ; Restore DH and DL to now calculate Y pixel to draw at
 
 	
 
@@ -71,8 +75,8 @@ ShowSprite PROC
 		push di
 		mov ch, 8
 	draw_x:
-		mov al, ds:[si]
-		; mov al, si
+		; mov al, ds:[si]
+		mov al, si
 		xor al, es:[di]
 		mov es:[di], al
 		inc si
