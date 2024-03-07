@@ -6,18 +6,21 @@ def rgb_to_8(r, g, b):
     return (int((r*6/256)*36 + (g*6/256)*6 + (b*6/256)))
 
 def save_map(f, data, w):
+    var_name = f"{f.stem}_sprite".upper()
     counter = 0
-    with open(f"{f.stem}.txt", "w+") as f:
-        f.write("cat DB ")
+    with open(f"{f.stem}.txt", "w+") as fw:
+        fw.write(var_name)
         for d in data:
-            f.write(f'{d:0>3X}h')
+            if counter == 0:
+                fw.write(" db ")
+            fw.write(f'{d:0>3X}h')
             counter += 1
             if counter == w:
                 counter = 0
-                f.write('\nDB ')
+                fw.write(f"\n{' ' * len(var_name)}")
                 continue
             
-            f.write(", ")
+            fw.write(", ")
 
 def main(src):
     img = Image.open(src)
