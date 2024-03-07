@@ -47,7 +47,7 @@ ShowSprite PROC
    mul dh
    mov di, ax
 
-	push cx ; CL is used to shift so we need to push it
+	;push cx ; CL is used to shift so we need to push it
 
 	; mov cl, 3 ; we want to mul 8, which is shl 3. Mul by 8 to get the pixel location we ened
 	; mov dl, dh ; Since shl could possibly overflow, lets move our X chunk value to the lower half of DX
@@ -55,7 +55,7 @@ ShowSprite PROC
 	; shl dx, cl ; shift left by cl = 3
 	; mov di, dx ; Point DI to where we need to start
 
-	pop cx ; restore CX as it contains our sprite dimensions
+	;pop cx ; restore CX as it contains our sprite dimensions
 	; ; pop dx ; Restore DH and DL to now calculate Y pixel to draw at
 
 	
@@ -69,14 +69,16 @@ ShowSprite PROC
 
 	pop dx
 
-	; Use cx for counting pixels drawn in chunk,  cl for height and ch for width
-	mov cl, 8
+	; Use cx for counting pixels drawn in chunk,  cl for height and ch for width, we need to store ch somewhere
+   xor bx, bx
+   mov bh, ch
+	; mov cl, 8
 	draw_y:
 		push di
-		mov ch, 8
+		mov ch, bh
 	draw_x:
-		; mov al, ds:[si]
-		mov al, si
+		mov al, ds:[si]
+		; mov al, si
 		xor al, es:[di]
 		mov es:[di], al
 		inc si
