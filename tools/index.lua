@@ -1,3 +1,7 @@
+-- THIS LUA SCRIPT IS FOR ASEPRITE (SPRITE DRAWING PROGRAM)
+-- IT EXPORTS OUR DRAWN SPRITES BITMAPS THAT CAN BE USED IN MASM
+-- AUTHOR: Vincent Quintero
+
 local sprite = app.activeSprite
 
 -- Check constraints
