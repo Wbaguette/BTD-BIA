@@ -15,16 +15,14 @@ sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 		 
 
-xd db 0D6h, 0C8h, 0D7h, 0D7h, 0D7h, 0D7h, 0CBh, 0D3h
-	  db 0B9h, 05Bh, 0CAh, 0D7h, 0D7h, 0C6h, 05Ch, 0C3h
-     db 0D4h, 0BDh, 0D6h, 0D7h, 0D7h, 0D7h, 0B4h, 0D7h
-     db 0D2h, 0D7h, 0D7h, 0D7h, 0D6h, 0D7h, 0D7h, 0D6h
-	  db 0D7h, 0D7h, 0CAh, 0C1h, 0C5h, 0D2h, 0D7h, 0D7h
-	  db 0D7h, 0AFh, 059h, 037h, 045h, 05Ch, 0BFh, 0D7h
-	  db 0CEh, 06Ch, 0A1h, 0BEh, 0C3h, 093h, 059h, 0C8h
-     db 0D7h, 0C2h, 0D7h, 0D7h, 0D7h, 0D7h, 0B8h, 0D6h
-          
-          
+cat db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
+    db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
+    db 0fh, 02ch, 02ch, 02ch, 02ch, 02ch, 02ch, 0fh
+    db 0fh, 02ch, 010h, 02ch, 02ch, 010h, 02ch, 0fh
+    db 0fh, 02ch, 02ch, 02ch, 02ch, 02ch, 02ch, 0fh
+    db 0fh, 02ch, 03h, 02ch, 02ch, 03h, 02ch, 0fh
+    db 0fh, 02ch, 02ch, 03h, 03h, 02ch, 02ch, 0fh
+    db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
 
 .code
 main PROC
