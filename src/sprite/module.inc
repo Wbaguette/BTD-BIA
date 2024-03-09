@@ -1,10 +1,3 @@
-.model small
-.stack 200h
-
-include macros.inc
-include const.inc
-include sprite/module.inc
-
 .data
 sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
@@ -15,47 +8,9 @@ sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 
-smile db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
-		db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
-		db 0fh, 02ch, 02ch, 02ch, 02ch, 02ch, 02ch, 0fh
-		db 0fh, 02ch, 010h, 02ch, 02ch, 010h, 02ch, 0fh
-		db 0fh, 02ch, 02ch, 02ch, 02ch, 02ch, 02ch, 0fh
-		db 0fh, 02ch, 03h, 02ch, 02ch, 03h, 02ch, 0fh
-		db 0fh, 02ch, 02ch, 03h, 03h, 02ch, 02ch, 0fh
-		db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
 
 
-		 
 .code
-main PROC
-	setup
-	mov ax, @data
-	mov ds, ax
-
-	; Let's draw the sprite at chunk DH, DL
-	mov dh, 23 ; WIDTH, X chunk
-	mov dl, 23 ; HEIGHT, Y chunk
-	; Sprite location in memory
-	mov si, OFFSET sprite
-	; Dimensions of sprite
-	mov ch, 8 ; Width
-	mov cl, 8 ; Height
-	call ShowSprite
-
-
-	; Let's draw the sprite at chunk DH, DL
-	mov dh, 10 ; WIDTH, X chunk
-	mov dl, 10 ; HEIGHT, Y chunk
-	; Sprite location in memory
-	mov si, OFFSET smile
-	; Dimensions of sprite
-	mov ch, 8 ; Width
-	mov cl, 8 ; Height
-	call ShowSprite
-		
-	exit
-main ENDP
-
 ; XORs the sprite bitmap with whatever was there before, meaning that we can easily restore the background, by XORing again
 ; Careful: Showing the sprite (calling this function) to the same position twice will REMOVE it
 ; Register Params Expected:
@@ -64,7 +19,7 @@ main ENDP
 ;  SI : OFFSET of the sprite bitmap
 ;  CH : Width of the sprite 
 ;  CL : Height of the sprite 
-ShowSprite PROC
+ShowSprite PROC far
 	; Non-Parameter registers used that need to be saved as they are used here: AL, BX, DI
 	push ax ; even though AL is used, its better to push 16 bit stuff to stack, so push whole ax
 	push bx
@@ -144,5 +99,3 @@ ShowSprite PROC
 
 	ret
 ShowSprite ENDP
-
-end main
