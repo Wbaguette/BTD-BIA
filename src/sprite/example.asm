@@ -25,6 +25,10 @@ main PROC
 	mov dh, 15 ; WIDTH, X chunk
 	mov dl, 15 ; HEIGHT, Y chunk
 	; Sprite location in memory
+
+   ; TODO: Rather than doing this, I want to have all sprites defined in module.inc, and
+   ;       we just pass a key in some register, and then the ShowSprite takes care of CH and Cl
+   ;       this will make it so user only needs to pass location, and the key of the sprite to draw
 	mov si, OFFSET sprite
 	; Dimensions of sprite
 	mov ch, 8 ; Width
