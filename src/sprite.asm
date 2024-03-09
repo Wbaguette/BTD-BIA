@@ -65,7 +65,8 @@ main ENDP
 ;  CH : Width of the sprite 
 ;  CL : Height of the sprite 
 ShowSprite PROC
-	; Non-Parameter registers used that need to be saved as they are used here: BX, DI
+	; Non-Parameter registers used that need to be saved as they are used here: AL, BX, DI
+	push ax ; even though AL is used, its better to push 16 bit stuff to stack, so push whole ax
 	push bx
 	push di
 
@@ -139,6 +140,7 @@ ShowSprite PROC
 	; Restore registers that were modified here to their original state before this function was called 
 	pop di
 	pop bx
+	pop ax
 
 	ret
 ShowSprite ENDP
