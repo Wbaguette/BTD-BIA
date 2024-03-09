@@ -1,12 +1,17 @@
 .data
-; sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
-; 		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
-; 		 db 0Eh, 0Eh, 03h, 0Eh, 0Eh, 03h, 0Eh, 0Eh
-; 		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
-; 		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
-; 		 db 0Eh, 0Eh, 02h, 0Eh, 0Eh, 02h, 0Eh, 0Eh
-; 		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
-; 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
+SPRITE_REGISTRY dw OFFSET SMILE_SPRITE
+
+
+; FORMAT : First two bytes are WIDTH, HEIGHT of the Sprite, respectively 
+SMILE_SPRITE db 8, 8
+				 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
+		 		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
+		 		 db 0Eh, 0Eh, 03h, 0Eh, 0Eh, 03h, 0Eh, 0Eh
+		       db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
+		 		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
+		 		 db 0Eh, 0Eh, 02h, 0Eh, 0Eh, 02h, 0Eh, 0Eh
+		 		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
+		 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 
 
 
@@ -19,12 +24,37 @@
 ;  SI : OFFSET of the sprite bitmap
 ;  CH : Width of the sprite 
 ;  CL : Height of the sprite 
+
+; REFACTORED PARAMS:
+; DH : X Chunk to draw at
+; DL : Y Chunk to draw at 
+; CX : Sprite key to draw
 ShowSprite PROC far
-	; Non-Parameter registers used that need to be saved as they are used here: AL, BX, DI
-	push ax ; even though AL is used, its better to push 16 bit stuff to stack, so push whole ax
+	; Non-Parameter registers used that need to be saved as they are used here: AX, BX, DI
+	push ax 
 	push bx
 	push di
+
+	; Point DS to this data segment
+	mov ax, @data
+	mov ds, ax
+
+	; First step is to find which sprite we want to draw from the key passed in CX
+	mov cx, 0 ; example
+	mov bx, cx ; Copy CX into BX (base register) first as we want to move sprite dimensions into CH and CL 
+	; Extract the offset of the sprite from registry. Registry is WORDS, so we need to multiply CX by 2
+	shl bx, 1 ; Multiply our given index by 2
+	add bx, OFFSET SPRITE_REGISTRY ; Add the offset of the sprite registry to the index to get the offset of the wanted sprite
+	mov bx, ds:[bx] ; Move into bx the offset of the sprite 
+
+	mov ch, ds:[bx]
+	mov cl, ds:[bx + 1]
+
 	
+
+
+
+
 	; Calculating X pixel to draw at 
 	mov ax, dx ; Copy DX into AX, All of DX is needed for calculations
 	mov bx, cx ; Copy CX into BX, CL is needed to bit shift 
