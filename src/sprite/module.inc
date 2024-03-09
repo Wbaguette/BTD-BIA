@@ -1,12 +1,12 @@
 .data
-sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
-		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
-		 db 0Eh, 0Eh, 03h, 0Eh, 0Eh, 03h, 0Eh, 0Eh
-		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
-		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
-		 db 0Eh, 0Eh, 02h, 0Eh, 0Eh, 02h, 0Eh, 0Eh
-		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
-		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
+; sprite db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
+; 		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
+; 		 db 0Eh, 0Eh, 03h, 0Eh, 0Eh, 03h, 0Eh, 0Eh
+; 		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
+; 		 db 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh
+; 		 db 0Eh, 0Eh, 02h, 0Eh, 0Eh, 02h, 0Eh, 0Eh
+; 		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
+; 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 
 
 
@@ -24,10 +24,10 @@ ShowSprite PROC far
 	push ax ; even though AL is used, its better to push 16 bit stuff to stack, so push whole ax
 	push bx
 	push di
-
+	
 	; Calculating X pixel to draw at 
-	push dx ; Save DH and DL because we need them later, DX gets modified 
-	push cx ; CL is used to shift so we need to push it
+	mov ax, dx ; Copy DX into AX, All of DX is needed for calculations
+	mov bx, cx ; Copy CX into BX, CL is needed to bit shift 
 
 	mov cl, 3 ; we want to mul 8, which is shl 3. Mul by 8 to get the pixel location we ened
 	mov dl, dh ; Since shl could possibly overflow (we would lose bits), lets move our X chunk value to the lower half of DX
@@ -35,8 +35,9 @@ ShowSprite PROC far
 	shl dx, cl ; shift left by cl = 3
 	mov di, dx ; Point DI to where we need to start
 
-	pop cx ; restore CX as it contains our sprite dimensions
-	pop dx ; Restore DH and DL to now calculate Y pixel to draw at
+	mov dx, ax ; restore DH and DL from ax to now calculate Y pixel to draw at
+	mov cx, bx ; restore CX from BX as it contains our sprite dimensions
+
 
 	
 	; Calculating Y pixel to draw at 
@@ -64,7 +65,7 @@ ShowSprite PROC far
    xor bx, bx
    mov bh, ch ; Store CH (Width of sprite) in BH to remember it 
 	next_line:
-		push di    ; Remember where we started
+		push di    ; Remember where we started, TODO: make this mov into a register instead of stack 
 		mov ch, bh ; Recover CH 
 	continue_line:
 		mov al, ds:[si] ; Gotta move this value because we do not want to poison the actual sprite pixel byte value when XORing
@@ -81,7 +82,7 @@ ShowSprite PROC far
 		; If we get to this part it means that CH = 0, meaning that we drew all pixels on one line
 		; 		and we need to go to the next line
 
-		; How this part worky?, we remembered where we started earlier by pushing DI, 
+		; How does this part work?, we remembered where we started earlier by pushing DI, 
 		; Now since we gotta go next line, we restore that value (DI), and add 320 to it to easily 
 		; 		get to the next line
 		pop di  
