@@ -102,7 +102,7 @@ ShowSprite PROC far
 
 	mov ch, ds:[bx] ; Move the first byte (width of the sprite) into CH
 	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL
-	add bx, 2 ; 2 bytes after beginnong of sprite offset is pixel data
+	add bx, 2 ; 2 bytes after beginning of sprite offset is pixel data
 	mov si, bx ; Point SI to beginning of sprite pixel byte data
 
 
