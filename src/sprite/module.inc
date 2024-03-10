@@ -41,7 +41,7 @@ ShowSprite PROC far
 	push bx
 	push di
 	push si
-	; push ds     Might need to push this actually as we will be using a different Data segment 
+	; push ds     FIXME: Might need to push this actually as we will be using a different Data segment in main code
 
 	
 	; Point DS to this data segment
@@ -58,13 +58,14 @@ ShowSprite PROC far
 	mov bx, ds:[bx] ; Move into bx the offset of the sprite 
 
 	mov ch, ds:[bx] ; Move the first byte (width of the sprite) into CH
-	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL]
-	add bx, 2 ; 2 byte after beginnong of sprite offset is data
-	mov si, bx ; Point SI to beginning of byte data
+	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL
+	add bx, 2 ; 2 bytes after beginnong of sprite offset is pixel data
+	mov si, bx ; Point SI to beginning of sprite pixel byte data
 
 
 	; At this point we have SI pointing to the beginning of the sprite pixel data
 	; 		and the sprite's dimensions in CX : CH has width, CL has height
+	;		We now calculate where in VGA memory to draw the sprite using DH and DL 
 
 
 	; Calculating X pixel to draw at 
@@ -85,8 +86,7 @@ ShowSprite PROC far
 
 	
 	; Calculating Y pixel to draw at 
-	push dx ; Save DH and DL
-	push cx ; Push CL cuz we gotta use it for SHL
+	mov ax, cx ; Copy CX into AX as CL is needed to bit shift, we still need CX later to count pixels drawn
 
 	; Two bit shifts are needed to multiply by 2560, so lets store our original Y chunk value
    mov bl, dl ; BL temporarily stores DL for us to use in the second bit shift
@@ -101,14 +101,21 @@ ShowSprite PROC far
 	add dx, bx ; Add the two bit shifts together
 	add di, dx ; Add the result of all this math to the DI, and now DI has where we need to draw at
 	
-	pop cx ; restore registers used in computation
-	pop dx
+	mov cx, ax ; Restore CX from AX
+
+
+
+	; At this point DI points to where we need to draw the sprite in VGA memory, 
+	;		and SI is pointing to the beginning of the sprite pixel data. 
+	;		CX is storing the dimensions of the sprite, all that is left to do is draw the sprite
+
+
 
 	; Use CX for counting pixels drawn in chunk: CL for height and CH for width
    xor bx, bx
    mov bh, ch ; Store CH (Width of sprite) in BH to remember it 
 	next_line:
-		push di    ; Remember where we started, TODO: make this mov into a register instead of stack 
+		mov dx, di ; Remember where we started by copying in DX 
 		mov ch, bh ; Recover CH 
 	continue_line:
 		mov al, ds:[si] ; Gotta move this value because we do not want to poison the actual sprite pixel byte value when XORing
@@ -117,7 +124,7 @@ ShowSprite PROC far
 		mov es:[di], al ; Write the result of the XOR to VGA memory
 
 		inc si ; Scan forward on sprite pixels
-		inc di ; Scan forward on VGA location
+		inc di ; Go forward in VGA memory 
 		dec ch ; We wrote one pixel, so we have CH-1 more left on the line
 
 		jnz continue_line ; If CH != 0, continue drawing the line
@@ -125,10 +132,10 @@ ShowSprite PROC far
 		; If we get to this part it means that CH = 0, meaning that we drew all pixels on one line
 		; 		and we need to go to the next line
 
-		; How does this part work?, we remembered where we started earlier by pushing DI, 
-		; Now since we gotta go next line, we restore that value (DI), and add 320 to it to easily 
+		; How does this part work?, we remembered where we started earlier by copying DI into DX
+		; Now since we got to go to the next line, we restore that value (DI), and add 320 to it to easily 
 		; 		get to the next line
-		pop di  
+		mov di, dx
 		add di, 320 
 
 		dec cl ; Finished one whole line
@@ -137,6 +144,7 @@ ShowSprite PROC far
 	; CL = 0 means that we wrote all pixels : we are done. 
 
 	; Restore registers that were modified here to their original state before this function was called 
+	; push ds     FIXME: remember to pop this if we end up needing to push DS
 	pop si
 	pop di
 	pop bx
