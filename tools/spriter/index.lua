@@ -68,10 +68,6 @@ dlg:file{ id="exportFile",
         --filename= p .. fn .. "pip",
           filetypes={"txt", "pip" }}
 
-dlg:entry{ id = "spriteName", 
-			  label = "Sprite Name",
-			  text="" }
-
 dlg:check{ id="onlyCurrentFrame",
            text="Export only current frame",
            selected=true }
@@ -82,14 +78,24 @@ dlg:show()
 local data = dlg.data
 if data.ok then
 	local f = io.open(data.exportFile, "w")
+
+	-- Extract the file name to use as sprite name
+	local fp = data.exportFile
+	local sn = fp:match("^.+/(.+)%.[^.]+$")
+	if not sn then 
+		sn = fp:match("^.+\\(.+)%.[^.]+$")
+	end
+
+	sn = sn .. "_SPRITE"
+
 	io.output(f)
 
 	if data.onlyCurrentFrame then
-		exportFrame(app.activeFrame, data.spriteName)
+		exportFrame(app.activeFrame, sn)
 	else
 	 	for i = 1,#sprite.frames do
 	 		io.write(string.format(";Frame %d\n", i))
-	 		exportFrame(i, data.spriteName)
+	 		exportFrame(i, sn)
 		end
 	end
 
