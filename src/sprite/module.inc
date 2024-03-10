@@ -1,4 +1,4 @@
-; The include file for sprite implementation
+; The include file for sprite drawing implementation
 ; Author: Jean-Pierre Derbes
 
 .data
@@ -43,15 +43,15 @@ ShowSprite PROC far
 	push si
 	; push ds     Might need to push this actually as we will be using a different Data segment 
 
-	xor di, di
-	xor si, si
 	
 	; Point DS to this data segment
 	mov ax, @data
 	mov ds, ax
 
 	; First step is to find which sprite we want to draw from the key passed in CX
+
 	mov bx, cx ; Copy CX into BX first as we want to move sprite dimensions into CH and CL 
+
 	; Extract the offset of the sprite from registry. Registry list are WORD type, so we need to multiply CX by 2
 	shl bx, 1 ; Multiply our given index by 2
 	add bx, OFFSET SPRITE_REGISTRY ; Add the offset of the sprite registry to the index to get the offset of the wanted sprite
@@ -59,11 +59,12 @@ ShowSprite PROC far
 
 	mov ch, ds:[bx] ; Move the first byte (width of the sprite) into CH
 	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL]
-	add bx, 2
-	mov si, bx ; Point SI to beginning of byte data, for some reason its not + 2
-	; xor bx, bx ; Clear BX, idk why but it literally won't work without this
+	add bx, 2 ; 2 byte after beginnong of sprite offset is data
+	mov si, bx ; Point SI to beginning of byte data
 
 
+	; At this point we have SI pointing to the beginning of the sprite pixel data
+	; 		and the sprite's dimensions in CX : CH has width, CL has height
 
 
 	; Calculating X pixel to draw at 
