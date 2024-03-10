@@ -3,6 +3,13 @@
 
 .data
 ; FORMAT : First two bytes are WIDTH, HEIGHT of the Sprite, respectively 
+
+; Directions: Once you have ran the LUA script in Aseprite and have the .txt file, 
+;		copy and paste its contents here. Then, add a new entry to the sprite registry.
+;		To do this, add OFFSET {SPRITE_NAME} after the previous value in the registry.
+;		Then, make an EQU that maps to the index of the entry you just added 
+;		The EQU variable name is what should be passed into CX when calling ShowSprite externally.
+
 SMILE_SPRITE db 8, 8
 				 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 		 		 db 00h, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 0Eh, 00h
