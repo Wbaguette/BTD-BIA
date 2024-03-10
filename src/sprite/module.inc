@@ -1,4 +1,6 @@
 .data
+SMILE EQU 0
+
 SPRITE_REGISTRY dw OFFSET SMILE_SPRITE
 
 
@@ -19,38 +21,31 @@ SMILE_SPRITE db 8, 8
 ; XORs the sprite bitmap with whatever was there before, meaning that we can easily restore the background, by XORing again
 ; Careful: Showing the sprite (calling this function) to the same position twice will REMOVE it
 ; Register Params Expected:
-;  DH : X Chunk to draw at
-;  DL : Y Chunk to draw at 
-;  SI : OFFSET of the sprite bitmap
-;  CH : Width of the sprite 
-;  CL : Height of the sprite 
-
-; REFACTORED PARAMS:
-; DH : X Chunk to draw at
-; DL : Y Chunk to draw at 
-; CX : Sprite key to draw
+; 	DH : X Chunk to draw at
+; 	DL : Y Chunk to draw at 
+; 	CX : Sprite key to draw
 ShowSprite PROC far
-	; Non-Parameter registers used that need to be saved as they are used here: AX, BX, DI
+	; Non-Parameter registers used that need to be saved as they are used here: AX, BX, DI, SI
 	push ax 
 	push bx
 	push di
+	push si
 
 	; Point DS to this data segment
 	mov ax, @data
 	mov ds, ax
 
 	; First step is to find which sprite we want to draw from the key passed in CX
-	mov cx, 0 ; example
-	mov bx, cx ; Copy CX into BX (base register) first as we want to move sprite dimensions into CH and CL 
-	; Extract the offset of the sprite from registry. Registry is WORDS, so we need to multiply CX by 2
+	mov bx, cx ; Copy CX into BX first as we want to move sprite dimensions into CH and CL 
+	; Extract the offset of the sprite from registry. Registry list are WORD type, so we need to multiply CX by 2
 	shl bx, 1 ; Multiply our given index by 2
 	add bx, OFFSET SPRITE_REGISTRY ; Add the offset of the sprite registry to the index to get the offset of the wanted sprite
 	mov bx, ds:[bx] ; Move into bx the offset of the sprite 
 
-	mov ch, ds:[bx]
-	mov cl, ds:[bx + 1]
-
-	
+	mov ch, ds:[bx] ; Move the first byte (width of the sprite) into CH
+	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL
+	mov si, ds:[bx + 1] ; Point SI to beginning of byte data, for some reason its not + 2
+	xor bx, bx ; Clear BX, idk why but it literally won't work without this
 
 
 
@@ -63,9 +58,11 @@ ShowSprite PROC far
 	mov dl, dh ; Since shl could possibly overflow (we would lose bits), lets move our X chunk value to the lower half of DX
 	xor dh, dh ; 0 out the top part (effectively a 'movzx' was done)
 	shl dx, cl ; shift left by cl = 3
+
+	xor di, di ; Clear DI first, it could be poisoned by a previous ShowSprite call
 	mov di, dx ; Point DI to where we need to start
 
-	mov dx, ax ; restore DH and DL from ax to now calculate Y pixel to draw at
+	mov dx, ax ; restore DH and DL from AX to now calculate Y pixel to draw at
 	mov cx, bx ; restore CX from BX as it contains our sprite dimensions
 
 
@@ -90,8 +87,7 @@ ShowSprite PROC far
 	pop cx ; restore registers used in computation
 	pop dx
 
-	; Use CX for counting pixels drawn in chunk,  
-	; CL for height and CH for width
+	; Use CX for counting pixels drawn in chunk: CL for height and CH for width
    xor bx, bx
    mov bh, ch ; Store CH (Width of sprite) in BH to remember it 
 	next_line:
@@ -124,6 +120,7 @@ ShowSprite PROC far
 	; CL = 0 means that we wrote all pixels : we are done. 
 
 	; Restore registers that were modified here to their original state before this function was called 
+	pop si
 	pop di
 	pop bx
 	pop ax
