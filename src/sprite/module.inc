@@ -2,12 +2,6 @@
 ; Author: Jean-Pierre Derbes
 
 .data
-SMILE EQU 0
-THING EQU 1
-
-SPRITE_REGISTRY dw OFFSET SMILE_SPRITE, OFFSET THING_SPRITE
-
-
 ; FORMAT : First two bytes are WIDTH, HEIGHT of the Sprite, respectively 
 SMILE_SPRITE db 8, 8
 				 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
@@ -19,39 +13,19 @@ SMILE_SPRITE db 8, 8
 		 		 db 00h, 0Eh, 0Eh, 02h, 02h, 0Eh, 0Eh, 00h
 		 		 db 00h, 00h, 0Eh, 0Eh, 0Eh, 0Eh, 00h, 00h
 
-THING_SPRITE db 32, 32
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 081h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 081h, 015h, 081h, 081h, 081h, 081h, 081h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 081h, 015h, 015h, 015h
-				 db 015h, 081h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 081h, 081h, 081h, 081h, 081h, 081h, 081h, 015h, 015h, 015h, 015h, 081h, 081h, 015h, 015h
-				 db 015h, 081h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 081h, 081h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 081h, 015h, 015h
-				 db 015h, 081h, 015h, 015h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 081h, 015h, 015h
-				 db 015h, 081h, 015h, 015h, 093h, 093h, 085h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 081h, 081h, 015h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 085h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 081h, 015h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 085h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 085h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 085h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 085h, 093h, 093h, 015h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 085h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 085h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 085h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 085h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 093h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 085h, 085h, 093h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 085h, 085h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 093h, 093h, 093h, 085h, 085h, 085h, 093h, 093h, 093h, 085h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 093h, 093h, 085h, 085h, 085h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 093h, 085h, 085h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 093h, 093h, 085h, 085h, 085h, 085h, 085h, 085h, 085h, 085h, 093h, 093h, 085h, 085h, 085h, 085h, 085h, 085h, 085h, 015h, 015h, 015h, 015h, 015h, 015h
-				 db 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 085h, 085h, 085h, 085h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h, 015h
+SMILE2_SPRITE db 8, 8
+				  db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
+				  db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
+				  db 0fh, 02ch, 02ch, 02ch, 02ch, 02ch, 02ch, 0fh
+				  db 0fh, 02ch, 010h, 02ch, 02ch, 010h, 02ch, 0fh
+				  db 0fh, 02ch, 02ch, 02ch, 02ch, 02ch, 02ch, 0fh
+				  db 0fh, 02ch, 03h, 02ch, 02ch, 03h, 02ch, 0fh
+				  db 0fh, 02ch, 02ch, 03h, 03h, 02ch, 02ch, 0fh
+				  db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
+
+SPRITE_REGISTRY dw OFFSET SMILE_SPRITE, OFFSET SMILE2_SPRITE
+SMILE EQU 0
+SMILE2 EQU 1
 
 
 .code
@@ -67,7 +41,11 @@ ShowSprite PROC far
 	push bx
 	push di
 	push si
+	; push ds     Might need to push this actually as we will be using a different Data segment 
 
+	xor di, di
+	xor si, si
+	
 	; Point DS to this data segment
 	mov ax, @data
 	mov ds, ax
@@ -80,9 +58,10 @@ ShowSprite PROC far
 	mov bx, ds:[bx] ; Move into bx the offset of the sprite 
 
 	mov ch, ds:[bx] ; Move the first byte (width of the sprite) into CH
-	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL
-	mov si, OFFSET ds:[bx + 1] ; Point SI to beginning of byte data, for some reason its not + 2
-	xor bx, bx ; Clear BX, idk why but it literally won't work without this
+	mov cl, ds:[bx + 1] ; Move the second byte (height of the sprite) into CL]
+	add bx, 2
+	mov si, bx ; Point SI to beginning of byte data, for some reason its not + 2
+	; xor bx, bx ; Clear BX, idk why but it literally won't work without this
 
 
 
@@ -96,7 +75,7 @@ ShowSprite PROC far
 	xor dh, dh ; 0 out the top part (effectively a 'movzx' was done)
 	shl dx, cl ; shift left by cl = 3
 
-	xor di, di ; Clear DI first, it could be poisoned by a previous ShowSprite call
+	; xor di, di ; Clear DI first, it could be poisoned by a previous ShowSprite call
 	mov di, dx ; Point DI to where we need to start
 
 	mov dx, ax ; restore DH and DL from AX to now calculate Y pixel to draw at
