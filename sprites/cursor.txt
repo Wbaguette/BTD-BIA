@@ -1,9 +1,9 @@
 CURSOR_SPRITE db 8, 8
-              db 01bh, 01bh, 01bh, 00h, 00h, 01bh, 01bh, 01bh
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
+              db 04h, 04h, 04h, 00h, 00h, 04h, 04h, 04h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
               db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
               db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 01bh, 01bh, 01bh, 00h, 00h, 01bh, 01bh, 01bh
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 04h, 04h, 04h, 00h, 00h, 04h, 04h, 04h

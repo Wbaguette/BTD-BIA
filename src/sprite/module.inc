@@ -30,16 +30,6 @@ SMILE2_SPRITE db 8, 8
 				  db 0fh, 02ch, 02ch, 03h, 03h, 02ch, 02ch, 0fh
 				  db 0fh, 0fh, 02ch, 02ch, 02ch, 02ch, 0fh, 0fh
 
-CURSOR_SPRITE db 8, 8
-              db 01bh, 01bh, 01bh, 00h, 00h, 01bh, 01bh, 01bh
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 01bh, 00h, 00h, 00h, 00h, 00h, 00h, 01bh
-              db 01bh, 01bh, 01bh, 00h, 00h, 01bh, 01bh, 01bh
-
 BUG_SPRITE db 32, 32
            db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
            db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
@@ -74,11 +64,20 @@ BUG_SPRITE db 32, 32
            db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
            db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
 
-
-SPRITE_REGISTRY dw OFFSET SMILE_SPRITE, OFFSET SMILE2_SPRITE, OFFSET BUG_SPRITE
+CURSOR_SPRITE db 8, 8
+              db 04h, 04h, 04h, 00h, 00h, 04h, 04h, 04h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
+              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
+              db 04h, 04h, 04h, 00h, 00h, 04h, 04h, 04h
+SPRITE_REGISTRY dw OFFSET SMILE_SPRITE, OFFSET SMILE2_SPRITE, OFFSET BUG_SPRITE, OFFSET CURSOR_SPRITE
 SMILE EQU 0
 SMILE2 EQU 1
 BUG EQU 2
+CURSOR EQU 3
 
 
 .code
