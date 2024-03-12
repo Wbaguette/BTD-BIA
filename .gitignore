@@ -1,6 +1,12 @@
 # Prerequisites
 *.d
+
+# MacOS
 .DS_Store
+
+# Python
+tools/spriter/venv/
+
 
 # Object files
 *.o
