@@ -28,7 +28,7 @@ end
 
 local function getIndexData(img, x, y, w, h, sn)
 	local res = ""
-	res = res .. sn .. " db " .. w .. ", " .. h .. "\n"
+	res = res .. string.upper(sn) .. " db " .. w .. ", " .. h .. "\n"
 	local sn_len = #sn
 	local padding = string.rep(" ", #sn)
 
