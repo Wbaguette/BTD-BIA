@@ -1,8 +1,8 @@
 include sprite/module.inc
 include const.inc
 
-x db 0  ; chunk
-y db 0  ; chunk
+x db CURSOR_X_LOWER  ; chunk
+y db CURSOR_Y_LOWER  ; chunk
 selected db 0   ; the thing the cursor is hovering above 
 
 ; TODO - bounds checking
