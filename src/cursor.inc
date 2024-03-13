@@ -1,0 +1,78 @@
+include sprite/module.inc
+include const.inc
+
+x db 0  ; chunk
+y db 0  ; chunk
+selected db 0   ; the thing the cursor is hovering above 
+
+; TODO - bounds checking
+
+.code
+; Draw the cursor at screen origin
+DrawCursor proc far
+    mov dh, x ; Draw sprite at X chunk
+	mov dl, y ; Draw sprite at Y chunk
+	mov cx, CURSOR ; Sprite we want to draw, this maps to an index in the include file 
+	call ShowSprite
+    ret
+DrawCursor endp
+
+MoveRight proc near
+    inc x   ; move right
+    cmp x, X_CHUNKS ; bounds checking
+    je s
+    ; Safe to draw
+    dec x   ; go back to original position
+    call DrawCursor ; clear the cursor at current location
+    inc x   ; now we can draw the new cursor
+    call DrawCursor ; draw at new position
+    ret     ; completed successfully
+    s:
+        dec x   ; go back to original position
+        ret
+MoveRight endp
+
+MoveLeft proc near
+    dec x ; move left
+    cmp x, 0 ; bounds checking
+    jl s2
+    ; Safe to draw    
+    inc x   ; go back to original position
+    call DrawCursor ; clear the cursor at current location
+    dec x   ; move Left
+    call DrawCursor ; draw at new position
+    ret     ; completed successfully
+    s2:
+        inc x   ; go back to original position
+        ret
+MoveLeft endp
+
+MoveUp proc near
+    dec y
+    cmp y, 0 ; bounds checking
+    jl s3
+    ; Safe to draw    
+    inc y   ; go back to original position3
+    call DrawCursor ; clear the cursor at current location
+    dec y   ; move Up
+    call DrawCursor ; draw at new position
+    ret     ; completed successfully
+    s3:
+        inc y   ; go back to original position
+        ret
+MoveUp endp
+
+MoveDown proc near
+    inc y
+    cmp y, Y_CHUNKS ; bounds checking
+    je s4
+    ; Safe to draw    
+    dec y   ; go back to original position4
+    call DrawCursor ; clear the cursor at current location
+    inc y   ; move Down
+    call DrawCursor ; draw at new position
+    ret     ; completed successfully
+    s4:
+        dec y   ; go back to original position
+        ret
+MoveDown endp

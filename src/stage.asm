@@ -4,6 +4,7 @@
 
 include shapes.inc
 include const.inc
+include cursor.inc
 
 .code
 main PROC
@@ -20,17 +21,39 @@ main PROC
     mov bx, 0 ;pixel offset 0 (none)
     mov cx, TOTAL_CHUNKS
 
-    xor dx, dx
-    mov dl, TEAL
-    call draw_perimeter
+    call DrawCursor
     
     awaitkey: ; terminates program on key press
         mov ah, 10h
         int 16h
         cmp al, 32 ; space key is pressed, terminate
         je exit
+        cmp al, 'd'
+        je selectRight
+        cmp al, 'a'
+        je selectLeft
+        cmp al, 'w'
+        je selectUp
+        cmp al, 's'
+        je selectDown
         jmp awaitkey ; space was not pressed
     
+    selectRight:
+        call MoveRight
+        jmp awaitkey
+
+    selectLeft:
+        call MoveLeft
+        jmp awaitkey
+
+    selectUp:
+        call MoveUp
+        jmp awaitkey
+
+    selectDown:
+        call MoveDown
+        jmp awaitkey
+
     exit: ; terminates program
         xor ax, ax ; zero out
         mov     ax,3    ;reset to text mode
