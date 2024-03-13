@@ -73,11 +73,23 @@ CURSOR_SPRITE db 8, 8
               db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
               db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
               db 04h, 04h, 04h, 00h, 00h, 04h, 04h, 04h
+MONKEY_SPRITE db 8, 8
+              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
+              db 00h, 00h, 00h, 0b9h, 0b9h, 0b9h, 00h, 00h
+              db 00h, 00h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 00h
+              db 00h, 0b9h, 071h, 071h, 071h, 071h, 0b9h, 00h
+              db 00h, 0b9h, 010h, 06h, 010h, 071h, 0b9h, 00h
+              db 00h, 00h, 06h, 06h, 06h, 06h, 00h, 00h
+              db 00h, 00h, 00h, 00h, 06h, 06h, 00h, 00h
+              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
+
 SPRITE_REGISTRY dw OFFSET SMILE_SPRITE, OFFSET SMILE2_SPRITE, OFFSET BUG_SPRITE, OFFSET CURSOR_SPRITE
+				dw MONKEY_SPRITE
 SMILE EQU 0
 SMILE2 EQU 1
 BUG EQU 2
 CURSOR EQU 3
+MONKEY EQU 4
 
 
 .code

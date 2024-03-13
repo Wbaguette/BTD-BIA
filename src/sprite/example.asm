@@ -32,9 +32,9 @@ main PROC
 	mov cx, SMILE ; Sprite we want to draw, this maps to an index in the include file 
 	call ShowSprite
 
-	mov dh, 34 ; WIDTH, Draw sprite at X chunk
+	mov dh, 20 ; WIDTH, Draw sprite at X chunk
 	mov dl, 0 ; HEIGHT, Draw sprite at Y chunk
-	mov cx, BUG ; Sprite we want to draw, this maps to an index in the include file 
+	mov cx, MONKEY ; Sprite we want to draw, this maps to an index in the include file 
 	call ShowSprite
 
 	exit

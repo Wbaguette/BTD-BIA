@@ -17,6 +17,15 @@ DrawCursor proc far
     ret
 DrawCursor endp
 
+; Returns cursor's current chunk coordinates in DX
+GetPos proc far
+    xor dx, dx
+    mov dh, x
+    mov dl, y
+    ret
+GetPos endp
+
+
 MoveRight proc near
     inc x   ; move right
     cmp x, CURSOR_X_UPPER ; bounds checking
