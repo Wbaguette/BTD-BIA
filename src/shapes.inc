@@ -9,7 +9,7 @@
 ; DL : Color
 ; BX : Pixel (start)
 .code 
-draw_horizontal_line proc far 
+DrawHorizontalLine proc far 
    xor cx, cx  ; zero out for loop
    mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
    
@@ -19,14 +19,14 @@ draw_horizontal_line proc far
       loop draw_line
    ret
 
-draw_horizontal_line endp
+DrawHorizontalLine endp
 
 ; Draws a chunk (8x8 square) on the screen
 ; DL : Color
 ; AH : X (chunk)
 ; AL : Y (chunk)
 .code
-draw_chunk proc far
+DrawChunk proc far
    xor bx, bx ; clear
    xor cx, cx ; clear
    mov ch, dl ; save color because dx gets reset on mul
@@ -56,13 +56,13 @@ draw_chunk proc far
    draw_c:   
       push cx  ; save which line of the chunk we are drawing
       push bx  ; save our start position
-      call draw_horizontal_line
+      call DrawHorizontalLine
       pop bx   ; restore start position
       add bx, X_PIXELS ; move start position to next row
       pop cx   ; restore which line of the chunk we just drew
       loop draw_c
    ret 
-draw_chunk endp
+DrawChunk endp
 
 ; ! The CHEAPEST way to do a perimeter would be to hard code iterations
 ; for horizontal and vertical drawing, rather than going through every chunk
@@ -74,7 +74,7 @@ draw_chunk endp
 .data?
    color db ?
 .code 
-draw_perimeter proc far
+DrawPerimeter proc far
    mov cx, TOTAL_CHUNKS
    mov color, dl ; save as dx is needed for chunk calcs
 
@@ -107,10 +107,39 @@ draw_perimeter proc far
 
       isperimeter:   ; draw
          mov dl, color ; restore color
-         call draw_chunk
+         call DrawChunk
       continue:
          pop cx ; restore chunk iterator
          loop perimeterloop
    ret
-draw_perimeter endp
+DrawPerimeter endp
+
+; Set the entire visible background to a given color
+; DL : Color
+DrawBackground proc far
+   mov cx, TOTAL_CHUNKS
+   mov color, dl ; save as dx is needed for chunk calcs
+
+   bgloop:
+      push cx  ; save chunk iterator
+      dec cx   ; sub 1 since true chunks are zero-based
+
+      ; ZERO ZERO ZERO ZERO ZERO ZERO or division fucking dies
+      xor ax, ax
+      xor bx, bx
+      xor dx, dx 
+
+      ; 1d to 2d chunk coordinate
+      mov ax, cx ; get 1d chunk index
+      mov bx, Y_CHUNKS 
+      div bx     ; 1D index / Y_CHUNKS = X (AX) and Y (DX) chunks
+      mov ah, al ; conform to parameter order by 
+      mov al, dl ;    moving X to AH and Y to AL
+
+      mov dl, color ; restore color
+      call DrawChunk
+      pop cx ; restore chunk iterator
+      loop bgloop
+   ret
+DrawBackground endp
 
