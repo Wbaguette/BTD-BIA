@@ -21,7 +21,8 @@ main PROC
     mov bx, 0 ;pixel offset 0 (none)
     mov cx, TOTAL_CHUNKS
 
-
+    mov dl, green
+    call DrawBackground
     call DrawCursor
     
     awaitkey: ; terminates program on key press
@@ -39,8 +40,16 @@ main PROC
         je selectDown
         cmp al, '1'
         je placeDart
+        cmp al, 'b'
+        je placeBloon
         jmp awaitkey ; space was not pressed
     
+    placeBloon:
+        call GetPos
+        mov cl, RED_BLOON
+        call ShowSprite
+        jmp awaitkey
+
     placeDart:
         call GetPos
         mov cl, MONKEY
