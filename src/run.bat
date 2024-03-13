@@ -1,2 +1,2 @@
-masm stage.asm;
-link stage.obj;
+masm game.asm;
+link game.obj;
