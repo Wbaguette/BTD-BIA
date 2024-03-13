@@ -21,6 +21,8 @@ main PROC
     mov bx, 0 ;pixel offset 0 (none)
     mov cx, TOTAL_CHUNKS
 
+    mov dl, TEAL
+    call draw_perimeter
     call DrawCursor
     
     awaitkey: ; terminates program on key press

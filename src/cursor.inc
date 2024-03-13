@@ -19,8 +19,8 @@ DrawCursor endp
 
 MoveRight proc near
     inc x   ; move right
-    cmp x, X_CHUNKS ; bounds checking
-    je s
+    cmp x, CURSOR_X_UPPER ; bounds checking
+    jge s
     ; Safe to draw
     dec x   ; go back to original position
     call DrawCursor ; clear the cursor at current location
@@ -34,7 +34,7 @@ MoveRight endp
 
 MoveLeft proc near
     dec x ; move left
-    cmp x, 0 ; bounds checking
+    cmp x, CURSOR_X_LOWER ; bounds checking
     jl s2
     ; Safe to draw    
     inc x   ; go back to original position
@@ -49,7 +49,7 @@ MoveLeft endp
 
 MoveUp proc near
     dec y
-    cmp y, 0 ; bounds checking
+    cmp y, CURSOR_Y_LOWER ; bounds checking
     jl s3
     ; Safe to draw    
     inc y   ; go back to original position3
@@ -64,8 +64,8 @@ MoveUp endp
 
 MoveDown proc near
     inc y
-    cmp y, Y_CHUNKS ; bounds checking
-    je s4
+    cmp y, CURSOR_Y_UPPER ; bounds checking
+    jge s4
     ; Safe to draw    
     dec y   ; go back to original position4
     call DrawCursor ; clear the cursor at current location
