@@ -8,8 +8,12 @@
 ; and continuing to the right 1 chunk length (for 8 pixels total)
 ; DL : Color
 ; BX : Pixel (start)
+.data
+   color db 0
 .code 
 DrawHorizontalLine proc far 
+   push cx
+   push bx
    xor cx, cx  ; zero out for loop
    mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
    
@@ -17,6 +21,8 @@ DrawHorizontalLine proc far
       mov es:[bx], dl
       inc bx
       loop draw_line
+   pop bx
+   pop cx
    ret
 
 DrawHorizontalLine endp
@@ -25,7 +31,6 @@ DrawHorizontalLine endp
 ; DL : Color
 ; AH : X (chunk)
 ; AL : Y (chunk)
-.code
 DrawChunk proc far
    xor bx, bx ; clear
    xor cx, cx ; clear
@@ -53,66 +58,12 @@ DrawChunk proc far
    xor cx, cx  ; zero out for loop
    mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
 
-   draw_c:   
-      push cx  ; save which line of the chunk we are drawing
-      push bx  ; save our start position
+   draw_c:
       call DrawHorizontalLine
-      pop bx   ; restore start position
       add bx, X_PIXELS ; move start position to next row
-      pop cx   ; restore which line of the chunk we just drew
       loop draw_c
    ret 
 DrawChunk endp
-
-; ! The CHEAPEST way to do a perimeter would be to hard code iterations
-; for horizontal and vertical drawing, rather than going through every chunk
-; and skipping over. This would be much uglier though
-
-; Draws a chunk along the perimeter of the screen, skipping
-; over non-perimeter chunks
-; DL : Color
-.data?
-   color db ?
-.code 
-DrawPerimeter proc far
-   mov cx, TOTAL_CHUNKS
-   mov color, dl ; save as dx is needed for chunk calcs
-
-   perimeterloop:
-      push cx  ; save chunk iterator
-      dec cx   ; sub 1 since true chunks are zero-based
-
-      ; ZERO ZERO ZERO ZERO ZERO ZERO or division fucking dies
-      xor ax, ax
-      xor bx, bx
-      xor dx, dx 
-
-      ; 1d to 2d chunk coordinate
-      mov ax, cx ; get 1d chunk index
-      mov bx, Y_CHUNKS 
-      div bx     ; 1D index / Y_CHUNKS = X (AX) and Y (DX) chunks
-      mov ah, al ; conform to parameter order by 
-      mov al, dl ;    moving X to AH and Y to AL
-
-      ; perimeter chunk checking
-      cmp ah, 0 ; x=0
-      je isperimeter
-      cmp al, 0 ; y=0
-      je isperimeter
-      cmp ah, XZ_CHUNKS ;x=X_CHUNKS-1
-      je isperimeter
-      cmp al, YZ_CHUNKS ;y=Y_CHUNKS-1
-      je isperimeter
-      jmp continue   ; skip drawing
-
-      isperimeter:   ; draw
-         mov dl, color ; restore color
-         call DrawChunk
-      continue:
-         pop cx ; restore chunk iterator
-         loop perimeterloop
-   ret
-DrawPerimeter endp
 
 ; Set the entire visible background to a given color
 ; DL : Color
