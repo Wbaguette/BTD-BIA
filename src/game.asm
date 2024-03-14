@@ -5,31 +5,21 @@
 include shapes.inc
 include const.inc
 include cursor.inc
+include stage.inc
+include macros.inc
 
 .code
 main PROC
-    ;set video mode 
-    mov ah, 00h
-    mov al, 13h ; video mode (320x200, 256 color)
-            ; each pixel is one byte in this mode
-            ; note that pixels are sequential, 
-            ; so pixel 320 is the first pixel in the second row
-    int 10h ; trigger change to video mode
+    setup ;set video mode 
 
-    mov ax, VRAM ; move vram to data segment
-    mov es, ax ; es points to VGA memory (es can only be accessed via register)
-    mov bx, 0 ;pixel offset 0 (none)
-    mov cx, TOTAL_CHUNKS
-
-    mov dl, green
-    call DrawBackground
+    call InitStage
     call DrawCursor
     
     awaitkey: ; terminates program on key press
         mov ah, 10h
         int 16h
         cmp al, 32 ; space key is pressed, terminate
-        je exit
+        je ex
         cmp al, 'd'
         je selectRight
         cmp al, 'a'
@@ -41,7 +31,7 @@ main PROC
         cmp al, '1'
         je placeDart
         cmp al, 'b'
-        je placeBloon
+        je placeBloon 
         jmp awaitkey ; space was not pressed
     
     placeBloon:
@@ -72,12 +62,10 @@ main PROC
         call MoveDown
         jmp awaitkey
 
-    exit: ; terminates program
+    ex: ; terminates program
         xor ax, ax ; zero out
         mov     ax,3    ;reset to text mode
         int     10h
-        xor ax, ax ; zero out
-        mov ah, 4ch ; terminate process code
-        int 21h ; trigger exit
+        exit
 main ENDP
 END main 
