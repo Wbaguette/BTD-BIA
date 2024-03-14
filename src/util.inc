@@ -5,10 +5,6 @@
 ; BX : Y
 ;
 ; Returns: AH : X, AL : Y in chunk coordinates
-
-; TODO: May want to perform bounds checking???
-.data
-    CHUNK_SIZE equ 8
 .code
 chunk proc far
     mov cl, CHUNK_SIZE
