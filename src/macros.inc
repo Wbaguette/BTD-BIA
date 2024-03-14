@@ -12,6 +12,6 @@ setup macro
    mov al, 13h 
    int 10h      
 
-   mov ax, 0A000h
+   mov ax, VRAM
    mov es, ax
 endm
