@@ -5,8 +5,6 @@ x db CURSOR_X_LOWER  ; chunk
 y db CURSOR_Y_LOWER  ; chunk
 selected db 0   ; the thing the cursor is hovering above 
 
-; TODO - bounds checking
-
 .code
 ; Draw the cursor at screen origin
 DrawCursor proc far
