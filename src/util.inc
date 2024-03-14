@@ -5,6 +5,8 @@
 ; BX : Y
 ;
 ; Returns: AH : X, AL : Y in chunk coordinates
+
+; TODO - Lets make this a macro it'll be better
 .code
 chunk proc far
     mov cl, CHUNK_SIZE
