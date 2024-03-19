@@ -1,5 +1,9 @@
-; Exit the process successfully
+; Exit the process successfully, and return to text mode
 exit macro
+   xor ax, ax 
+   mov ax, 3    
+   int 10h
+
    xor ax, ax 
    mov ah, 4ch 
    int 21h 

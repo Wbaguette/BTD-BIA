@@ -91,9 +91,6 @@ main PROC
         jmp awaitkey
 
     ex: ; terminates program
-        xor ax, ax ; zero out
-        mov     ax,3    ;reset to text mode
-        int     10h
         exit
 main ENDP
 END main 
