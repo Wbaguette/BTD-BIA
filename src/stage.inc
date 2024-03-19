@@ -4,7 +4,7 @@
 
 
 ; array of all chunk X/Y coordinates the path follows
-path dw 0008h, 0108h, 0208h, 0308h, 0408h, 0508h, 0608h, 0708h
+PATH dw 0008h, 0108h, 0208h, 0308h, 0408h, 0508h, 0608h, 0708h
     dw 0501h, 0601h, 0701h, 0801h, 0901h, 0a01h, 0b01h, 0c01h
     dw 0d01h, 0e01h, 0f01h, 0808h, 0908h, 0a08h, 0b08h, 0c08h
     dw 0d08h, 0e08h, 0f08h, 0f01h, 0f02h, 0f03h, 0f04h, 0f05h
@@ -14,7 +14,7 @@ path dw 0008h, 0108h, 0208h, 0308h, 0408h, 0508h, 0608h, 0708h
     dw 0815h, 0915h, 0a15h, 0b15h, 0c15h, 0d15h, 0e15h, 0f15h
     dw 1015h, 1115h, 1215h, 1315h, 1415h, 1515h, 1516h, 1517h
     dw 1518h
-PATH_LENGTH = ($ - path) / 2
+PATH_LENGTH = ($ - PATH) / 2
 
 .code
 InitStage proc far
@@ -34,7 +34,7 @@ DrawPath proc near
     dp: 
         push bx
         push cx
-        mov ax, [path+bx]
+        mov ax, [PATH+bx]
         call DrawChunk
         pop cx
         pop bx
