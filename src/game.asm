@@ -47,11 +47,11 @@ main PROC
         jmp awaitkey ; space was not pressed
     
     continloon: 
-        xor bh, bh
-        mov bl, red1.pathIndex
-        lea dx, [PATH+bx]
+        xor bh, bh ; clear top of bx
+        mov bl, red1.pathIndex ; pathIndex is the index in the path array where the bloon is 
+        lea dx, [PATH+bx]      ; load the coordinate 
         mov cx, red1.level
-        ; call ShowSprite ; delete current bloon
+        call ShowSprite ; delete current bloon
 
         add red1.pathIndex, 2 ; move bloon
         ; mov ax, @data
