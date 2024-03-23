@@ -1,6 +1,7 @@
 BLOON struc
     level dw 1 ; sprite corresponds to level
     pathIndex db 0 ; an index corresponding to which element in the PATH this bloon is at
+    speed db 10 ; Number of frames (gameloops) it takes to move 1 chunk
 BLOON ends
 
 .code
