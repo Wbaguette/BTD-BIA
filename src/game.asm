@@ -21,7 +21,7 @@ main PROC
     gameloop:
         xor bx, bx
         mov bl, red1.pathIndex
-        lea dx, [PATH+bx]
+        mov dx, [PATH+bx]
         mov cx, red1.level
         call ShowSprite
     
@@ -49,7 +49,7 @@ main PROC
     continloon: 
         xor bh, bh ; clear top of bx
         mov bl, red1.pathIndex ; pathIndex is the index in the path array where the bloon is 
-        lea dx, [PATH+bx]      ; load the coordinate 
+        mov dx, [PATH+bx]      ; load the coordinate 
         mov cx, red1.level
         call ShowSprite ; delete current bloon
 
