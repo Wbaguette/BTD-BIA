@@ -10,16 +10,23 @@ include macros.inc
 include bloon.inc
 
 .data 
+    frame_counter dw 0     
+
     red1 BLOON <RED_BLOON, 0>
 .code
 main PROC
-    setup ;set video mode 
+    ; FIXME: Maybe add this ds pointing to data segment in setup macro
+    mov ax, @data
+	mov ds, ax
+    setup ; Set video mode, move VRAM to ES
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
 
+
+
     gameloop:
-        xor bx, bx
+        xor bh, bh
         mov bl, red1.pathIndex
         mov dx, [PATH+bx]
         mov cx, red1.level
@@ -47,18 +54,21 @@ main PROC
         jmp awaitkey ; space was not pressed
     
     continloon: 
-        xor bh, bh ; clear top of bx
-        mov bl, red1.pathIndex ; pathIndex is the index in the path array where the bloon is 
-        mov dx, [PATH+bx]      ; load the coordinate 
-        mov cx, red1.level
-        call ShowSprite ; delete current bloon
+        ; xor bh, bh ; clear top of bx
+        ; mov bl, red1.pathIndex ; pathIndex is the index in the path array where the bloon is 
+        ; mov dx, [PATH+bx]      ; load the coordinate 
+        ; mov cx, red1.level
+        ; call ShowSprite ; delete current bloon
 
-        add red1.pathIndex, 2 ; move bloon
-        ; mov ax, @data
-        ; mov ds, ax
-        ; mov bx, OFFSET red1
+        ; add red1.pathIndex, 2 ; move bloon
+        
 
-        ; call Step ; move bloon to  next position
+        mov ax, ds
+        mov bx, OFFSET red1
+        call Step ; move bloon to  next position
+
+
+        ; add frame_counter, 1
         jmp gameloop
         ; jmp awaitkey
 
