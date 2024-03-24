@@ -1,0 +1,9 @@
+DART_0_SPRITE db 8, 8
+              db 00h, 00h, 00h, 00h, 00h, 0b9h, 00h, 00h
+              db 00h, 00h, 00h, 0b9h, 0b9h, 00h, 00h, 00h
+              db 00h, 00h, 0b9h, 0b9h, 0b9h, 0b9h, 00h, 00h
+              db 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h
+              db 06h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 06h
+              db 00h, 06h, 010h, 06h, 06h, 010h, 06h, 00h
+              db 00h, 00h, 06h, 06h, 06h, 06h, 00h, 00h
+              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h

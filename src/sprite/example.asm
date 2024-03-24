@@ -34,7 +34,7 @@ main PROC
 
 	mov dh, 20 ; WIDTH, Draw sprite at X chunk
 	mov dl, 0 ; HEIGHT, Draw sprite at Y chunk
-	mov cx, MONKEY ; Sprite we want to draw, this maps to an index in the include file 
+	mov cx, DART_MONKEY_0 ; Sprite we want to draw, this maps to an index in the include file 
 	call ShowSprite
 
 	exit
