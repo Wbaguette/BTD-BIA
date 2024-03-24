@@ -64,6 +64,17 @@ BUG_SPRITE db 32, 32
            db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
            db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
 
+CURSOR_INVALID_SPRITE db 8, 8
+                      db 00h, 04h, 04h, 04h, 04h, 04h, 04h, 00h
+                      db 04h, 04h, 00h, 00h, 00h, 00h, 00h, 04h
+                      db 04h, 00h, 04h, 00h, 00h, 00h, 00h, 04h
+                      db 04h, 00h, 00h, 04h, 00h, 00h, 00h, 04h
+                      db 04h, 00h, 00h, 00h, 04h, 00h, 00h, 04h
+                      db 04h, 00h, 00h, 00h, 00h, 04h, 00h, 04h
+                      db 04h, 00h, 00h, 00h, 00h, 00h, 04h, 04h
+                      db 00h, 04h, 04h, 04h, 04h, 04h, 04h, 00h
+
+
 CURSOR_SPRITE db 8, 8
               db 04h, 04h, 04h, 00h, 00h, 04h, 04h, 04h
               db 04h, 00h, 00h, 00h, 00h, 00h, 00h, 04h
@@ -95,13 +106,14 @@ MONKEY_SPRITE db 8, 8
               db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
 
 SPRITE_REGISTRY dw OFFSET SMILE_SPRITE, OFFSET SMILE2_SPRITE, OFFSET BUG_SPRITE, OFFSET CURSOR_SPRITE
-				dw OFFSET RED_BLOON_SPRITE, OFFSET MONKEY_SPRITE
+				dw OFFSET CURSOR_INVALID_SPRITE, OFFSET RED_BLOON_SPRITE, OFFSET MONKEY_SPRITE
 SMILE EQU 0
 SMILE2 EQU 1
 BUG EQU 2
 CURSOR EQU 3
-RED_BLOON EQU 4
-MONKEY EQU 5
+CURSOR_INVALID EQU 4
+RED_BLOON EQU 5
+MONKEY EQU 6
 
 
 .code

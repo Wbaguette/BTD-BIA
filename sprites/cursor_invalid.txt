@@ -1,0 +1,9 @@
+CURSOR_INVALID_SPRITE db 8, 8
+                      db 00h, 04h, 04h, 04h, 04h, 04h, 04h, 00h
+                      db 04h, 04h, 00h, 00h, 00h, 00h, 00h, 04h
+                      db 04h, 00h, 04h, 00h, 00h, 00h, 00h, 04h
+                      db 04h, 00h, 00h, 04h, 00h, 00h, 00h, 04h
+                      db 04h, 00h, 00h, 00h, 04h, 00h, 00h, 04h
+                      db 04h, 00h, 00h, 00h, 00h, 04h, 00h, 04h
+                      db 04h, 00h, 00h, 00h, 00h, 00h, 04h, 04h
+                      db 00h, 04h, 04h, 04h, 04h, 04h, 04h, 00h
