@@ -8,6 +8,7 @@ include cursor.inc
 include stage.inc
 include macros.inc
 include bloon.inc
+include round.inc
 
 .data 
     frame_counter dw 0     
@@ -26,11 +27,14 @@ main PROC
 
 
     gameloop:
-        xor bh, bh
-        mov bl, red1.pathIndex
-        mov dx, [PATH+bx]
-        mov cx, red1.level
-        call ShowSprite
+        mov cx, frame_counter
+        mov bx, 0
+        call spawn_bloon
+        ; xor bh, bh
+        ; mov bl, red1.pathIndex
+        ; mov dx, [PATH+bx]
+        ; mov cx, red1.level
+        ; call ShowSprite
     
     awaitkey: ; terminates program on key press
         mov ah, 10h
@@ -68,9 +72,8 @@ main PROC
         call Step ; move bloon to  next position
 
 
-        ; add frame_counter, 1
+        inc frame_counter
         jmp gameloop
-        ; jmp awaitkey
 
     placeBloon:
         call GetPos
