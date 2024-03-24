@@ -94,3 +94,37 @@ DrawBackground proc far
    ret
 DrawBackground endp
 
+; TODO : Bounds checking
+; Draws a rectangle with the area filled by DL
+; AX : Chunk (X/Y) TL corner
+; BX : Chunk (X/Y) BR corner
+; DL : Color
+DrawArea proc far
+   mov cl, bx ; target x to draw backwards from
+   push ax ; save origin
+
+   mov al, bl ; draw at target height
+   areaX:
+      mov ah, cl ; draw as we go along
+      call DrawChunk
+      loop areaX
+
+   pop ax
+
+   ; mov dh, ah ; store current x
+
+   ; areaY:
+   ;    push cx ; save y pos
+      
+   ;    mov cl, bh ; get target x pos
+   ;    areaX:
+   ;       inc ah ; x+1
+   ;       call DrawChunk
+   ;       loop areaX
+
+   ;    pop cx
+   ;    mov ah, dh ; restore original x
+   ;    inc al ; y+1
+   ;    loop areaY
+   ret
+DrawArea endp
