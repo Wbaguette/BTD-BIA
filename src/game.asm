@@ -8,9 +8,11 @@ include cursor.inc
 include stage.inc
 include macros.inc
 include bloon.inc
+include monkey.inc
 
 .data 
     red1 BLOON <RED_BLOON, 0>
+    dart MONKEY <>
 .code
 main PROC
     setup ;set video mode 
@@ -42,26 +44,8 @@ main PROC
         je placeDart
         cmp al, 'b'
         je placeBloon 
-        cmp al, 'c'
-        je continloon
         jmp awaitkey ; space was not pressed
     
-    continloon: 
-        xor bh, bh ; clear top of bx
-        mov bl, red1.pathIndex ; pathIndex is the index in the path array where the bloon is 
-        mov dx, [PATH+bx]      ; load the coordinate 
-        mov cx, red1.level
-        call ShowSprite ; delete current bloon
-
-        add red1.pathIndex, 2 ; move bloon
-        ; mov ax, @data
-        ; mov ds, ax
-        ; mov bx, OFFSET red1
-
-        ; call Step ; move bloon to  next position
-        jmp gameloop
-        ; jmp awaitkey
-
     placeBloon:
         call GetPos
         mov cl, RED_BLOON
@@ -70,8 +54,11 @@ main PROC
 
     placeDart:
         call GetPos
-        mov cl, MONKEY
-        call ShowSprite
+        mov dart.chunk, dx ; place at cursor
+        inc dart.highlighted ; we want to show its range
+        mov bx, OFFSET dart ; pass the monkey we're creating as a param
+        mov dart.range, 3 ; custom range yay
+        call DrawMonkey
         jmp awaitkey
 
     selectRight:
