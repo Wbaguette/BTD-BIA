@@ -29,50 +29,36 @@ DrawMonkey endp
 
 ; draw the monkey's sightline relative to current chunk
 DrawRadius proc near
-    mov cl, ds:[bx + MONKEY.range] ; up
-    mov dx, ds:[bx + MONKEY.chunk] ; get current pos
-    
-    rangeup:
-        push cx
-        push dx
-        add dl, cl
-        mov cl, SMILE
-        call ShowSprite
-        pop dx
-        pop cx
-        loop rangeup
+    ; chunks visible = range * 2 + 1 (range for either side + 1 for tile monkey is on)
+    xor cx, cx
+    mov cl, ds:[bx + MONKEY.range] ; get range
+    shl cl, 1 ; double
+    inc cl ; +1
 
-    mov cl, ds:[bx + MONKEY.range] ; down
-    rangedown:
-        push cx
-        push dx
-        sub dl, cl
-        mov cl, SMILE
-        call ShowSprite
-        pop dx
-        pop cx
-        loop rangedown
+    mov ax, ds:[bx + MONKEY.chunk] ; get current pos
 
-    mov cl, ds:[bx + MONKEY.range] ; left
-    rangeleft:
+    radY:
         push cx
-        push dx
-        sub dh, cl
-        mov cl, SMILE
-        call ShowSprite
-        pop dx
-        pop cx
-        loop rangeleft
+        xor cx, cx
+        mov cl, ds:[bx + MONKEY.range] ; get range
+        shl cl, 1 ; double
+        inc cl ; +1
 
-    mov cl, ds:[bx + MONKEY.range] ; right
-    rangeright:
-        push cx
-        push dx
-        add dh, cl
-        mov cl, SMILE
-        call ShowSprite
-        pop dx
+        radX: ; draw X
+            mov dx, ax
+            sub dh, ds:[bx + MONKEY.range] ; shift pos by range so monkey is central X
+            dec dh  ; account for + 1
+
+            sub dl, ds:[bx + MONKEY.range] ; central monkey y
+            add dh, cl ; x offset
+
+            push cx ; save iter
+            mov cl, SMILE ; sprite to draw
+            call ShowSprite
+            pop cx ; restore iter
+            loop radX
         pop cx
-        loop rangeright    
+        inc al ; Y offset
+        loop radY
     ret
 DrawRadius endp
