@@ -11,7 +11,7 @@ include bloon.inc
 include round.inc
 
 .data 
-    frame_counter dw 0     
+    frame_counter dw 1    
 
     red1 BLOON <RED_BLOON, 0>
 .code

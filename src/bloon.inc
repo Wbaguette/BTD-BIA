@@ -3,7 +3,7 @@ BLOON struc
     pathIndex db 0 ; an index corresponding to which element in the PATH this bloon is at
     speed db 10 ; Number of frames (gameloops) it takes to move 1 chunk
 
-    timeout db 0; Number of frames since the beginning of round this bloon should spawn
+    timeout dw 0; Number of frames since the beginning of round this bloon should spawn
 BLOON ends
 
 .code
