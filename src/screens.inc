@@ -1,5 +1,7 @@
 ; Manage all superflous screens (title, death, etc.)
 
+.data
+tmpTitle db "SPACE to play$"
 .code
 ShowTitle proc far
     push ds
@@ -7,7 +9,17 @@ ShowTitle proc far
     push bx
     push dx
 
+    ; set segment
+    mov ax, @data
+    mov ds, ax
+
     call TitleGradientBG
+
+    ; add temp text
+    xor ax, ax
+    mov dx, OFFSET tmpTitle
+    mov ah, 09h
+    int 21h
 
     ; Keyboard detection fails if this happens after awaitgame (probably ds)
     pop dx
