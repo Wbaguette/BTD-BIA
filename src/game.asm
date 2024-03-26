@@ -27,8 +27,14 @@ main PROC
 
 
     gameloop:
-        add frame_counter, 3
-    
+        mov cx, frame_counter
+        mov bx, 0
+        call spawn_bloon
+
+        ; call move_bloon
+
+        inc frame_counter
+
         mov cx, frame_counter
         mov bx, 0
         call spawn_bloon
