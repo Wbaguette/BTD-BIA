@@ -33,6 +33,7 @@ DrawChunk proc far
    push bx
    push cx
    push dx
+
    xor bx, bx ; clear
    xor cx, cx ; clear
    mov ch, dl ; save color because dx gets reset on mul
@@ -67,6 +68,7 @@ DrawChunk proc far
       ; mov bx, ax ; restore original bx value
       add bx, X_PIXELS ; move start position to next row
       loop draw_c
+
    pop dx
    pop cx
    pop bx
@@ -104,34 +106,36 @@ DrawBackground endp
 
 ; TODO : Bounds checking
 ; Draws a rectangle with the area filled by DL, BX should be larger than AX
-; AX : Chunk (X/Y) TL corner
-; BX : Chunk (X/Y) BR corner
+; AX : Chunk (X/Y) TL corner (origin)
+; BX : Chunk (X/Y) BR corner (target)
 ; DL : Color
 ; Note that this is incredibly slow due to all the stack manipulation, up to 1ms for a SINGLE call
+; Note Note: I am lazy so [OriginX, TargetX] inclusive, [OriginY, TargetY) exlcusive
 DrawArea proc far
    push cx
    push dx
    xor cx, cx
 
-   ; AH no longer matters, we have all the info we need from it
-   ; So save AL to know how high to go and call it a day
-   mov dh, al ; Save Y for now
+   ; save target -> origin counter
+   mov dh, bh ; target -> 0
+   sub dh, ah ; target -> origin x
 
-   arealoop:
-      ; # of chunks to fill along x
-      mov cl, bh 
-      sub cl, ah
+   mov bh, ah ; save origin X, target X is useless after calculating dh
+
+   area_filly:
+      mov cl, dh ; loop across x positions
 
       area_fillx:
-         mov ah, cl ; X corresponds to current iter
-         mov al, dh ; Draw bottom up starting from top down
-         dec ah ; 1 offset so -1 to reach 0
+         push ax
+         add ah, cl ; X
+         dec ah   ; -1 offset for zero-indexed chunk coords
          call DrawChunk
+         pop ax
          loop area_fillx
-   
-   inc dh ; move 1 y chunk closer to origin
-   cmp dh, bl
-   jl arealoop ; repeat while dh <= target height (BL)
+      
+   inc al ; Move origin Y 1 row closer to target
+   cmp al, bl ; origin Y > target Y (NE because will skip last row)
+   jle area_filly
 
    pop dx
    pop cx
