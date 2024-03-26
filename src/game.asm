@@ -11,7 +11,7 @@ include bloon.inc
 include round.inc
 
 .data 
-    frame_counter dw 1    
+    frame_counter dw 0   
 
     red1 BLOON <RED_BLOON, 0>
 .code
@@ -27,9 +27,15 @@ main PROC
 
 
     gameloop:
+        add frame_counter, 3
+    
         mov cx, frame_counter
         mov bx, 0
         call spawn_bloon
+
+
+
+
         ; xor bh, bh
         ; mov bl, red1.pathIndex
         ; mov dx, [PATH+bx]
