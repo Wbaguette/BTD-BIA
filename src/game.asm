@@ -9,6 +9,7 @@ include stage.inc
 include macros.inc
 include bloon.inc
 include monkey.inc
+include screens.inc
 
 .data 
     red1 BLOON <RED_BLOON, 0>
@@ -16,6 +17,8 @@ include monkey.inc
 .code
 main PROC
     setup ;set video mode 
+
+    call ShowTitle; Title screen
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
