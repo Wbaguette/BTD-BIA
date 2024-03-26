@@ -19,6 +19,7 @@ r1_queue_length dw 3
 r1_queue BLOON <RED_BLOON, 0, 1, 0>, <RED_BLOON, 0, 1, 1>, <RED_BLOON, 0, 1, 2>
 
 
+
 queue_registry dw OFFSET r1_queue
 
 .code
@@ -92,12 +93,10 @@ spawn_bloon PROC far
    need_to_spawn:
       sub di, ax ; (Length of the array) - (index of match) = Index to start at for next frame iteration
       inc di ; Add one or else you're off by one
-      add queue_head, di ; Add to the queue head
+      mov queue_head, di ; Add to the queue head           if those dont work then try 'add'        
 
       ; FIXME: Potentially need to check if there is a bloon already here? 
-      ; mov dx, PATH 
-      ; mov cx, ds:[bx] 
-      ; call ShowSprite
+  
 
 
       ; Now that the newly spawned in bloon has been drawn, we need to know its alive by adding it to the 
@@ -117,8 +116,8 @@ spawn_bloon PROC far
       sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary
       mov si, bx ; SI contains start of bloon data we need to copy
       add di, OFFSET alive_bloons ; DI now contains where we need to start copying to
-      xor ax, ax
-      copy_bytes:         ;  [04 00] [00] [01] [00 00]
+      xor ax, ax          
+      copy_bytes:         ;  [04 00] [00] [01] [00 00]    <RED_BLOON, 0, 1, 0>
          mov al, ds:[si]
          mov ds:[di], al
          inc si 
@@ -128,10 +127,12 @@ spawn_bloon PROC far
       inc alive_bloons_head ; We wrote one bloon, so now our head needs to point to one index later 
       
       ; Now that the bloon has been added as alive, we need to draw it to the screen 
+      ; TODO: Update the bloons position to start, not draw here 
       mov dx, PATH
       mov cx, [di - 6]
       call ShowSprite
       
+
 
    iter_done:
       pop si
@@ -143,12 +144,29 @@ spawn_bloon PROC far
 spawn_bloon ENDP
 
 
+; This will draw all alive bloons 
+; Highest level bloon should be drawn on a tile if theres more than one bloon 
+; Check if a bloon is alive or dead 
+draw_bloons PROC
+   
+
+draw_bloons ENDP
+
 
 
 ; Checks the alive array, for every alive bloon, checks their speed and if they need to move
+; Use   FrameNumber / BloonSpeed , if remainder = 0, it needs to move 
+;  Checks if exits map; remove from alive and then 
 move_bloon PROC
+   push cx 
+   ; Iterate through alive bloons,  alive_bloons_head tells us how many bloons are alive
+   mov cx, alive_bloons_head
+   iter_alive:
+      cmp cx, 0
+      je iter_alive_done
+   
 
-
-
+   iter_alive_done:
+   pop cx 
    ret
 move_bloon ENDP   

@@ -5,7 +5,7 @@ BLOON struc
 
     timeout dw 0; Number of frames since the beginning of round this bloon should spawn
 
-    ; TODO: Maybe have an alive or dead value here. 
+    ; TODO: State field :  0 = alive, 1 = dead 2 = completed 
 BLOON ends
 
 .code

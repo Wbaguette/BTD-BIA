@@ -37,7 +37,7 @@ main PROC
 
         mov cx, frame_counter
         mov bx, 0
-        call spawn_bloon
+        ; call spawn_bloon
 
 
 

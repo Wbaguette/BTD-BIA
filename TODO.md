@@ -1,9 +1,10 @@
 ## TODOS
 
 ### Sprites 
-1. The first iteration of this module is done. 
+1. need showsprite xor and showsprite overwrite 
+
 
 
 ### Bloons 
-1. Add new balloons into the alive queue
-3. Have a head pointing to where we should push new alive bloons
+draw_bloons
+move_bloons
