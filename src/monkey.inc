@@ -7,6 +7,7 @@ MONKEY struc
     sprite db DART_MONKEY_0
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
+    pops dw 0 
 MONKEY ends
 
 .code
