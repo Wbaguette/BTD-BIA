@@ -58,7 +58,6 @@ main PROC
     placeDart:
         call GetPos
         mov dart.chunk, dx ; place at cursor
-        inc dart.highlighted ; we want to show its range
         mov bx, OFFSET dart ; pass the monkey we're creating as a param
         mov dart.range, 3 ; custom range yay
         call DrawMonkey
