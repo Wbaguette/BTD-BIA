@@ -98,12 +98,13 @@ spawn_bloon PROC far
       ; FIXME: Potentially need to check if there is a bloon already here? 
   
 
+      
 
-      ; Now that the newly spawned in bloon has been drawn, we need to know its alive by adding it to the 
+      ; We need to mark this bloon as alive by changing its state and by copying it into the 
       ;  alive_bloons array
       ; The way we know where to write to in this pre-allocated buffer is by using a "head", 
       ;  this keeps track of the index in the array where an available position is to write
-
+      ; Also need to move its pathIndex to the start of the path 
 
       mov ax, alive_bloons_head
       xor dh, dh
@@ -115,6 +116,13 @@ spawn_bloon PROC far
       mov cl, bloon_struc_size ; 7 bytes to copy
       sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary
       mov si, bx ; SI contains start of bloon data we need to copy
+
+      ; Before copying we must update the struct fields : pathIndex and state 
+      inc ds:[si + BLOON.pathIndex]   ; + 1 path index 
+      dec ds:[si + BLOON.state]       ; Bloons start off in a "dead state" which is 1, "alive" state is 0. so dec 1 works
+
+
+      ; Time to copy some bytes over ! 
       add di, OFFSET alive_bloons ; DI now contains where we need to start copying to
       xor ax, ax          
       copy_bytes:         ;  [04 00] [00] [01] [00 00] [01]   <RED_BLOON, 0, 1, 0, 1>
@@ -126,14 +134,9 @@ spawn_bloon PROC far
 
       inc alive_bloons_head ; We wrote one bloon, so now our head needs to point to one index later 
       
-      
 
-      ; FIXME: These two things need to be done before copying bytes otherwise the data is wrong/ not synced 
-      ; TODO: Update the bloons position to start, not draw here 
-      ; TODO: Update the bloons state to "alive"
-      mov dx, PATH
-      mov cx, [di - 7]
-      call ShowSprite
+
+  
       
 
 
