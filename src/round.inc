@@ -4,7 +4,7 @@
 .data
 curr_round dw 0
 
-bloon_struc_size db 6
+bloon_struc_size db 7
 queue_head dw 0 ; Index of the top of the queue
 alive_bloons_head dw 0 ; Index of the top of the alive bloons list 
 
@@ -16,7 +16,7 @@ alive_bloons BLOON 50 DUP(<>)
 
 ; Bloon queues for rounds 
 r1_queue_length dw 3
-r1_queue BLOON <RED_BLOON, 0, 1, 0>, <RED_BLOON, 0, 1, 1>, <RED_BLOON, 0, 1, 2>
+r1_queue BLOON <RED_BLOON, 0, 1, 0, 1>, <RED_BLOON, 0, 1, 1, 1>, <RED_BLOON, 0, 1, 2, 1>
 
 
 
@@ -112,12 +112,12 @@ spawn_bloon PROC far
       ; Now AX contains the number of bytes from the beginning of the array where we can start writing to
       mov di, ax ; Place yourself at where you actually need to start looking in alive bloons 
       xor ch, ch
-      mov cl, bloon_struc_size ; 6 bytes to copy
+      mov cl, bloon_struc_size ; 7 bytes to copy
       sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary
       mov si, bx ; SI contains start of bloon data we need to copy
       add di, OFFSET alive_bloons ; DI now contains where we need to start copying to
       xor ax, ax          
-      copy_bytes:         ;  [04 00] [00] [01] [00 00]    <RED_BLOON, 0, 1, 0>
+      copy_bytes:         ;  [04 00] [00] [01] [00 00] [01]   <RED_BLOON, 0, 1, 0, 1>
          mov al, ds:[si]
          mov ds:[di], al
          inc si 
@@ -126,10 +126,13 @@ spawn_bloon PROC far
 
       inc alive_bloons_head ; We wrote one bloon, so now our head needs to point to one index later 
       
-      ; Now that the bloon has been added as alive, we need to draw it to the screen 
+      
+
+      ; FIXME: These two things need to be done before copying bytes otherwise the data is wrong/ not synced 
       ; TODO: Update the bloons position to start, not draw here 
+      ; TODO: Update the bloons state to "alive"
       mov dx, PATH
-      mov cx, [di - 6]
+      mov cx, [di - 7]
       call ShowSprite
       
 
@@ -155,18 +158,59 @@ draw_bloons ENDP
 
 
 ; Checks the alive array, for every alive bloon, checks their speed and if they need to move
-; Use   FrameNumber / BloonSpeed , if remainder = 0, it needs to move 
+; Use   FrameNumber / BloonSpeed , if remainder = 0, it needs to move, except for frame 0
 ;  Checks if exits map; remove from alive and then 
-move_bloon PROC
-   push cx 
-   ; Iterate through alive bloons,  alive_bloons_head tells us how many bloons are alive
-   mov cx, alive_bloons_head
+
+; Expected register params:
+;  CX : the current frame number
+move_alive_bloons PROC
+   push ax
+   push bx
+   push dx
+
+   cmp cx, 0 ; If frame 0 then don't bother
+   je done
+
+   ; Iterate through alive bloons
+   mov ax, alive_bloons_head ; alive_bloons_head tells us how many bloons are alive
+   mov bx, OFFSET alive_bloons ; point BX to the beginning of the alive_bloons array 
    iter_alive:
       cmp cx, 0
-      je iter_alive_done
-   
+      je done
 
-   iter_alive_done:
-   pop cx 
-   ret
-move_bloon ENDP   
+      xor dh, dh
+      mov dl, ds:[bx + BLOON.speed]     ; dl now has the bloon speed
+      
+      push ax 
+      mov ax, cx 
+      div dx          ;  AX: Quotient,    DX: Remainder 
+      cmp dx, 0       ; If remainder = 0, then the bloon needs to move
+      pop ax     
+      jne dont_move ; Fall through if remainder = 0, so you have to move this bloon
+      cmp ds:[bx + BLOON.pathIndex], PATH_LENGTH - 1 ; is bloon on the last tile in path?
+      jne foo ; Fall through if we are on the last tile 
+      ; Update the players life 
+      ; Make the sprite's state "completed"
+      ; Remove from alive queue (TODO:  when drawing bloons from alive queue only draw ones that have state alive)
+      foo: 
+      inc ds:[bx + BLOON.pathIndex]
+
+
+
+
+      
+
+
+      dont_move:
+      add bx, bloon_struc_size ; Align ourselves to next bloon struct
+      dec ax
+      jmp iter_alive
+
+
+
+   done:
+      pop dx 
+      pop bx
+      pop ax
+      ret
+move_alive_bloons ENDP   

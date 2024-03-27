@@ -4,8 +4,8 @@ BLOON struc
     speed db 10 ; Number of frames (gameloops) it takes to move 1 chunk
 
     timeout dw 0; Number of frames since the beginning of round this bloon should spawn
-
-    ; TODO: State field :  0 = alive, 1 = dead 2 = completed 
+          
+    state db 1  ; 0 = alive, 1 = dead, 2 = completed
 BLOON ends
 
 .code
