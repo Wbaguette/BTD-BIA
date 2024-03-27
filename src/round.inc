@@ -104,7 +104,6 @@ spawn_bloon PROC far
       ;  alive_bloons array
       ; The way we know where to write to in this pre-allocated buffer is by using a "head", 
       ;  this keeps track of the index in the array where an available position is to write
-      ; Also need to move its pathIndex to the start of the path 
 
       mov ax, alive_bloons_head
       xor dh, dh
@@ -117,9 +116,8 @@ spawn_bloon PROC far
       sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary
       mov si, bx ; SI contains start of bloon data we need to copy
 
-      ; Before copying we must update the struct fields : pathIndex and state 
-      inc ds:[si + BLOON.pathIndex]   ; + 1 path index 
-      dec ds:[si + BLOON.state]       ; Bloons start off in a "dead state" which is 1, "alive" state is 0. so dec 1 works
+      ; Before copying we must update the state 
+      dec ds:[si + BLOON.state]  ; Bloons start off in a "dead" state which is 1, "alive" state is 0. so dec 1 works
 
 
       ; Time to copy some bytes over ! 
@@ -133,12 +131,6 @@ spawn_bloon PROC far
       loop copy_bytes
 
       inc alive_bloons_head ; We wrote one bloon, so now our head needs to point to one index later 
-      
-
-
-  
-      
-
 
    iter_done:
       pop si
@@ -154,7 +146,7 @@ spawn_bloon ENDP
 ; Highest level bloon should be drawn on a tile if theres more than one bloon 
 ; Check if a bloon is alive or dead 
 draw_bloons PROC
-   
+   ; Only draw bloons in the alive queue that have state "alive" = 0 
 
 draw_bloons ENDP
 
