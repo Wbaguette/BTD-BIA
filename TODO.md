@@ -1,5 +1,7 @@
-## TODOS
+## DOING
 3. Distance function between two chunks
+
+## TODOS
 1. Cursor should highlight the monkey radius on hover only
 2. Cursor needs to know if its over a path
 

@@ -1,20 +1,11 @@
-; Convert given X/Y coordinates to chunk coordinates
-; This is done by simply floor dividing a coordinate
-; by the determined chunk size
-; AX : X
-; BX : Y
-;
-; Returns: AH : X, AL : Y in chunk coordinates
 
-; TODO - Lets make this a macro it'll be better
 .code
-chunk proc far
-    mov cl, CHUNK_SIZE
-    div cl ; X chunk
-    mov ch, al ; save X chunk
-    mov ax, bx 
-    div cl ; Y chunk
-    xor ah, ah ; clear 
-    mov ah, ch ; add X chunk for return
+; Calculate the straight line distance between two chunk coordinates
+; AX : Chunk A (X/Y)  
+; BX : Chunk B (X/Y)  
+; Returns 
+; AL : Straight line distance between A and B (number)
+DistanceBetweenChunks proc far
+
     ret
-chunk endp 
+DistanceBetweenChunks endp
