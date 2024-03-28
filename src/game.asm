@@ -11,7 +11,7 @@ include bloon.inc
 include round.inc
 
 .data 
-    frame_counter dw 0   
+    frame_counter db 0
 
     red1 BLOON <RED_BLOON, 0>
 .code
@@ -27,30 +27,23 @@ main PROC
 
 
     gameloop:
+	    xor dx, dx
+        xor ax, ax
+        mov dl, frame_counter
+        add dl, '0'
+        mov ah, 2
+        int 21h
 
-
+        mov cx, frame_counter
+        call move_alive_bloons
 
         mov cx, frame_counter
         mov bx, 0
         call spawn_bloon
 
-        ; call move_bloon
-
-        inc frame_counter
-
-        mov cx, frame_counter
-        mov bx, 0
-        call spawn_bloon
+        call draw_bloons
 
 
-
-
-        ; xor bh, bh
-        ; mov bl, red1.pathIndex
-        ; mov dx, [PATH+bx]
-        ; mov cx, red1.level
-        ; call ShowSprite
-    
     awaitkey: ; terminates program on key press
         mov ah, 10h
         int 16h
@@ -73,21 +66,8 @@ main PROC
         jmp awaitkey ; space was not pressed
     
     continloon: 
-        ; xor bh, bh ; clear top of bx
-        ; mov bl, red1.pathIndex ; pathIndex is the index in the path array where the bloon is 
-        ; mov dx, [PATH+bx]      ; load the coordinate 
-        ; mov cx, red1.level
-        ; call ShowSprite ; delete current bloon
-
-        ; add red1.pathIndex, 2 ; move bloon
-        
-
-        mov ax, ds
-        mov bx, OFFSET red1
-        call Step ; move bloon to  next position
-
-
         inc frame_counter
+        ; add frame_counter, 1
         jmp gameloop
 
     placeBloon:

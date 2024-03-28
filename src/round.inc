@@ -145,33 +145,87 @@ spawn_bloon ENDP
 ; This will draw all alive bloons 
 ; Highest level bloon should be drawn on a tile if theres more than one bloon 
 ; Check if a bloon is alive or dead 
+; Only draw bloons in the alive queue that have state "alive" = 0 
 draw_bloons PROC
-   ; Only draw bloons in the alive queue that have state "alive" = 0 
+   push ax 
+   push bx
+   push cx
+   push dx
+   push ds
 
+   mov ax, @data
+   mov ds, ax
+
+   mov ax, alive_bloons_head ; How many things to iterate
+   mov bx, OFFSET alive_bloons 
+   draw_bloons_iter:
+      cmp ax, 0
+      je done_draw_bloons_iter 
+      
+      cmp ds:[bx + BLOON.state], 0  ; Only go forward with this code if the bloon is alive
+      jne continue_draw_bloons_iter
+      
+      xor dh, dh
+      mov dl, ds:[bx + BLOON.pathIndex]
+      shl dx, 1
+      add dx, [PATH]     ; this no worky
+      mov cx, ds:[bx + BLOON.level] ; this works
+      call ShowSprite
+
+      
+
+      continue_draw_bloons_iter:
+      add bx, bloon_struc_size ; Align ourselves to next bloon struct
+      dec ax
+      jmp draw_bloons_iter
+
+
+
+
+   done_draw_bloons_iter:
+
+   pop ds
+   pop dx
+   pop cx
+   pop bx
+   pop ax 
+   ret
 draw_bloons ENDP
 
 
 
 ; Checks the alive array, for every alive bloon, checks their speed and if they need to move
-; Use   FrameNumber / BloonSpeed , if remainder = 0, it needs to move, except for frame 0
-;  Checks if exits map; remove from alive and then 
-
+; Use FrameNumber / BloonSpeed , if remainder = 0, it needs to move, except for frame 0
+; Checks if exits map; remove from alive and then 
 ; Expected register params:
 ;  CX : the current frame number
+; RETURNS: 
+;  CX : Amount of damage to do to player 
 move_alive_bloons PROC
    push ax
    push bx
    push dx
+   push si
+   push ds
+
+   mov ax, @data
+   mov ds, ax
+
+   xor si, si
 
    cmp cx, 0 ; If frame 0 then don't bother
-   je done
+   je done_iter_alive 
 
    ; Iterate through alive bloons
    mov ax, alive_bloons_head ; alive_bloons_head tells us how many bloons are alive
    mov bx, OFFSET alive_bloons ; point BX to the beginning of the alive_bloons array 
    iter_alive:
-      cmp cx, 0
-      je done
+      cmp ax, 0
+      je done_iter_alive 
+
+      ; Only go forward with this code if the bloon is alive
+      cmp ds:[bx + BLOON.state], 0
+      jne dont_move
 
       xor dh, dh
       mov dl, ds:[bx + BLOON.speed]     ; dl now has the bloon speed
@@ -181,20 +235,17 @@ move_alive_bloons PROC
       div dx          ;  AX: Quotient,    DX: Remainder 
       cmp dx, 0       ; If remainder = 0, then the bloon needs to move
       pop ax     
+
       jne dont_move ; Fall through if remainder = 0, so you have to move this bloon
       cmp ds:[bx + BLOON.pathIndex], PATH_LENGTH - 1 ; is bloon on the last tile in path?
-      jne foo ; Fall through if we are on the last tile 
-      ; Update the players life 
-      ; Make the sprite's state "completed"
-      ; Remove from alive queue (TODO:  when drawing bloons from alive queue only draw ones that have state alive)
-      foo: 
+
+      jne increment_pos ; Fall through if we are on the last tile 
+      mov ds:[bx + BLOON.state], 2 ; Make the sprite's state "completed"
+      add si, ds:[bx + BLOON.level] ; Add damage to user 
+      jmp dont_move
+
+      increment_pos: 
       inc ds:[bx + BLOON.pathIndex]
-
-
-
-
-      
-
 
       dont_move:
       add bx, bloon_struc_size ; Align ourselves to next bloon struct
@@ -202,8 +253,11 @@ move_alive_bloons PROC
       jmp iter_alive
 
 
+   done_iter_alive :
+      mov cx, si   ; Return the amount of damage to player
 
-   done:
+      pop ds
+      pop si
       pop dx 
       pop bx
       pop ax

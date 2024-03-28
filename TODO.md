@@ -7,4 +7,3 @@
 
 ### Bloons 
 draw_bloons
-move_bloons
