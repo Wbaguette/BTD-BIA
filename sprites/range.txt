@@ -1,0 +1,9 @@
+RANGE_SPRITE db 8, 8
+             db 08h, 00h, 08h, 00h, 08h, 00h, 08h, 00h
+             db 00h, 08h, 00h, 08h, 00h, 08h, 00h, 08h
+             db 08h, 00h, 08h, 00h, 08h, 00h, 08h, 00h
+             db 00h, 08h, 00h, 08h, 00h, 08h, 00h, 08h
+             db 08h, 00h, 08h, 00h, 08h, 00h, 08h, 00h
+             db 00h, 08h, 00h, 08h, 00h, 08h, 00h, 08h
+             db 08h, 00h, 08h, 00h, 08h, 00h, 08h, 00h
+             db 00h, 08h, 00h, 08h, 00h, 08h, 00h, 08h
