@@ -1,6 +1,3 @@
-## DOING
-4. Title chunking
-
 ## TODOS
 3. Distance function between two chunks
 1. Cursor should highlight the monkey radius on hover only
