@@ -1,5 +1,6 @@
 MONKEY struc
     chunk dw 0 ; monkey's location (X/Y upper/lower 8 bits)
+    pops dw 0 
     upgrades db 0 ; upgrades
     radius db 1 ; radius of chunks it can see
     damage db 1 
@@ -7,14 +8,12 @@ MONKEY struc
     sprite db MONKEY_DART_1
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
-    pops dw 0 
 MONKEY ends
 
 .code
 ; overwrites cl
 ; BX : Monkey instance
 DrawMonkey proc far
-
     mov dx, ds:[bx + MONKEY.chunk] ; get instance's chunk
     mov cl, ds:[bx + MONKEY.sprite]
 

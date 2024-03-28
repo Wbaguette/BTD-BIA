@@ -59,7 +59,7 @@ main PROC
         call GetPos
         mov dart.chunk, dx ; place at cursor
         mov bx, OFFSET dart ; pass the monkey we're creating as a param
-        mov dart.range, 3 ; custom range yay
+        mov dart.radius, 3 ; custom range yay
         call DrawMonkey
         jmp awaitkey
 
