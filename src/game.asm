@@ -12,7 +12,7 @@ include monkey.inc
 include screens.inc
 
 .data 
-    red1 BLOON <RED_BLOON, 0>
+    red1 BLOON <BLOON_RED, 0>
     dart MONKEY <>
 .code
 main PROC
@@ -51,7 +51,7 @@ main PROC
     
     placeBloon:
         call GetPos
-        mov cl, RED_BLOON
+        mov cl, BLOON_RED
         call ShowSprite
         jmp awaitkey
 
