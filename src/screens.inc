@@ -1,27 +1,42 @@
 ; Manage all superflous screens (title, death, etc.)
 
-.data
-tmpTitle db "SPACE to play$"
 .code
 ShowTitle proc far
     push ds
     push ax
     push bx
     push dx
+    push cx
 
     ; set segment
     mov ax, @data
     mov ds, ax
 
-    call TitleGradientBG
+    ; sprite number is an ever increasing counter corresponding to the sprite to draw
+    xor ax, ax ; our y position (low), and sprite number (high)
+    mov ah, BG_START ; Initialize sprite number
 
-    ; add temp text
-    xor ax, ax
-    mov dx, OFFSET tmpTitle
-    mov ah, 09h
-    int 21h
+    ShowTitleY:
+        xor bx, bx ; our x position (needs to reset for each row)
+        ShowTitleX:
+            xor dx, dx
+            xor cx, cx
+            mov dh, bl ; set x
+            mov dl, al ; set y
+            mov cl, ah ; set sprite
+            call ShowSprite
+
+            add bl, 4 ; next col for background tile is 4 chunks to the right
+            inc ah ; sprite number++ (move to next sprite)
+            cmp bl, X_CHUNKS ; Have all columns been drawn?
+            jl ShowTitleX
+
+        add al, 5 ; next row for background tile is 5 chunks down
+        cmp al, Y_CHUNKS ; Have all rows been drawn?
+        jl ShowTitleY
 
     ; Keyboard detection fails if this happens after awaitgame (probably ds)
+    pop cx
     pop dx
     pop bx
     pop ax
@@ -44,39 +59,3 @@ ShowTitle proc far
     startgame:
         ret
 ShowTitle endp
-
-; Draw sky gradient for title screen
-TitleGradientBG proc near
-    xor ax, ax
-    xor bx, bx
-    mov bh, X_CHUNKS ; edge of screen
-    mov bl, 5
-    mov dl, SKY_1
-    call DrawArea
-
-    xor ax, ax
-    xor bx, bx
-    mov al, 6
-    mov bh, X_CHUNKS ; edge of screen
-    mov bl, 11
-    mov dl, SKY_2
-    call DrawArea
-
-    xor ax, ax
-    xor bx, bx
-    mov al, 12
-    mov bh, X_CHUNKS ; edge of screen
-    mov bl, 17
-    mov dl, SKY_3
-    call DrawArea
-
-    xor ax, ax
-    xor bx, bx
-    mov al, 18
-    mov bh, X_CHUNKS ; edge of screen
-    mov bl, YZ_CHUNKS ; this one fails as Y_CHUNKS 
-    mov dl, SKY_4
-    call DrawArea
-
-    ret
-TitleGradientBG endp
