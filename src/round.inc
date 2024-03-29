@@ -153,48 +153,52 @@ draw_bloons PROC
    push cx
    push dx
    push ds
+   push si
 
    mov ax, @data
    mov ds, ax
 
    mov ax, alive_bloons_head ; How many things to iterate
-   mov bx, OFFSET alive_bloons 
+   mov bx, OFFSET alive_bloons ; BX points to beginning of alive_bloons 
    draw_bloons_iter:
+      xor cx, cx 
       cmp ax, 0
       je done_draw_bloons_iter 
       
       cmp ds:[bx + BLOON.state], 0  ; Only go forward with this code if the bloon is alive
       jne continue_draw_bloons_iter
-      
-
-      ; TODO: Clear the sprite and then draw again, 
-      ; by the time this is called the position of the sprite should be updated, so gunna have to - 1 on the path to clear 
-      ; Weird thing for spawning tho, 
-
+       
       ; if path index = 0, just draw, do not erase 
       cmp ds:[bx + BLOON.pathIndex], 0 
       je draw_bloon
 
       ; Erase first
       xor dh, dh
-      mov dl, ds:[bx + BLOON.pathIndex]
-      dec dl 
-      shl dx, 1
-      add dx, [PATH]     
+      xor si, si
+      mov si, ds:[bx + BLOON.pathIndex]  ; SI now has the path index of the bloon (remember the bloon has already moved)
+      and si, 0FFh
+      
+      dec si                           ; Decrement this index by one because the bloon has moved, we need to erase where it was before
+      shl si, 1                          ; Multiply this index by 2 to get the Offset from Path start (path is WORD)
+
+      mov dx, [PATH + si]
       mov cx, ds:[bx + BLOON.level] 
       call ShowSprite
-
 
       ; Draw the bloon 
       draw_bloon:
       xor dh, dh
-      mov dl, ds:[bx + BLOON.pathIndex]
-      shl dx, 1
-      add dx, [PATH]     
+      xor si, si
+      mov si, ds:[bx + BLOON.pathIndex]
+      and si, 0FFh
+
+      shl si, 1
+
+      mov dx, [PATH + si]     
       mov cx, ds:[bx + BLOON.level] 
       call ShowSprite
 
-      
+
 
       continue_draw_bloons_iter:
       add bl, bloon_struc_size ; Align ourselves to next bloon struct
@@ -202,6 +206,7 @@ draw_bloons PROC
       jmp draw_bloons_iter
 
    done_draw_bloons_iter:
+   pop si
    pop ds
    pop dx
    pop cx
