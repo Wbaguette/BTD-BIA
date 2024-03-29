@@ -4,7 +4,7 @@
 .data
 curr_round dw 0
 
-bloon_struc_size db 7
+bloon_struc_size db 8
 queue_head dw 0 ; Index of the top of the queue
 alive_bloons_head dw 0 ; Index of the top of the alive bloons list 
 
@@ -15,8 +15,8 @@ alive_bloons BLOON 50 DUP(<>)
 
 
 ; Bloon queues for rounds 
-r1_queue_length dw 3
-r1_queue BLOON <RED_BLOON, 0, 1, 0, 1>, <RED_BLOON, 0, 1, 1, 1>, <RED_BLOON, 0, 1, 2, 1>
+r1_queue_length dw 4
+r1_queue BLOON <RED_BLOON, 0, 1, 0, 1>, <RED_BLOON, 0, 1, 1, 1>, <RED_BLOON, 0, 1, 2, 1>, <RED_BLOON, 0, 2, 4, 1>
 
 
 
@@ -155,6 +155,12 @@ draw_bloons PROC
    push ds
    push si
 
+
+; only clear where we were and redraw if we need to move, otherwise do nothing
+; If we spawn in we only draw
+; assumes impossible to spawn and move in 1 frame
+; FIXME: Pathindex being 0, and the bloon not moving erases it
+
    mov ax, @data
    mov ds, ax
 
@@ -167,10 +173,26 @@ draw_bloons PROC
       
       cmp ds:[bx + BLOON.state], 0  ; Only go forward with this code if the bloon is alive
       jne continue_draw_bloons_iter
-       
+      
       ; if path index = 0, just draw, do not erase 
       cmp ds:[bx + BLOON.pathIndex], 0 
       je draw_bloon
+
+      ; Spawned in : moved = 0, pathIndex = 0
+
+      ; IF PATHINDEX = 0    (path idx = index on path after we all bloons moved, bloons that moved are marked with movedThisTick = 1)
+      ;     IF movedThisTick = 1
+      ;        - Draw 
+      ;     ELSE 
+      ;        - Don't do anything
+      ; ELSE (we are somewhere on the path not at beginning)
+      ;     IF movedThisTick = 1
+      ;        - Erase and Redraw
+      ;     ELSE 
+      ;        - Don't do anything
+
+
+
 
       ; Erase first
       xor dh, dh
@@ -187,6 +209,9 @@ draw_bloons PROC
 
       ; Draw the bloon 
       draw_bloon:
+      cmp ds:[bx + BLOON.movedThisTick], 0  
+      
+
       xor dh, dh
       xor si, si
       mov si, ds:[bx + BLOON.pathIndex]
@@ -269,14 +294,16 @@ move_alive_bloons PROC
 
       increment_pos: 
       inc ds:[bx + BLOON.pathIndex]
+      mov ds:[bx + BLOON.movedThisTick], 1  
 
       dont_move:
+      mov ds:[bx + BLOON.movedThisTick], 0 
       add bl, bloon_struc_size ; Align ourselves to next bloon struct
       dec ax
       jmp iter_alive
 
 
-   done_iter_alive :
+   done_iter_alive:
       mov cx, si   ; Return the amount of damage to player
 
       pop ds

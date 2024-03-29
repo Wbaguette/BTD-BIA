@@ -6,25 +6,6 @@ BLOON struc
     timeout dw 0; Number of frames since the beginning of round this bloon should spawn
           
     state db 1  ; 0 = alive, 1 = dead, 2 = completed
+    
+    movedThisTick db 0 ; 0 = no, 1 = yes       Did the bloon move this tick, this is important for sprite drawing
 BLOON ends
-
-
-; FIXME: probably won't need this code :D
-
-; .code
-; ; TODO Move a bloon to its next step along the path, if the end of path, delete (and lose a life)
-; ; Takes offset of bloon instance in BX
-; Step proc far
-;     ; First step is to erase the bloon sprite
-;     mov ds, ax
-;     mov cx, ds:[bx + BLOON.pathIndex]          ; Get the pathIndex
-;     mov dx, [PATH + bx]
-;     mov cx, ds:[bx + BLOON.level]
-;     call ShowSprite
-
-
-;     ; mov cx, red1.level
-
-;     inc ds:[bx + BLOON.pathIndex]
-;     ret
-; Step endp
