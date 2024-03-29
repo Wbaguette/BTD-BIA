@@ -11,9 +11,8 @@ include bloon.inc
 include round.inc
 
 .data 
-    frame_counter db 0
-
-    red1 BLOON <RED_BLOON, 0>
+    frame_counter dw 0
+    round_number dw 0 
 .code
 main PROC
     ; FIXME: Maybe add this ds pointing to data segment in setup macro
@@ -35,10 +34,21 @@ main PROC
         int 21h
 
         mov cx, frame_counter
-        call move_alive_bloons
+        call move_alive_bloons ; returns amount of damage to do to player in cx 
 
         mov cx, frame_counter
-        mov bx, 0
+        mov bx, round_number
+        call spawn_bloon
+
+        call draw_bloons
+
+        inc frame_counter
+
+        mov cx, frame_counter
+        call move_alive_bloons ; returns amount of damage to do to player in cx 
+
+        mov cx, frame_counter
+        mov bx, round_number
         call spawn_bloon
 
         call draw_bloons

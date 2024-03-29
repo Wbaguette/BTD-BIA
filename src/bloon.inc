@@ -8,20 +8,23 @@ BLOON struc
     state db 1  ; 0 = alive, 1 = dead, 2 = completed
 BLOON ends
 
-.code
-; TODO Move a bloon to its next step along the path, if the end of path, delete (and lose a life)
-; Takes offset of bloon instance in BX
-Step proc far
-    ; First step is to erase the bloon sprite
-    mov ds, ax
-    mov cx, ds:[bx + BLOON.pathIndex]          ; Get the pathIndex
-    mov dx, [PATH + bx]
-    mov cx, ds:[bx + BLOON.level]
-    call ShowSprite
+
+; FIXME: probably won't need this code :D
+
+; .code
+; ; TODO Move a bloon to its next step along the path, if the end of path, delete (and lose a life)
+; ; Takes offset of bloon instance in BX
+; Step proc far
+;     ; First step is to erase the bloon sprite
+;     mov ds, ax
+;     mov cx, ds:[bx + BLOON.pathIndex]          ; Get the pathIndex
+;     mov dx, [PATH + bx]
+;     mov cx, ds:[bx + BLOON.level]
+;     call ShowSprite
 
 
-    ; mov cx, red1.level
+;     ; mov cx, red1.level
 
-    inc ds:[bx + BLOON.pathIndex]
-    ret
-Step endp
+;     inc ds:[bx + BLOON.pathIndex]
+;     ret
+; Step endp

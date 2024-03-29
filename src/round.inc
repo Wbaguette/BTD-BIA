@@ -89,7 +89,7 @@ spawn_bloon PROC far
       dec ax 
       jmp iter
    
-   ; If we jump here it means that we need to spawn a bloon in this frame at path position 1
+   ; If we jump here it means that we need to spawn a bloon in this frame (at path position 0)
    need_to_spawn:
       sub di, ax ; (Length of the array) - (index of match) = Index to start at for next frame iteration
       inc di ; Add one or else you're off by one
@@ -123,7 +123,7 @@ spawn_bloon PROC far
       ; Time to copy some bytes over ! 
       add di, OFFSET alive_bloons ; DI now contains where we need to start copying to
       xor ax, ax          
-      copy_bytes:         ;  [04 00] [00] [01] [00 00] [01]   <RED_BLOON, 0, 1, 0, 1>
+      copy_bytes:         ;  [04 00] [00] [01] [00 00] [00]   <RED_BLOON, 0, 1, 0, 1>
          mov al, ds:[si]
          mov ds:[di], al
          inc si 
@@ -165,11 +165,31 @@ draw_bloons PROC
       cmp ds:[bx + BLOON.state], 0  ; Only go forward with this code if the bloon is alive
       jne continue_draw_bloons_iter
       
+
+      ; TODO: Clear the sprite and then draw again, 
+      ; by the time this is called the position of the sprite should be updated, so gunna have to - 1 on the path to clear 
+      ; Weird thing for spawning tho, 
+
+      ; if path index = 0, just draw, do not erase 
+      cmp ds:[bx + BLOON.pathIndex], 0 
+      je draw_bloon
+
+      ; Erase first
+      xor dh, dh
+      mov dl, ds:[bx + BLOON.pathIndex - 1]
+      shl dx, 1
+      add dx, [PATH]     
+      mov cx, ds:[bx + BLOON.level] 
+      call ShowSprite
+
+
+      ; Draw the bloon 
+      draw_bloon:
       xor dh, dh
       mov dl, ds:[bx + BLOON.pathIndex]
       shl dx, 1
-      add dx, [PATH]     ; this no worky
-      mov cx, ds:[bx + BLOON.level] ; this works
+      add dx, [PATH]     
+      mov cx, ds:[bx + BLOON.level] 
       call ShowSprite
 
       
@@ -179,11 +199,7 @@ draw_bloons PROC
       dec ax
       jmp draw_bloons_iter
 
-
-
-
    done_draw_bloons_iter:
-
    pop ds
    pop dx
    pop cx
@@ -232,8 +248,8 @@ move_alive_bloons PROC
       
       push ax 
       mov ax, cx 
-      div dx          ;  AX: Quotient,    DX: Remainder 
-      cmp dx, 0       ; If remainder = 0, then the bloon needs to move
+      div dl       ;  AL: Quotient,    AH: Remainder 
+      cmp ah, 0       ; If remainder = 0, then the bloon needs to move
       pop ax     
 
       jne dont_move ; Fall through if remainder = 0, so you have to move this bloon
