@@ -80,12 +80,13 @@ spawn_bloon PROC far
       je iter_done
       ; We need to extract the timeout value from each bloon
       add bx, 4 ; The timeouts are located 4 bytes into the struct
-      mov dx, ds:[bx] ; Get the timeout value 
+      mov dx, ds:[bx] ; Get the timeout value     ; TODO: replace this with + BLOON.timeout
       cmp dx, cx ; Is this timeout value equal to the frame number? 
       je need_to_spawn ; If same value then we need to spawn this bloon in this frame
 
 
       add bx, 2 ; Scan the "word", add 2 so that the next + 4 aligns properly into the next bloon struct
+      ; Remove above with add bl, bloon_struc_size      if TODO above is done
       dec ax 
       jmp iter
    
@@ -113,7 +114,7 @@ spawn_bloon PROC far
       mov di, ax ; Place yourself at where you actually need to start looking in alive bloons 
       xor ch, ch
       mov cl, bloon_struc_size ; 7 bytes to copy
-      sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary
+      sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary  ; TODO: remove this if above todo is done 
       mov si, bx ; SI contains start of bloon data we need to copy
 
       ; Before copying we must update the state 
@@ -176,7 +177,8 @@ draw_bloons PROC
 
       ; Erase first
       xor dh, dh
-      mov dl, ds:[bx + BLOON.pathIndex - 1]
+      mov dl, ds:[bx + BLOON.pathIndex]
+      dec dl 
       shl dx, 1
       add dx, [PATH]     
       mov cx, ds:[bx + BLOON.level] 
@@ -195,7 +197,7 @@ draw_bloons PROC
       
 
       continue_draw_bloons_iter:
-      add bx, bloon_struc_size ; Align ourselves to next bloon struct
+      add bl, bloon_struc_size ; Align ourselves to next bloon struct
       dec ax
       jmp draw_bloons_iter
 
@@ -264,7 +266,7 @@ move_alive_bloons PROC
       inc ds:[bx + BLOON.pathIndex]
 
       dont_move:
-      add bx, bloon_struc_size ; Align ourselves to next bloon struct
+      add bl, bloon_struc_size ; Align ourselves to next bloon struct
       dec ax
       jmp iter_alive
 

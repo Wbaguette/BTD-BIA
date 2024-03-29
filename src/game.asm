@@ -28,7 +28,7 @@ main PROC
     gameloop:
 	    xor dx, dx
         xor ax, ax
-        mov dl, frame_counter
+        mov dx, frame_counter
         add dl, '0'
         mov ah, 2
         int 21h
