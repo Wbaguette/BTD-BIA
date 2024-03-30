@@ -27,6 +27,7 @@ DrawMonkey proc far
         ret
 DrawMonkey endp
 
+; TODO: Bounds check
 ; draw the monkey's sightline relative to current chunk
 DrawRadius proc near
     ; chunks visible = range * 2 + 1 (range for either side + 1 for tile monkey is on)

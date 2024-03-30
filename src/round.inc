@@ -214,7 +214,7 @@ draw_bloons ENDP
 ; Expected register params:
 ;  CX : the current frame number
 ; RETURNS: 
-;  CX : Amount of damage to do to player 
+;  CX : Amount of damage to do to player
 move_alive_bloons PROC
    push ax
    push bx
@@ -277,3 +277,8 @@ move_alive_bloons PROC
       pop ax
       ret
 move_alive_bloons ENDP   
+
+IsRoundOver proc far
+
+   ret
+IsRoundOver endp
