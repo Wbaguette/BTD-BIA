@@ -3,7 +3,7 @@
     - [For every monkey, if the monkey can fire, go through every bloon and check if the distance falls within monkey's radius. If so, pop the bloon]
 - MONKEY ARRAY (HOLD EVERY MONKEY ON THE MAP (cap 10))
     - When a monkey is spawned, add it to this array. If the array is full, do not spawn any more monkeys.
-- LOSE LIFE
+- LOSE LIFE (visually showcased)
 - UPDATE MAP
 - UPDATE SPRITES 
     - LIVES REMAINING, NUMBER SPRITES, DIFFERENT BLOON LEVELS, GAME OVER SCREEN TILEMAP
