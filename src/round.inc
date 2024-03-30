@@ -1,10 +1,19 @@
 ; The include file for bloon mechanics implementation
-; Author: Jean-Pierre Derbes
+; Author: Jean-Pierre Derbes, Vincent Quintero
+
+BLOON struc
+    level dw 1 ; sprite corresponds to level, this is the sprite key
+    pathIndex db 0 ; an index corresponding to which element in the PATH this bloon is at
+    speed db 10 ; Number of frames (gameloops) it takes to move 1 chunk
+
+    timeout dw 0; Number of frames since the beginning of round this bloon should spawn
+          
+    state db 1  ; 0 = alive, 1 = dead, 2 = completed
+BLOON ends
 
 .data
 curr_round dw 0
-
-bloon_struc_size db 8
+bloon_struc_size db 7
 queue_head dw 0 ; Index of the top of the queue
 alive_bloons_head dw 0 ; Index of the top of the alive bloons list 
 
@@ -80,13 +89,12 @@ spawn_bloon PROC far
       je iter_done
       ; We need to extract the timeout value from each bloon
       add bx, 4 ; The timeouts are located 4 bytes into the struct
-      mov dx, ds:[bx] ; Get the timeout value     ; TODO: replace this with + BLOON.timeout
+      mov dx, ds:[bx] ; Get the timeout value    
       cmp dx, cx ; Is this timeout value equal to the frame number? 
       je need_to_spawn ; If same value then we need to spawn this bloon in this frame
 
 
       add bx, 2 ; Scan the "word", add 2 so that the next + 4 aligns properly into the next bloon struct
-      ; Remove above with add bl, bloon_struc_size      if TODO above is done
       dec ax 
       jmp iter
    
@@ -95,11 +103,6 @@ spawn_bloon PROC far
       sub di, ax ; (Length of the array) - (index of match) = Index to start at for next frame iteration
       inc di ; Add one or else you're off by one
       mov queue_head, di ; Add to the queue head           if those dont work then try 'add'        
-
-      ; FIXME: Potentially need to check if there is a bloon already here? 
-  
-
-      
 
       ; We need to mark this bloon as alive by changing its state and by copying it into the 
       ;  alive_bloons array
@@ -114,7 +117,7 @@ spawn_bloon PROC far
       mov di, ax ; Place yourself at where you actually need to start looking in alive bloons 
       xor ch, ch
       mov cl, bloon_struc_size ; 7 bytes to copy
-      sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary  ; TODO: remove this if above todo is done 
+      sub bx, 4 ; Sub 4 bytes to align back to beginning of struct boundary 
       mov si, bx ; SI contains start of bloon data we need to copy
 
       ; Before copying we must update the state 
@@ -174,44 +177,6 @@ draw_bloons PROC
       cmp ds:[bx + BLOON.state], 0  ; Only go forward with this code if the bloon is alive
       jne continue_draw_bloons_iter
       
-      ; if path index = 0, just draw, do not erase 
-      cmp ds:[bx + BLOON.pathIndex], 0 
-      je draw_bloon
-
-      ; Spawned in : moved = 0, pathIndex = 0
-
-      ; IF PATHINDEX = 0    (path idx = index on path after we all bloons moved, bloons that moved are marked with movedThisTick = 1)
-      ;     IF movedThisTick = 1
-      ;        - Draw 
-      ;     ELSE 
-      ;        - Don't do anything
-      ; ELSE (we are somewhere on the path not at beginning)
-      ;     IF movedThisTick = 1
-      ;        - Erase and Redraw
-      ;     ELSE 
-      ;        - Don't do anything
-
-
-
-
-      ; Erase first
-      xor dh, dh
-      xor si, si
-      mov si, ds:[bx + BLOON.pathIndex]  ; SI now has the path index of the bloon (remember the bloon has already moved)
-      and si, 0FFh
-      
-      dec si                           ; Decrement this index by one because the bloon has moved, we need to erase where it was before
-      shl si, 1                          ; Multiply this index by 2 to get the Offset from Path start (path is WORD)
-
-      mov dx, [PATH + si]
-      mov cx, ds:[bx + BLOON.level] 
-      call ShowSprite
-
-      ; Draw the bloon 
-      draw_bloon:
-      cmp ds:[bx + BLOON.movedThisTick], 0  
-      
-
       xor dh, dh
       xor si, si
       mov si, ds:[bx + BLOON.pathIndex]
@@ -222,8 +187,6 @@ draw_bloons PROC
       mov dx, [PATH + si]     
       mov cx, ds:[bx + BLOON.level] 
       call ShowSprite
-
-
 
       continue_draw_bloons_iter:
       add bl, bloon_struc_size ; Align ourselves to next bloon struct
@@ -294,10 +257,8 @@ move_alive_bloons PROC
 
       increment_pos: 
       inc ds:[bx + BLOON.pathIndex]
-      mov ds:[bx + BLOON.movedThisTick], 1  
 
       dont_move:
-      mov ds:[bx + BLOON.movedThisTick], 0 
       add bl, bloon_struc_size ; Align ourselves to next bloon struct
       dec ax
       jmp iter_alive

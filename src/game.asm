@@ -32,6 +32,8 @@ main PROC
         add dl, '0'
         mov ah, 2
         int 21h
+        
+        call draw_bloons  ; Clear bloons 
 
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
@@ -40,18 +42,7 @@ main PROC
         mov bx, round_number
         call spawn_bloon
 
-        call draw_bloons
-
-        ; inc frame_counter
-
-        ; mov cx, frame_counter
-        ; call move_alive_bloons ; returns amount of damage to do to player in cx 
-
-        ; mov cx, frame_counter
-        ; mov bx, round_number
-        ; call spawn_bloon
-
-        ; call draw_bloons
+        call draw_bloons    ; Draw where they should be 
 
 
     awaitkey: ; terminates program on key press
