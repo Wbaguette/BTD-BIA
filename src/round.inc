@@ -35,6 +35,16 @@ r1_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 
 queue_registry dw OFFSET r0_queue, OFFSET r1_queue
 
 .code
+; Code to reset values when the player dies. 
+; No need to reset the alive_bloons, the data will just be overwritten since alive_bloons_head will be 0. 
+reset_bloon_data PROC far
+   mov curr_round, 0 
+   mov queue_head, 0
+   mov alive_bloons_head, 0
+   ret
+reset_bloon_data ENDP
+
+
 ; Every frame check if we need to spawn a balloon 
 ; Expected register params:
 ;  CX : the current frame number
@@ -278,6 +288,7 @@ move_alive_bloons PROC
       ret
 move_alive_bloons ENDP   
 
+; Round is over if alive_bloons_head != 0 and all the bloons are not state 0 (alive)
 IsRoundOver proc far
 
    ret

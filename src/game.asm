@@ -20,7 +20,7 @@ include round.inc
     dart MONKEY <>
     frame_counter dw 0
     round_number dw 0
-    lives dw 40
+    lives dw 150
 
 .code
 main PROC
@@ -58,23 +58,25 @@ main PROC
 
         cmp lives, 0 
         jg player_not_dead_continue           ; fall through if the player is dead
-        call reset_bloon_data
         ; TODO: Put game over sprite
 
         ; Just gotta reset all the values back to what they were. 
         mov frame_counter, 0
         mov round_number, 0
-        mov lives, 40
+        mov lives, 150
         ; Reset bloon data
+        call reset_bloon_data
         
         ; Reset the background to black that way the sprites are redrawn correctly. 
         mov al, BLACK
-        mov cx, 63999
+        mov cx, 64000
         black_screen_loop:
             mov di, cx 
             mov es:[di], al
         loop black_screen_loop
         jmp game_start__    
+
+        
 
         
         player_not_dead_continue:
