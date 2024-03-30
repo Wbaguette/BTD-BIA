@@ -1,4 +1,8 @@
 ## TODOS
 
 ### Sprites 
-1. The first iteration of this module is done. 
+1. need showsprite xor and showsprite overwrite 
+
+
+
+### Bloons 

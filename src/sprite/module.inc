@@ -117,7 +117,7 @@ ShowSprite PROC far
 	push bx
 	push di
 	push si
-	; push ds     FIXME: Might need to push this actually as we will be using a different Data segment in main code
+	push ds   
 
 	
 	; Point DS to this data segment
@@ -220,7 +220,7 @@ ShowSprite PROC far
 	; CL = 0 means that we wrote all pixels : we are done. 
 
 	; Restore registers that were modified here to their original state before this function was called 
-	; push ds     FIXME: remember to pop this if we end up needing to push DS
+	pop ds
 	pop si
 	pop di
 	pop bx

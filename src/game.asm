@@ -7,24 +7,48 @@ include const.inc
 include cursor.inc
 include stage.inc
 include macros.inc
-include bloon.inc
+include round.inc
 
 .data 
-    red1 BLOON <RED_BLOON, 0>
+    frame_counter dw 0
+    round_number dw 0
 .code
 main PROC
-    setup ;set video mode 
+    ; FIXME: Maybe add this ds pointing to data segment in setup macro
+    mov ax, @data
+	mov ds, ax
+    setup ; Set video mode, move VRAM to ES
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
 
+
+
     gameloop:
-        xor bx, bx
-        mov bl, red1.pathIndex
-        lea dx, [PATH+bx]
-        mov cx, red1.level
-        call ShowSprite
-    
+        ; Frame counting code
+	    xor dx, dx
+        xor ax, ax
+        mov dx, frame_counter
+        add dl, '0'
+        mov ah, 2
+        int 21h
+        xor dx, dx    
+        mov  bh, 0        
+        mov  ah, 02h     
+        int  10h
+        
+        call draw_bloons  ; Clear bloons 
+
+        mov cx, frame_counter
+        call move_alive_bloons ; returns amount of damage to do to player in cx 
+
+        mov cx, frame_counter
+        mov bx, round_number
+        call spawn_bloon
+
+        call draw_bloons    ; Draw where they should be 
+
+
     awaitkey: ; terminates program on key press
         mov ah, 10h
         int 16h
@@ -47,20 +71,9 @@ main PROC
         jmp awaitkey ; space was not pressed
     
     continloon: 
-        xor bh, bh
-        mov bl, red1.pathIndex
-        lea dx, [PATH+bx]
-        mov cx, red1.level
-        ; call ShowSprite ; delete current bloon
-
-        add red1.pathIndex, 2 ; move bloon
-        ; mov ax, @data
-        ; mov ds, ax
-        ; mov bx, OFFSET red1
-
-        ; call Step ; move bloon to  next position
+        inc frame_counter
+        ; add frame_counter, 1
         jmp gameloop
-        ; jmp awaitkey
 
     placeBloon:
         call GetPos
