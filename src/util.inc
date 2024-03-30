@@ -6,6 +6,6 @@
 ; Returns 
 ; AL : Straight line distance between A and B (number)
 DistanceBetweenChunks proc far
-
+    ; SQRT((B-A)x^2 + (B-A)y^2)
     ret
 DistanceBetweenChunks endp
