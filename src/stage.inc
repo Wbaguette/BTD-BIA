@@ -23,10 +23,13 @@ PATH_LENGTH = ($ - PATH) / 2
 
 .code
 InitStage proc far
+    push dx
+
     mov dl, STAGE_BACKGROUND
     call DrawBackground
     call DrawPath
 
+    pop dx 
     ret
 InitStage endp
 
@@ -44,6 +47,6 @@ DrawPath proc near
         pop cx
         pop bx
         add bx, 2
-        loop dp
+    loop dp
     ret
 DrawPath endp
