@@ -7,5 +7,3 @@
 
 5. Monkey upgrades
 6. Monkey pop count
-
-Try moving sprites to external file
