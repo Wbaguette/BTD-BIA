@@ -1,3 +1,7 @@
+; Main game loop of our game :)
+; Authors: Jean-Pierre Derbes, Vincent Quintero
+
+
 .model small
 .stack 200h ; 512 bytes (book recommended it ¯\_(ツ)_/¯)
 ; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
@@ -16,6 +20,8 @@ include round.inc
     dart MONKEY <>
     frame_counter dw 0
     round_number dw 0
+    lives dw 40
+
 .code
 main PROC
     ; FIXME: Maybe add this ds pointing to data segment in setup macro
@@ -23,6 +29,7 @@ main PROC
 	mov ds, ax
     setup ; Set video mode, move VRAM to ES
 
+    start__:    ; I named it like this because I am afraid of how the assembler names things. 
     call ShowTitle; Title screen
 
     call InitStage ; onetime background initialization
@@ -34,19 +41,24 @@ main PROC
         ; Frame counting code
 	    xor dx, dx
         xor ax, ax
-        mov dx, frame_counter
+        mov dx, lives
         add dl, '0'
         mov ah, 2
         int 21h
         xor dx, dx    
-        mov  bh, 0        
-        mov  ah, 02h     
-        int  10h
+        mov bh, 0        
+        mov ah, 02h     
+        int 10h
         
         call draw_bloons  ; Clear bloons 
 
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
+        sub lives, cx 
+
+        cmp lives, 0 
+        jng start__    ; TODO: Put game over sprite
+
 
         mov cx, frame_counter
         mov bx, round_number
