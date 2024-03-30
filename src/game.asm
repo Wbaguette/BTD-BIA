@@ -7,12 +7,11 @@ include const.inc
 include cursor.inc
 include stage.inc
 include macros.inc
-include bloon.inc
 include round.inc
 
 .data 
     frame_counter dw 0
-    round_number dw 0 
+    round_number dw 0
 .code
 main PROC
     ; FIXME: Maybe add this ds pointing to data segment in setup macro
