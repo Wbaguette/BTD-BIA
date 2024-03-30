@@ -78,6 +78,11 @@ DrawChunk endp
 ; Set the entire visible background to a given color
 ; DL : Color
 DrawBackground proc far
+   push cx
+   push dx
+   push ax
+   push bx
+
    mov cx, TOTAL_CHUNKS
    mov color, dl ; save as dx is needed for chunk calcs
 
@@ -101,10 +106,17 @@ DrawBackground proc far
       call DrawChunk
       pop cx ; restore chunk iterator
       loop bgloop
+
+   pop bx 
+   pop ax
+   pop dx
+   pop cx 
    ret
 DrawBackground endp
 
-; TODO : Bounds checking
+; This function isn't being used anywhere, but we will keep it for later use if needed. 
+
+; TODO: Bounds checking
 ; Draws a rectangle with the area filled by DL, BX should be larger than AX
 ; AX : Chunk (X/Y) TL corner (origin)
 ; BX : Chunk (X/Y) BR corner (target)
