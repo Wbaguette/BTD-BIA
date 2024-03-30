@@ -15,5 +15,12 @@ DistanceBetweenChunks proc far
     ;TODO this needs to be abs value cause no guarantee B > A or vice versa
     sub ah, bh ; Lol I think this is literally it
     sub al, bl
+
+    js itsNegativeLol
+
+    itsNegativeLol:
+        neg ah
+        neg al
+        
     ret
 DistanceBetweenChunks endp
