@@ -7,6 +7,7 @@ include const.inc
 include cursor.inc
 include stage.inc
 include macros.inc
+
 include round.inc
 
 .data 
@@ -18,6 +19,8 @@ main PROC
     mov ax, @data
 	mov ds, ax
     setup ; Set video mode, move VRAM to ES
+
+    call ShowTitle; Title screen
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
@@ -66,25 +69,25 @@ main PROC
         je placeDart
         cmp al, 'b'
         je placeBloon 
-        cmp al, 'c'
-        je continloon
         jmp awaitkey ; space was not pressed
     
     continloon: 
         inc frame_counter
         ; add frame_counter, 1
         jmp gameloop
-
+        
     placeBloon:
         call GetPos
-        mov cl, RED_BLOON
+        mov cl, BLOON_RED
         call ShowSprite
         jmp awaitkey
 
     placeDart:
         call GetPos
-        mov cl, MONKEY
-        call ShowSprite
+        mov dart.chunk, dx ; place at cursor
+        mov bx, OFFSET dart ; pass the monkey we're creating as a param
+        mov dart.radius, 3 ; custom range yay
+        call DrawMonkey
         jmp awaitkey
 
     selectRight:

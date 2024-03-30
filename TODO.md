@@ -1,8 +1,9 @@
+## DOING
+3. Distance function between two chunks
+
 ## TODOS
+1. Cursor should highlight the monkey radius on hover only
+2. Cursor needs to know if its over a path
 
-### Sprites 
-1. need showsprite xor and showsprite overwrite 
-
-
-
-### Bloons 
+5. Monkey upgrades
+6. Monkey pop count
