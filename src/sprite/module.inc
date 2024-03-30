@@ -79,12 +79,12 @@ CURSOR_SPRITE db 8, 8
 			  
 BLOON_RED_SPRITE db 8, 8
              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-             db 00h, 00h, 028h, 028h, 028h, 028h, 00h, 00h
-             db 00h, 028h, 028h, 028h, 028h, 0fh, 028h, 00h
-             db 00h, 028h, 028h, 028h, 028h, 028h, 028h, 00h
-             db 00h, 028h, 028h, 028h, 028h, 028h, 028h, 00h
-             db 00h, 00h, 028h, 028h, 028h, 028h, 00h, 00h
-             db 00h, 00h, 00h, 028h, 028h, 00h, 00h, 00h
+             db 00h, 00h, 020h, 020h, 020h, 020h, 00h, 00h
+             db 00h, 020h, 020h, 020h, 020h, 0fh, 020h, 00h
+             db 00h, 020h, 020h, 020h, 020h, 020h, 020h, 00h
+             db 00h, 020h, 020h, 020h, 020h, 020h, 020h, 00h
+             db 00h, 00h, 020h, 020h, 020h, 020h, 00h, 00h
+             db 00h, 00h, 00h, 020h, 020h, 00h, 00h, 00h
              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
 
 MONKEY_DART_1_SPRITE db 8, 8
