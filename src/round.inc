@@ -25,10 +25,10 @@ alive_bloons BLOON 50 DUP(<>)
 
 ; Bloon queues for rounds 
 r0_queue_length dw 4
-r0_queue BLOON <RED_BLOON, 0, 1, 0, 1>, <RED_BLOON, 0, 1, 1, 1>, <RED_BLOON, 0, 1, 2, 1>, <RED_BLOON, 0, 5, 4, 1>
+r0_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 5, 4, 1>
 
 r1_queue_length dw 5
-r1_queue BLOON <RED_BLOON, 0, 1, 0, 1>, <RED_BLOON, 0, 1, 1, 1>, <RED_BLOON, 0, 1, 2, 1>, <RED_BLOON, 0, 2, 4, 1>, <RED_BLOON, 0, 1, 5, 1>
+r1_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 2, 4, 1>, <BLOON_RED, 0, 1, 5, 1>
 
 
 

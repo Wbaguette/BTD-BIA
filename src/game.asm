@@ -7,10 +7,13 @@ include const.inc
 include cursor.inc
 include stage.inc
 include macros.inc
+include monkey.inc
+include screens.inc
 
 include round.inc
 
 .data 
+    dart MONKEY <>
     frame_counter dw 0
     round_number dw 0
 .code
