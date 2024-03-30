@@ -72,6 +72,8 @@ main PROC
         je placeDart
         cmp al, 'b'
         je placeBloon 
+        cmp al, 'c'
+        je continloon
         jmp awaitkey ; space was not pressed
     
     continloon: 
