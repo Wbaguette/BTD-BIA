@@ -1,5 +1,5 @@
 ; The include file for bloon mechanics implementation
-; Author: Jean-Pierre Derbes, Vincent Quintero
+; Authors: Jean-Pierre Derbes, Vincent Quintero
 
 BLOON struc
     level dw 1 ; sprite corresponds to level, this is the sprite key
