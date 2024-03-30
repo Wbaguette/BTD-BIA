@@ -14,13 +14,20 @@
 DistanceBetweenChunks proc far
     ;TODO this needs to be abs value cause no guarantee B > A or vice versa
     sub ah, bh ; Lol I think this is literally it
-    sub al, bl
+    js NegativeX
+    jmp PositiveX
 
-    js itsNegativeLol
-
-    itsNegativeLol:
+    NegativeX:
         neg ah
+
+    PositiveX:
+    sub al, bl
+    js NegativeY
+    jmp DistanceDone
+
+    NegativeY:
         neg al
-        
+    
+    DistanceDone:
     ret
 DistanceBetweenChunks endp
