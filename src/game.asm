@@ -25,12 +25,17 @@ main PROC
 
 
     gameloop:
+        ; Frame counting code
 	    xor dx, dx
         xor ax, ax
         mov dx, frame_counter
         add dl, '0'
         mov ah, 2
         int 21h
+        xor dx, dx    
+        mov  bh, 0        
+        mov  ah, 02h     
+        int  10h
         
         call draw_bloons  ; Clear bloons 
 
