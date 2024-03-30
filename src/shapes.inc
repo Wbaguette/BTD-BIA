@@ -4,16 +4,15 @@
 ; Multiply Y by 320 to determine which row an element should draw at
 ; X is simply an offset from 0-319
 
+.data
+   color db 0
+.code 
 ; Draws a horizontal line on the screen, starting at BX
 ; and continuing to the right 1 chunk length (for 8 pixels total)
 ; DL : Color
 ; BX : Pixel (start)
-.data
-   color db 0
-.code 
 DrawHorizontalLine proc far 
    push cx
-   push bx
    xor cx, cx  ; zero out for loop
    mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
    
@@ -21,7 +20,6 @@ DrawHorizontalLine proc far
       mov es:[bx], dl
       inc bx
       loop draw_line
-   pop bx
    pop cx
    ret
 
@@ -32,6 +30,10 @@ DrawHorizontalLine endp
 ; AH : X (chunk)
 ; AL : Y (chunk)
 DrawChunk proc far
+   push bx
+   push cx
+   push dx
+
    xor bx, bx ; clear
    xor cx, cx ; clear
    mov ch, dl ; save color because dx gets reset on mul
@@ -59,9 +61,17 @@ DrawChunk proc far
    mov cx, CHUNK_SIZE   ; 8 pixels per chunk line
 
    draw_c:
+      ; mov ax, bx ; save original bx value
+      push bx
       call DrawHorizontalLine
+      pop bx
+      ; mov bx, ax ; restore original bx value
       add bx, X_PIXELS ; move start position to next row
       loop draw_c
+
+   pop dx
+   pop cx
+   pop bx
    ret 
 DrawChunk endp
 
@@ -95,36 +105,39 @@ DrawBackground proc far
 DrawBackground endp
 
 ; TODO : Bounds checking
-; Draws a rectangle with the area filled by DL
-; AX : Chunk (X/Y) TL corner
-; BX : Chunk (X/Y) BR corner
+; Draws a rectangle with the area filled by DL, BX should be larger than AX
+; AX : Chunk (X/Y) TL corner (origin)
+; BX : Chunk (X/Y) BR corner (target)
 ; DL : Color
+; Note that this is incredibly slow due to all the stack manipulation, up to 1ms for a SINGLE call
+; Note Note: I am lazy so [OriginX, TargetX] inclusive, [OriginY, TargetY) exlcusive
 DrawArea proc far
-   mov cl, bx ; target x to draw backwards from
-   push ax ; save origin
+   push cx
+   push dx
+   xor cx, cx
 
-   mov al, bl ; draw at target height
-   areaX:
-      mov ah, cl ; draw as we go along
-      call DrawChunk
-      loop areaX
+   ; save target -> origin counter
+   mov dh, bh ; target -> 0
+   sub dh, ah ; target -> origin x
 
-   pop ax
+   mov bh, ah ; save origin X, target X is useless after calculating dh
 
-   ; mov dh, ah ; store current x
+   area_filly:
+      mov cl, dh ; loop across x positions
 
-   ; areaY:
-   ;    push cx ; save y pos
+      area_fillx:
+         push ax
+         add ah, cl ; X
+         dec ah   ; -1 offset for zero-indexed chunk coords
+         call DrawChunk
+         pop ax
+         loop area_fillx
       
-   ;    mov cl, bh ; get target x pos
-   ;    areaX:
-   ;       inc ah ; x+1
-   ;       call DrawChunk
-   ;       loop areaX
+   inc al ; Move origin Y 1 row closer to target
+   cmp al, bl ; origin Y > target Y (NE because will skip last row)
+   jle area_filly
 
-   ;    pop cx
-   ;    mov ah, dh ; restore original x
-   ;    inc al ; y+1
-   ;    loop areaY
+   pop dx
+   pop cx
    ret
 DrawArea endp

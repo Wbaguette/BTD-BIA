@@ -9,13 +9,16 @@ include stage.inc
 include macros.inc
 include bloon.inc
 include monkey.inc
+include screens.inc
 
 .data 
-    red1 BLOON <RED_BLOON, 0>
+    red1 BLOON <BLOON_RED, 0>
     dart MONKEY <>
 .code
 main PROC
     setup ;set video mode 
+
+    call ShowTitle; Title screen
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
@@ -48,16 +51,15 @@ main PROC
     
     placeBloon:
         call GetPos
-        mov cl, RED_BLOON
+        mov cl, BLOON_RED
         call ShowSprite
         jmp awaitkey
 
     placeDart:
         call GetPos
         mov dart.chunk, dx ; place at cursor
-        inc dart.highlighted ; we want to show its range
         mov bx, OFFSET dart ; pass the monkey we're creating as a param
-        mov dart.range, 3 ; custom range yay
+        mov dart.radius, 3 ; custom range yay
         call DrawMonkey
         jmp awaitkey
 
