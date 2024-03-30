@@ -29,7 +29,7 @@ main PROC
 	mov ds, ax
     setup ; Set video mode, move VRAM to ES
 
-    start__:    ; I named it like this because I am afraid of how the assembler names things. 
+    game_start__:    ; I named it like this because I am afraid of how the assembler names things. 
     call ShowTitle; Title screen
 
     call InitStage ; onetime background initialization
@@ -41,7 +41,7 @@ main PROC
         ; Frame counting code
 	    xor dx, dx
         xor ax, ax
-        mov dx, lives
+        mov dx, frame_counter
         add dl, '0'
         mov ah, 2
         int 21h
@@ -57,9 +57,27 @@ main PROC
         sub lives, cx 
 
         cmp lives, 0 
-        jng start__    ; TODO: Put game over sprite
+        jg player_not_dead_continue           ; fall through if the player is dead
+        call reset_bloon_data
+        ; TODO: Put game over sprite
 
+        ; Just gotta reset all the values back to what they were. 
+        mov frame_counter, 0
+        mov round_number, 0
+        mov lives, 40
+        ; Reset bloon data
+        
+        ; Reset the background to black that way the sprites are redrawn correctly. 
+        mov al, BLACK
+        mov cx, 63999
+        black_screen_loop:
+            mov di, cx 
+            mov es:[di], al
+        loop black_screen_loop
+        jmp game_start__    
 
+        
+        player_not_dead_continue:
         mov cx, frame_counter
         mov bx, round_number
         call spawn_bloon
@@ -90,7 +108,6 @@ main PROC
     
     continloon: 
         inc frame_counter
-        ; add frame_counter, 1
         jmp gameloop
         
     placeBloon:
