@@ -12,10 +12,16 @@ selected db 0   ; the thing the cursor is hovering above
 .code
 ; Draw the cursor at screen origin
 DrawCursor proc far
+    push dx 
+    push cx
+
     mov dh, x ; Draw sprite at X chunk
 	mov dl, y ; Draw sprite at Y chunk
 	mov cx, CURSOR ; Sprite we want to draw, this maps to an index in the include file 
 	call ShowSprite
+
+    pop dx 
+    pop cx
     ret
 DrawCursor endp
 
