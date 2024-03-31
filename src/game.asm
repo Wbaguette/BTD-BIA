@@ -17,15 +17,11 @@ include util.inc
 include round.inc
 
 .data 
-    ; monkeys MONKEY 10 DUP(<?>)
     frame_counter dw 0
     round_number dw 0
     lives dw 150
 .code
 main PROC
-    ; FIXME: Maybe add this ds pointing to data segment in setup macro
-    mov ax, @data
-	mov ds, ax
     setup ; Set video mode, move VRAM to ES
 
     call ShowTitle; Title screen

@@ -18,11 +18,8 @@ MONKEY ends
     alive_monkies MONKEY 10 DUP(<>)
 
 
-.data?
-    monkey_struc_size db 12
-    alive_monkey_head dw 0
-    ; alive_monkies MONKEY <0A0Ah, 0, 0, 3, 1, 12, MONKEY_DART_1, 0, 0, 1> , 9 DUP(<>)
-    alive_monkies MONKEY 10 DUP(<>)
+; .data
+;     alive_monkeys MONKEY 10 DUP(<?>)
 
 .code
 
