@@ -47,7 +47,7 @@ main PROC
         mov bh, 0        
         mov ah, 02h     
         int 10h
-        
+     
         call draw_bloons  ; Clear bloons 
         call DrawMonkey
 
