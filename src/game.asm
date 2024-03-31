@@ -15,14 +15,15 @@ include monkey.inc
 include screens.inc
 include util.inc
 include round.inc
+include timer.inc
 
-.data 
+.data?
     frame_counter dw 0
     round_number dw 0
     lives dw 150
 .code
 main PROC
-    setup ; Set video mode, move VRAM to ES
+    setup ; Set video mode, move VRAM to ES, point DS to .data
 
     call ShowTitle; Title screen
 
@@ -64,16 +65,19 @@ main PROC
         call draw_bloons    ; Draw where they should be 
 
         ; Is the round over??? Here's some debug printing! (incompatible wiith frame counter)
-        xor ax, ax
-        xor dx, dx
-        call IsRoundOver
-        add dl, '0'
-        mov ah, 2
-        int 21h
+        ; xor ax, ax
+        ; xor dx, dx
+        ; call IsRoundOver
+        ; add dl, '0'
+        ; mov ah, 2
+        ; int 21h
 
-        cmp dl, 0 ; Is the round over?
-        jne awaitkey ; The round is over
+        ; cmp dl, 0 ; Is the round over?
+        ; jne awaitkey ; The round is over
         inc frame_counter ; new frame and start again! the game  goes on
+
+        call Sleep
+
         jmp gameloop
 
     awaitkey: ; terminates program on key press
