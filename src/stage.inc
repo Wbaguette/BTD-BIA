@@ -47,6 +47,6 @@ DrawPath proc near
         pop cx
         pop bx
         add bx, 2
-    loop dp
+        loop dp
     ret
 DrawPath endp

@@ -11,7 +11,7 @@ BLOON struc
     state db 1  ; 0 = alive, 1 = dead, 2 = completed
 BLOON ends
 
-.data
+.data?
 curr_round dw 0
 bloon_struc_size db 7
 queue_head dw 0 ; Index of the top of the queue

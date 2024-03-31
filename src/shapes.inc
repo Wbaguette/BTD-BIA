@@ -78,11 +78,6 @@ DrawChunk endp
 ; Set the entire visible background to a given color
 ; DL : Color
 DrawBackground proc far
-   push cx
-   push dx
-   push ax
-   push bx
-
    mov cx, TOTAL_CHUNKS
    mov color, dl ; save as dx is needed for chunk calcs
 
@@ -106,11 +101,6 @@ DrawBackground proc far
       call DrawChunk
       pop cx ; restore chunk iterator
       loop bgloop
-
-   pop bx 
-   pop ax
-   pop dx
-   pop cx 
    ret
 DrawBackground endp
 

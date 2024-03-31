@@ -13,7 +13,7 @@ include stage.inc
 include macros.inc
 include monkey.inc
 include screens.inc
-
+include util.inc
 include round.inc
 
 .data 
@@ -49,6 +49,7 @@ main PROC
         int 10h
         
         call draw_bloons  ; Clear bloons 
+        call DrawMonkey
 
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
@@ -69,7 +70,10 @@ main PROC
         mov bx, round_number
         call spawn_bloon
 
-        call draw_bloons    ; Draw where they should be 
+        call draw_bloons   ; Draw where they should be 
+        ; call DrawMonkey
+
+
 
 
     awaitkey: ; terminates program on key press
@@ -105,11 +109,13 @@ main PROC
 
     placeDart:
         call GetPos
-        mov dart.chunk, dx ; place at cursor
-        mov bx, OFFSET dart ; pass the monkey we're creating as a param
-        mov dart.radius, 3 ; custom range yay
-        call DrawMonkey
-        jmp awaitkey
+        ; mov dart.chunk, dx ; place at cursor
+        ; mov bx, OFFSET dart ; pass the monkey we're creating as a param
+        ; mov dart.radius, 3 ; custom range yay
+        mov ax, dx 
+        call PlaceMonkey
+        
+        jmp gameloop
 
     selectRight:
         call MoveRight
