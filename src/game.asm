@@ -47,9 +47,8 @@ main PROC
         mov bh, 0        
         mov ah, 02h     
         int 10h
-     
+        
         call draw_bloons  ; Clear bloons 
-        call DrawMonkey
 
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
@@ -114,8 +113,10 @@ main PROC
         ; mov dart.radius, 3 ; custom range yay
         mov ax, dx 
         call PlaceMonkey
+        call DrawMonkey
+
         
-        jmp gameloop
+        jmp continloon
 
     selectRight:
         call MoveRight
