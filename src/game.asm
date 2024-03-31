@@ -17,7 +17,7 @@ include screens.inc
 include round.inc
 
 .data 
-    dart MONKEY <>
+    ; monkeys MONKEY 10 DUP(<?>)
     frame_counter dw 0
     round_number dw 0
     lives dw 150
@@ -34,8 +34,6 @@ main PROC
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
-
-
 
     gameloop:
         ; Frame counting code
@@ -58,26 +56,10 @@ main PROC
 
         cmp lives, 0 
         jg player_not_dead_continue           ; fall through if the player is dead
+        
         ; TODO: Put game over sprite
-
-        ; Just gotta reset all the values back to what they were. 
-        mov frame_counter, 0
-        mov round_number, 0
-        mov lives, 150
-        ; Reset bloon data
-        call reset_bloon_data
-        
-        ; Reset the background to black that way the sprites are redrawn correctly. 
-        mov al, BLACK
-        mov cx, 64000
-        black_screen_loop:
-            mov di, cx 
-            mov es:[di], al
-        loop black_screen_loop
-        jmp game_start__    
-
-        
-
+        ;call GameOverScreen ; This will also handle exiting the game 
+        jmp ex ; Exit game on loss, good enough for now
 
         player_not_dead_continue:
         mov cx, frame_counter
@@ -119,11 +101,11 @@ main PROC
         jmp awaitkey
 
     placeDart:
-        call GetPos
-        mov dart.chunk, dx ; place at cursor
-        mov bx, OFFSET dart ; pass the monkey we're creating as a param
-        mov dart.radius, 3 ; custom range yay
-        call DrawMonkey
+        ; call GetPos
+        ; mov dart.chunk, dx ; place at cursor
+        ; mov bx, OFFSET dart ; pass the monkey we're creating as a param
+        ; mov dart.radius, 3 ; custom range yay
+        ; call DrawMonkey
         jmp awaitkey
 
     selectRight:

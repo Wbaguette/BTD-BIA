@@ -10,6 +10,9 @@ MONKEY struc
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
 MONKEY ends
 
+.data
+    monkeys MONKEY 10 DUP(<?>)
+
 .code
 ; overwrites cl
 ; BX : Monkey instance
