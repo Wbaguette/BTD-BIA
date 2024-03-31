@@ -5,8 +5,6 @@
 
 include ../macros.inc
 include module.inc
-
-.data
  
 .code
 main PROC

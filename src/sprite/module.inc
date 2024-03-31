@@ -1,7 +1,7 @@
 ; The include file for sprite drawing implementation
 ; Author: Jean-Pierre Derbes
 
-.data
+.data?
 ; FORMAT : First two bytes are WIDTH, HEIGHT of the Sprite, respectively 
 
 ; Directions: Once you have ran the LUA script in Aseprite and have the .txt file, 
