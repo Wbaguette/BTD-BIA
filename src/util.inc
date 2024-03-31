@@ -31,3 +31,22 @@ DistanceBetweenChunks proc far
     DistanceDone:
     ret
 DistanceBetweenChunks endp
+
+; INT 15h / AH = 86h - BIOS wait function. 
+; CX:DX = interval in microseconds
+Sleep proc far 
+   push ax
+   push cx
+   push dx
+   xor ax, ax
+
+   mov ah, 86h
+   mov cx, 3
+   mov dx, 3
+   int 15h
+
+   pop dx
+   pop cx 
+   pop ax
+   ret
+Sleep endp
