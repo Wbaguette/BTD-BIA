@@ -17,7 +17,7 @@ include util.inc
 include round.inc
 
 .data 
-    dart MONKEY <>
+    ; monkeys MONKEY 10 DUP(<?>)
     frame_counter dw 0
     round_number dw 0
     lives dw 150
@@ -33,47 +33,52 @@ main PROC
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
 
-
-
     gameloop:
         ; Frame counting code
-	    xor dx, dx
-        xor ax, ax
-        mov dx, frame_counter
-        add dl, '0'
-        mov ah, 2
-        int 21h
-        xor dx, dx    
-        mov bh, 0        
-        mov ah, 02h     
-        int 10h
+	    ; xor dx, dx
+        ; xor ax, ax
+        ; mov dx, frame_counter
+        ; add dl, '0'
+        ; mov ah, 2
+        ; int 21h
+        ; xor dx, dx    
+        ; mov bh, 0        
+        ; mov ah, 02h     
+        ; int 10h
         
         call draw_bloons  ; Clear bloons 
 
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
-        sub lives, cx 
+        sub lives, 1 
 
         cmp lives, 0 
-        jg player_not_dead_continue           ; fall through if the player is dead
-        ; TODO: Put game over sprite
-
-        jmp ex
-    
-
+        jg continueGame           ; fall through if the player is dead
         
+        ; TODO: Put game over sprite
+        ;call GameOverScreen ; This will also handle exiting the game 
+        ; jmp ex ; Exit game on loss, good enough for now
+        jmp awaitkey
 
-
-        player_not_dead_continue:
+        continueGame:
         mov cx, frame_counter
         mov bx, round_number
         call spawn_bloon
 
-        call draw_bloons   ; Draw where they should be 
-        ; call DrawMonkey
+        call draw_bloons    ; Draw where they should be 
 
+        ; Is the round over??? Here's some debug printing! (incompatible wiith frame counter)
+        xor ax, ax
+        xor dx, dx
+        call IsRoundOver
+        add dl, '0'
+        mov ah, 2
+        int 21h
 
-
+        cmp dl, 0 ; Is the round over?
+        jne awaitkey ; The round is over
+        inc frame_counter ; new frame and start again! the game  goes on
+        jmp gameloop
 
     awaitkey: ; terminates program on key press
         mov ah, 10h
@@ -107,16 +112,12 @@ main PROC
         jmp awaitkey
 
     placeDart:
-        call GetPos
+        ; call GetPos
         ; mov dart.chunk, dx ; place at cursor
         ; mov bx, OFFSET dart ; pass the monkey we're creating as a param
         ; mov dart.radius, 3 ; custom range yay
-        mov ax, dx 
-        call PlaceMonkey
-        call DrawMonkey
-
-        
-        jmp continloon
+        ; call DrawMonkey
+        jmp awaitkey
 
     selectRight:
         call MoveRight

@@ -25,7 +25,7 @@ alive_bloons BLOON 50 DUP(<>)
 
 ; Bloon queues for rounds 
 r0_queue_length dw 4
-r0_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 5, 4, 1>
+r0_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>;, <BLOON_RED, 0, 5, 4, 1>
 
 r1_queue_length dw 5
 r1_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 2, 4, 1>, <BLOON_RED, 0, 1, 5, 1>
@@ -279,7 +279,39 @@ move_alive_bloons PROC
 move_alive_bloons ENDP   
 
 ; Round is over if alive_bloons_head != 0 and all the bloons are not state 0 (alive)
+; Returns:
+; DL : Boolean (0 for ongoing round, 1 for round over)
 IsRoundOver proc far
+   push ax
+   push bx
 
+   mov ax, @data
+   mov ds, ax
+
+   mov ax, alive_bloons_head ; How many things to iterate
+   mov bx, OFFSET alive_bloons ; BX points to beginning of alive_bloons 
+
+   cmp alive_bloons_head, 0
+   je BloonsStillAlive ; The round cannot be over, the head points to another possible bloon
+
+   xor dl, dl ; Assume round is ongoing
+   IsRoundOverIter:
+      cmp ax, 0
+      je IsRoundOverDone 
+      
+      cmp ds:[bx + BLOON.state], 0  ; Is the bloon alive (state=0)?
+      je BloonsStillAlive ; Round cannot be over, at least one bloon is still on the screen
+
+      ; No living bloon found so far, check next
+      add bl, bloon_struc_size ; Align ourselves to next bloon struct
+      dec ax
+      jmp IsRoundOverIter
+
+      IsRoundOverDone: 
+      inc dl ; Set return value to "True", fall through to return
+
+      BloonsStillAlive: ; Return "False" by falling through
+   pop bx
+   pop ax
    ret
 IsRoundOver endp
