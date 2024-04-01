@@ -7,7 +7,7 @@
       # You can put your MOUNT lines here.
       MOUNT C "AbsolutePath/To/Where/The/Project/Is"
       C:
-      set PATH=%PATH%; C:\8086\
+      set PATH=%PATH%;C:\8086\
       cd src
    ```
    <br>
