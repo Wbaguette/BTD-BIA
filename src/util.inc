@@ -50,3 +50,21 @@ Sleep proc far
    pop ax
    ret
 Sleep endp
+
+SleepMore proc far
+   push ax
+   push cx
+   push dx
+   xor ax, ax
+
+   mov ah, 86h
+   mov cx, 0088h
+   mov dx, 0000h
+   int 15h
+
+   pop dx
+   pop cx 
+   pop ax
+   ret
+SleepMore endp
+
