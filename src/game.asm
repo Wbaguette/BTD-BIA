@@ -25,8 +25,8 @@ main PROC
     setup ; Set video mode, move VRAM to ES, point DS to .data
 
     mov frame_counter, 0 
-    mov round_number, 1
-    mov lives, 150
+    mov round_number, 0
+    mov lives, 3  ; Change to some higher number later 
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
@@ -88,7 +88,8 @@ main PROC
         
     placeMky:
         call GetPos
-        call DrawMonkey
+        mov ax, dx
+        call PlaceMonkey
         jmp awaitkey
 
     selectRight:
