@@ -13,7 +13,7 @@ include macros.inc
 include monkey.inc
 include util.inc
 include round.inc
-include gameover.inc
+
 
 .data?
     frame_counter dw ?
@@ -44,8 +44,7 @@ main PROC
 
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
-        ; FIXME: Put game over sprite if we manage to get the data segment down
-        jmp ex ; Exit game on loss, good enough for now
+        exit_err ; Exit game on loss, good enough for now
 
         continueGame:
         mov cx, frame_counter
@@ -109,6 +108,6 @@ main PROC
         jmp awaitkey
 
     ex: ; terminates program
-        exit
+        exit           ; Normal exit, just exits 
 main ENDP
 END main 

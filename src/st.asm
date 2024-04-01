@@ -2,8 +2,7 @@
 ; Authors: Jean-Pierre Derbes, Vincent Quintero
 
 .model small
-.stack 200h ; 512 bytes (book recommended it ¯\_(ツ)_/¯)
-; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
+.stack 200h
 
 include macros.inc 
 include const.inc
