@@ -94,15 +94,15 @@ BLOON_BLUE_SPRITE db 8, 8
              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
 
 MONKEY_DART_1_SPRITE db 8, 8
-              db 00h, 00h, 00h, 00h, 00h, 0b9h, 00h, 00h
-              db 00h, 00h, 00h, 0b9h, 0b9h, 00h, 00h, 00h
-              db 00h, 00h, 0b9h, 0b9h, 0b9h, 0b9h, 00h, 00h
-              db 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h
-              db 06h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 0b9h, 06h
-              db 00h, 06h, 010h, 06h, 06h, 010h, 06h, 00h
-              db 00h, 00h, 06h, 06h, 06h, 06h, 00h, 00h
+              db 00h, 00h, 00h, 00h, 00h, 0bbh, 00h, 00h
+              db 00h, 00h, 00h, 0bbh, 0bbh, 00h, 00h, 00h
+              db 00h, 00h, 0bbh, 0bbh, 0bbh, 0bbh, 00h, 00h
+              db 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh
+              db 04h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 04h
+              db 00h, 04h, 012h, 04h, 04h, 012h, 04h, 00h
+              db 00h, 00h, 04h, 04h, 04h, 04h, 00h, 00h
               db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-
+			  
 .code
 ; XORs the sprite bitmap with whatever was there before, meaning that we can easily restore the background, by XORing again
 ; Careful: Showing the sprite (calling this function) to the same position twice will REMOVE it

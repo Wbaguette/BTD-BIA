@@ -19,7 +19,7 @@ MONKEY ends
 
 .code
 
-; Places a monkey on AX (AH: X      AL: Y)
+; Places a monkey on AX (AH: X      AL: Y), and draws it
 PlaceMonkey proc far
     push bx 
     push ds
