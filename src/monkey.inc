@@ -36,27 +36,39 @@ PlaceMonkey proc far
     cmp alive_monkey_head, 10 ; If we have 10 monkeys, we can't place anymore
     je finish_place_monkey
 
-    ; Check if a monkey exists here already
+    ; Check if a monkey exists at AX already
     mov bx, OFFSET alive_monkeys
     mov cx, alive_monkey_head
     check_monkey_already_there:
-        cmp ds:[bx + MONKEY.chunk], ax
-        je finish_place_monkey
+        cmp ds:[bx + MONKEY.chunk], ax  ; if there's a monkey on this chunk, we cannot place a new one on top: exit the proc 
+        je finish_place_monkey          ; Fall through if the monkeys' positions are not conflicting 
 
-        cmp ds:[bx + MONKEY.deployed], 1
-        je continue_mky_checks
+        cmp ds:[bx + MONKEY.deployed], 1 ; if the monkey instance we are looking at is deployed, we cannot write a new monkey in this slot 
+        je continue_mky_checks           ; Fall through if we are able to write new monkey data here
 
-        mov ds:[bx + MONKEY.chunk], ax
-        mov ds:[bx + MONKEY.deployed], 1
-        inc alive_monkey_head 
+        ; FIXME: Need to jump to bx  +    monkey_struc_size * alive_monkey_head
 
+        push ax
+        mov ax, alive_monkey_head
+        xor dh, dh
+        mov dl, monkey_struc_size
+        mul dl
+
+        add bx, ax   ; Place yourself at where you actually need to start looking 
+        pop ax
+
+        mov ds:[bx + MONKEY.chunk], ax    ; Write monkey's chunk position
+        mov ds:[bx + MONKEY.deployed], 1  ; Deploy the monkey to the front lines. Godspeed soldier o7 
+        inc alive_monkey_head             ; We wrote new monkey data, so increase this pointer
+
+        ; Now we gotta draw the monkey 
         mov dx, ds:[bx + MONKEY.chunk] ; get instance's chunk
         mov cl, ds:[bx + MONKEY.sprite] ; get sprite 
         call ShowSprite
 
-        jmp finish_place_monkey
+        jmp finish_place_monkey ; Don't bother iterating more
 
-    continue_mky_checks:
+        continue_mky_checks:
         add bl, monkey_struc_size
     loop check_monkey_already_there
 
