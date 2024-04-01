@@ -5,24 +5,29 @@ BLOON struc
     level dw 1 ; sprite corresponds to level, this is the sprite key
     pathIndex db 0 ; an index corresponding to which element in the PATH this bloon is at
     speed db 10 ; Number of frames (gameloops) it takes to move 1 chunk
-
     timeout dw 0; Number of frames since the beginning of round this bloon should spawn
           
+    dmg dw 0 ; Damage it does to player 
     state db 1  ; 0 = alive, 1 = dead, 2 = completed
 BLOON ends
 
+; Blue Bloons should be initialized as such <BLOON_BLUE, 0, 1, TIMEOUT, 2, 1>
+; Red Bloons should be initialized as such <BLOON_RED, 0, 2, TIMEOUT, 1, 1>
+
+
+
 .data?
 curr_round dw 0
-bloon_struc_size db 7
+bloon_struc_size db 9
 queue_head dw 0 ; Index of the top of the queue
 alive_bloons_head dw 0 ; Index of the top of the alive bloons list 
 alive_bloons BLOON 25 DUP(<>)
 ; Bloon queues for rounds 
 r0_queue_length dw 3
-r0_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 1, 4, 1>;, <BLOON_RED, 0, 5, 4, 1>
+r0_queue BLOON <BLOON_RED, 0, 2, 0, 1, 1>, <BLOON_RED, 0, 2, 4, 1, 1>, <BLOON_RED, 0, 2, 8, 1, 1>
 
 r1_queue_length dw 5
-r1_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 1, 4, 1>, <BLOON_RED, 0, 2, 6, 1>, <BLOON_RED, 0, 1, 8, 1>
+r1_queue BLOON <BLOON_RED, 0, 2, 0, 1, 1>, <BLOON_RED, 0, 2, 4, 1, 1>, <BLOON_RED, 0, 2, 8, 1, 1>, <BLOON_BLUE, 0, 1, 10, 2, 1>, <BLOON_BLUE, 0, 1, 12, 2, 1>
 
 
 
@@ -155,12 +160,6 @@ draw_bloons PROC
    push ds
    push si
 
-
-; only clear where we were and redraw if we need to move, otherwise do nothing
-; If we spawn in we only draw
-; assumes impossible to spawn and move in 1 frame
-; FIXME: Pathindex being 0, and the bloon not moving erases it
-
    mov ax, @data
    mov ds, ax
 
@@ -249,7 +248,7 @@ move_alive_bloons PROC
 
       jne increment_pos ; Fall through if we are on the last tile 
       mov ds:[bx + BLOON.state], 2 ; Make the sprite's state "completed"
-      add si, ds:[bx + BLOON.level] ; Add damage to user 
+      add si, ds:[bx + BLOON.dmg] ; Add damage to user 
       jmp dont_move
 
       increment_pos: 
