@@ -1,0 +1,3 @@
+C:/aseprite/build/_deps/clone_strings-subbuild/CMakeFiles/clone_strings-populate.dir
+C:/aseprite/build/_deps/clone_strings-subbuild/CMakeFiles/edit_cache.dir
+C:/aseprite/build/_deps/clone_strings-subbuild/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,15 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=git
+command=C:/mingw64/bin/cmake.exe;-P;C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/tmp/clone_strings-populate-gitclone.cmake
+source_dir=C:/aseprite/build/bin/data/strings.git
+work_dir=C:/aseprite/build/bin/data
+repository=https://github.com/aseprite/strings.git
+remote=origin
+init_submodules=TRUE
+recurse_submodules=--recursive
+submodules=
+CMP0097=NEW
+

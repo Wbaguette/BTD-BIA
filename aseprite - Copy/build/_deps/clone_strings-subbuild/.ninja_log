@@ -1,0 +1,21 @@
+# ninja log v5
+1	47	7316213398114107	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-mkdir	35470fbda9542f07
+1	47	7316213398114107	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-mkdir	35470fbda9542f07
+47	1389	7316213411536398	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-download	4518d35c3e0a3df7
+47	1389	7316213411536398	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-download	4518d35c3e0a3df7
+1389	2267	0	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-update	ec49a1f0bac4fa84
+1389	2267	0	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-update	ec49a1f0bac4fa84
+2267	2308	7316213420727648	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-patch	4a0670f63cf13c37
+2267	2308	7316213420727648	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-patch	4a0670f63cf13c37
+2308	2349	7316213421137636	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-configure	11992de2fdf4874
+2308	2349	7316213421137636	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-configure	11992de2fdf4874
+2349	2389	7316213421542650	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-build	9add12c0e216f3de
+2349	2389	7316213421542650	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-build	9add12c0e216f3de
+2389	2430	7316213421947649	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-install	63d1cdfcc895d028
+2389	2430	7316213421947649	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-install	63d1cdfcc895d028
+2430	2471	7316213422357653	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-test	5f2edd2d746a0b67
+2430	2471	7316213422357653	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-test	5f2edd2d746a0b67
+2471	2527	7316213422928000	CMakeFiles/clone_strings-populate-complete	679d83d007a9e01
+2471	2527	7316213422928000	clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-done	679d83d007a9e01
+2471	2527	7316213422928000	C:/aseprite/build/_deps/clone_strings-subbuild/CMakeFiles/clone_strings-populate-complete	679d83d007a9e01
+2471	2527	7316213422928000	C:/aseprite/build/_deps/clone_strings-subbuild/clone_strings-populate-prefix/src/clone_strings-populate-stamp/clone_strings-populate-done	679d83d007a9e01
