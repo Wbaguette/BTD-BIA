@@ -12,14 +12,10 @@ MONKEY struc
 MONKEY ends
 
 .data?
-    monkey_struc_size db 12
+    monkey_struc_size db 12 
     alive_monkey_head dw 0
-    ; alive_monkies MONKEY <0A0Ah, 0, 0, 3, 1, 12, MONKEY_DART_1, 0, 0, 1> , 9 DUP(<>)
-    alive_monkies MONKEY 10 DUP(<>)
-
-
-; .data
-;     alive_monkeys MONKEY 10 DUP(<?>)
+    ; alive_monkeys MONKEY <0A0Ah, 0, 0, 3, 1, 12, MONKEY_DART_1, 0, 0, 1> , 9 DUP(<>)
+    alive_monkeys MONKEY 10 DUP(<>)
 
 .code
 
@@ -27,6 +23,9 @@ MONKEY ends
 PlaceMonkey proc far
     push bx 
     push ds
+    push dx 
+    push cx 
+    xor cx, cx
     xor bx, bx 
 
     push ax
@@ -38,7 +37,7 @@ PlaceMonkey proc far
     je finish_place_monkey
 
     ; Check if a monkey exists here already
-    mov bx, OFFSET alive_monkies
+    mov bx, OFFSET alive_monkeys
     mov cx, alive_monkey_head
     check_monkey_already_there:
         cmp ds:[bx + MONKEY.chunk], ax
@@ -50,6 +49,11 @@ PlaceMonkey proc far
         mov ds:[bx + MONKEY.chunk], ax
         mov ds:[bx + MONKEY.deployed], 1
         inc alive_monkey_head 
+
+        mov dx, ds:[bx + MONKEY.chunk] ; get instance's chunk
+        mov cl, ds:[bx + MONKEY.sprite] ; get sprite 
+        call ShowSprite
+
         jmp finish_place_monkey
 
     continue_mky_checks:
@@ -57,13 +61,15 @@ PlaceMonkey proc far
     loop check_monkey_already_there
 
     finish_place_monkey:
+    pop cx
+    pop dx
     pop ds
     pop bx 
     ret
 PlaceMonkey endp
 
 
-; Iterates through alive monkies and draws them at their position
+; Iterates through alive monkeys and draws them at their position
 DrawMonkey proc far
     push bx 
     push ax
@@ -74,11 +80,11 @@ DrawMonkey proc far
     mov ds, ax
     
     xor cx, cx
-    mov bx, OFFSET alive_monkies
+    mov bx, OFFSET alive_monkeys
     mov ax, alive_monkey_head
-    draw_monkies_loop:
+    draw_monkeys_loop:
         cmp ax, 0
-        je draw_monkies_loop_done
+        je draw_monkeys_loop_done
 
         cmp ds:[bx + MONKEY.deployed], 1
         jne dont_draw_monkey
@@ -90,10 +96,10 @@ DrawMonkey proc far
         dont_draw_monkey:
         add bl, monkey_struc_size
         dec ax
-        jmp draw_monkies_loop
+        jmp draw_monkeys_loop
 
 
-    draw_monkies_loop_done:
+    draw_monkeys_loop_done:
     pop ds
     pop cx 
     pop ax

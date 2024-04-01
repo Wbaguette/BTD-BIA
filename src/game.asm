@@ -1,7 +1,6 @@
 ; Main game loop of our game :)
 ; Authors: Jean-Pierre Derbes, Vincent Quintero
 
-
 .model small
 .stack 200h ; 512 bytes (book recommended it ¯\_(ツ)_/¯)
 ; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
@@ -12,50 +11,41 @@ include cursor.inc
 include stage.inc
 include macros.inc
 include monkey.inc
-include screens.inc
 include util.inc
 include round.inc
-include timer.inc
+include gameover.inc
 
 .data?
-    frame_counter dw 0
-    round_number dw 0
-    lives dw 150
+    frame_counter dw ?
+    round_number dw ?
+    lives dw ?
+
 .code
 main PROC
     setup ; Set video mode, move VRAM to ES, point DS to .data
 
-    call ShowTitle; Title screen
+    mov frame_counter, 0 
+    mov round_number, 1
+    mov lives, 150
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
 
-    gameloop:
-        ; Frame counting code
-	    ; xor dx, dx
-        ; xor ax, ax
-        ; mov dx, frame_counter
-        ; add dl, '0'
-        ; mov ah, 2
-        ; int 21h
-        ; xor dx, dx    
-        ; mov bh, 0        
-        ; mov ah, 02h     
-        ; int 10h
-        
+    start_round:
+    jmp awaitkey
+    game_started:
+
+    gameloop:        
         call draw_bloons  ; Clear bloons 
 
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
-        sub lives, 1 
+        sub lives, cx
 
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
-        
-        ; TODO: Put game over sprite
-        ;call GameOverScreen ; This will also handle exiting the game 
-        ; jmp ex ; Exit game on loss, good enough for now
-        jmp awaitkey
+        ; FIXME: Put game over sprite if we manage to get the data segment down
+        jmp ex ; Exit game on loss, good enough for now
 
         continueGame:
         mov cx, frame_counter
@@ -75,9 +65,7 @@ main PROC
         ; cmp dl, 0 ; Is the round over?
         ; jne awaitkey ; The round is over
         inc frame_counter ; new frame and start again! the game  goes on
-
         call Sleep
-
         jmp gameloop
 
     awaitkey: ; terminates program on key press
@@ -93,30 +81,15 @@ main PROC
         je selectUp
         cmp al, 's'
         je selectDown
-        cmp al, '1'
-        je placeDart
-        cmp al, 'b'
-        je placeBloon 
-        cmp al, 'c'
-        je continloon
+        cmp al, '1'       ; Press 1 when you want to place down a monkey!
+        je placeMky       
+        cmp al, 'c'       ; Press C when you want to start the game
+        je game_started
         jmp awaitkey ; space was not pressed
-    
-    continloon: 
-        inc frame_counter
-        jmp gameloop
         
-    placeBloon:
+    placeMky:
         call GetPos
-        mov cl, BLOON_RED
-        call ShowSprite
-        jmp awaitkey
-
-    placeDart:
-        ; call GetPos
-        ; mov dart.chunk, dx ; place at cursor
-        ; mov bx, OFFSET dart ; pass the monkey we're creating as a param
-        ; mov dart.radius, 3 ; custom range yay
-        ; call DrawMonkey
+        call DrawMonkey
         jmp awaitkey
 
     selectRight:

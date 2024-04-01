@@ -16,19 +16,13 @@ curr_round dw 0
 bloon_struc_size db 7
 queue_head dw 0 ; Index of the top of the queue
 alive_bloons_head dw 0 ; Index of the top of the alive bloons list 
-
-
-
-alive_bloons BLOON 50 DUP(<>)
-
-
-
+alive_bloons BLOON 25 DUP(<>)
 ; Bloon queues for rounds 
-r0_queue_length dw 4
-r0_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>;, <BLOON_RED, 0, 5, 4, 1>
+r0_queue_length dw 3
+r0_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 1, 4, 1>;, <BLOON_RED, 0, 5, 4, 1>
 
 r1_queue_length dw 5
-r1_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 1, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 2, 4, 1>, <BLOON_RED, 0, 1, 5, 1>
+r1_queue BLOON <BLOON_RED, 0, 1, 0, 1>, <BLOON_RED, 0, 1, 2, 1>, <BLOON_RED, 0, 1, 4, 1>, <BLOON_RED, 0, 2, 6, 1>, <BLOON_RED, 0, 1, 8, 1>
 
 
 
