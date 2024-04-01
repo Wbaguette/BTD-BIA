@@ -33,11 +33,10 @@ main PROC
 
     start_round:
     jmp awaitkey
-    game_started:
 
     gameloop:        
         call draw_bloons  ; Clear bloons 
-
+        
         mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
         sub lives, cx
@@ -83,7 +82,7 @@ main PROC
         cmp al, '1'       ; Press 1 when you want to place down a monkey!
         je placeMky       
         cmp al, 'c'       ; Press C when you want to start the game
-        je game_started
+        je gameloop
         jmp awaitkey ; space was not pressed
         
     placeMky:

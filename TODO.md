@@ -8,7 +8,6 @@
 - UPDATE SPRITES 
     - LIVES REMAINING, NUMBER SPRITES, DIFFERENT BLOON LEVELS
 
-1. Fix bug where only 1 monkey is being drawn.
 2. Bloon popping interaction 
 3. IsRoundOver, next round after a round is over
 4. Update Map
