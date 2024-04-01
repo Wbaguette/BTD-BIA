@@ -5,7 +5,7 @@
       [autoexec]
       # Lines in this section will be run at startup.
       # You can put your MOUNT lines here.
-      MOUNT C "Path/To/Where/The/Project/Is"
+      MOUNT C "AbsolutePath/To/Where/The/Project/Is"
       C:
       set PATH=%PATH%; C:\8086\
       cd src
