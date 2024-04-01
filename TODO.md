@@ -14,6 +14,8 @@
 4. Update Map
 5. Life visuals (hearts)
 
+6. Documentation and author titles 
+7. Review how we wanna showcase game
 
 ## DOING
 3. Distance function between two chunks
