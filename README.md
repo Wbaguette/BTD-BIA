@@ -1,7 +1,8 @@
 ### DOSBOX Prereqs: <br>
 1. At least masm.exe and link.exe in 8086 folder <br>
 2. In DOSBOX conf file do something like this under the autoexec portion: <br>
-  ``` [autoexec]
+  ``` 
+      [autoexec]
       # Lines in this section will be run at startup.
       # You can put your MOUNT lines here.
       MOUNT C "Path/To/Where/The/Project/Is"
