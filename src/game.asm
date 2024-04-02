@@ -31,6 +31,7 @@ main PROC
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
+    call DrawLives ; update live counter
 
     start_round:
     jmp awaitkey

@@ -125,3 +125,21 @@ DrawMonkeyBar proc far
     pop cx
     ret
 DrawMonkeyBar endp
+
+; Draw lives on hud
+; AX : Number of lives remaining
+DrawLives proc far
+    push cx
+    push dx
+    push ax
+
+    mov dh, LIVES_X_OFFSET
+    mov dl, LIVES_Y_OFFSET
+    mov cl, HEART
+    call ShowSprite
+
+    pop ax
+    pop dx
+    pop cx
+    ret
+DrawLives endp
