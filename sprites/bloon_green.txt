@@ -1,0 +1,9 @@
+BLOON_GREEN_SPRITE db 8, 8
+                   db 00h, 00h, 0ah, 0ah, 0ah, 0ah, 00h, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 0ah, 0ah, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 07h, 0ah, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 0ah, 0ah, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 0ah, 0ah, 00h
+                   db 00h, 00h, 0ah, 0ah, 0ah, 0ah, 00h, 00h
+                   db 00h, 00h, 0ah, 0ah, 0ah, 0ah, 00h, 00h
+                   db 00h, 00h, 00h, 0ah, 0ah, 00h, 00h, 00h
