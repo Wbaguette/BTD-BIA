@@ -16,7 +16,7 @@ SPRITE_REGISTRY dw 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h
                 dw 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h
 
 	; BLOONS
-	dw OFFSET BLOON_RED_SPRITE, OFFSET BLOON_BLUE_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE 
+	dw OFFSET BLOON_RED_SPRITE, OFFSET BLOON_BLUE_SPRITE, OFFSET BLOON_GREEN_SPRITE, OFFSET BLOON_YELLOW_SPRITE, OFFSET BLOON_PINK_SPRITE, OFFSET BLOON_RED_SPRITE 
 	dw OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE
 	dw OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE
 	dw OFFSET BLOON_RED_SPRITE, OFFSET BLOON_RED_SPRITE
@@ -32,6 +32,9 @@ SPRITE_REGISTRY dw 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h
 ; Bloons
 BLOON_RED EQU 50
 BLOON_BLUE EQU 51
+BLOON_GREEN EQU 52
+BLOON_YELLOW EQU 53
+BLOON_PINK EQU 54
 BLOON_MAX EQU 69
 
 ; Monkeys
@@ -101,6 +104,34 @@ BLOON_BLUE_SPRITE db 8, 8
              db 00h, 00h, 00h, 028h, 028h, 00h, 00h, 00h
              db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
 
+BLOON_GREEN_SPRITE db 8, 8
+                   db 00h, 00h, 0ah, 0ah, 0ah, 0ah, 00h, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 0ah, 0ah, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 07h, 0ah, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 0ah, 0ah, 00h
+                   db 00h, 0ah, 0ah, 0ah, 0ah, 0ah, 0ah, 00h
+                   db 00h, 00h, 0ah, 0ah, 0ah, 0ah, 00h, 00h
+                   db 00h, 00h, 0ah, 0ah, 0ah, 0ah, 00h, 00h
+                   db 00h, 00h, 00h, 0ah, 0ah, 00h, 00h, 00h
+
+BLOON_YELLOW_SPRITE db 8, 8
+                    db 00h, 00h, 024h, 024h, 024h, 024h, 00h, 00h
+                    db 00h, 024h, 024h, 024h, 024h, 024h, 024h, 00h
+                    db 00h, 024h, 024h, 024h, 024h, 07h, 024h, 00h
+                    db 00h, 024h, 024h, 024h, 024h, 024h, 024h, 00h
+                    db 00h, 024h, 024h, 024h, 024h, 024h, 024h, 00h
+                    db 00h, 00h, 024h, 024h, 024h, 024h, 00h, 00h
+                    db 00h, 00h, 024h, 024h, 024h, 024h, 00h, 00h
+                    db 00h, 00h, 00h, 024h, 024h, 00h, 00h, 00h
+BLOON_PINK_SPRITE db 8, 8
+                  db 00h, 00h, 036h, 036h, 036h, 036h, 00h, 00h
+                  db 00h, 036h, 036h, 036h, 036h, 036h, 036h, 00h
+                  db 00h, 036h, 036h, 036h, 036h, 07h, 036h, 00h
+                  db 00h, 036h, 036h, 036h, 036h, 036h, 036h, 00h
+                  db 00h, 036h, 036h, 036h, 036h, 036h, 036h, 00h
+                  db 00h, 00h, 036h, 036h, 036h, 036h, 00h, 00h
+                  db 00h, 00h, 036h, 036h, 036h, 036h, 00h, 00h
+                  db 00h, 00h, 00h, 036h, 036h, 00h, 00h, 00h
 MONKEY_DART_1_SPRITE db 8, 8
               db 00h, 00h, 00h, 00h, 00h, 0bbh, 00h, 00h
               db 00h, 00h, 00h, 0bbh, 0bbh, 00h, 00h, 00h
