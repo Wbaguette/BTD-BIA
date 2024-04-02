@@ -295,23 +295,22 @@ IsMonkeySelected proc near
         je IsMonkeyEnd ; Since the array is sequential we can exit immediately
 
         cmp dx, ds:[bx + MONKEY.chunk]  ; Is the monkey at target chunk?
-        jne GoNextMonkey          ; This monkey is selected, highlight it
+        je SetHighlight          ; This monkey is selected, highlight it
         ; jmp GoNextMonkey
 
         ; ; The monkey is not selected, is it highlighted from a previous selection?
-        ; CheckHighlighted:
-        ; cmp ds:[bx + MONKEY.highlighted], 1 
-        ; je RemoveOldHighlight ; Has a previous highlight, remove it
-        ; jmp GoNextMonkey ; No previous highlight to remove, move on to next monkey
+        cmp ds:[bx + MONKEY.highlighted], 1 
+        je RemoveOldHighlight ; Has a previous highlight, remove it
+        jmp GoNextMonkey ; No previous highlight to remove, move on to next monkey
 
         SetHighlight:
         mov ds:[bx + MONKEY.highlighted], 1
         call DrawRadius
         jmp IsMonkeyEnd ; Go to the next monkey to check for needed removals
 
-        ; RemoveOldHighlight:
-        ; mov ds:[bx + MONKEY.highlighted], 0 ; Set to 0
-        ; call DrawRadius ; Remove the sightline and fallthrough to next monkey
+        RemoveOldHighlight:
+        mov ds:[bx + MONKEY.highlighted], 0 ; Set to 0
+        call DrawRadius ; Remove the sightline and fallthrough to next monkey
 
         GoNextMonkey:
         add bl, monkey_struc_size
