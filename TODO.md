@@ -10,11 +10,10 @@
 
 2. Bloon popping interaction 
 3. IsRoundOver, next round after a round is over
-4. Update Map
-5. Life visuals (hearts)
+4. Life visuals (hearts)
 
-6. Documentation and author titles 
-7. Review how we wanna showcase game
+5. Documentation and author titles 
+6. Review how we wanna showcase game
 
 ## DOING
 3. Distance function between two chunks
