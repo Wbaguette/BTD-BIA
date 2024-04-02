@@ -41,8 +41,8 @@ Sleep proc far
    xor ax, ax
 
    mov ah, 86h
-   mov cx, 3
-   mov dx, 3
+   mov cx, 1
+   mov dx, 1
    int 15h
 
    pop dx

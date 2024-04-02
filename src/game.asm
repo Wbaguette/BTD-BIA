@@ -25,7 +25,7 @@ main PROC
     setup ; Set video mode, move VRAM to ES, point DS to .data
 
     mov frame_counter, 0 
-    mov round_number, 0
+    mov round_number, -1 ; first round not started yet
     mov lives, 3  ; Change to some higher number later 
 
     call InitStage ; onetime background initialization
@@ -56,7 +56,9 @@ main PROC
         ; Is the round over??? Here's some debug printing! (incompatible wiith frame counter)
         ; xor ax, ax
         ; xor dx, dx
-        ; call IsRoundOver
+        call IsRoundOver
+        cmp dl, 1
+        je awaitkey ; round over
         ; add dl, '0'
         ; mov ah, 2
         ; int 21h
@@ -83,9 +85,14 @@ main PROC
         cmp al, '1'       ; Press 1 when you want to place down a monkey!
         je placeMky       
         cmp al, 'c'       ; Press C when you want to start the game
-        je gameloop
+        je startRound
         jmp awaitkey ; space was not pressed
         
+    startRound:
+        inc round_number
+        mov frame_counter, 0
+        jmp gameloop
+
     placeMky:
         call GetPos
         mov ax, dx
