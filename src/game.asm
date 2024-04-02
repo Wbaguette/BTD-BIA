@@ -31,7 +31,7 @@ main PROC
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
-    call DrawLives ; update live counter
+    ; call DrawLives ; update live counter
 
     start_round:
     jmp awaitkey
@@ -57,18 +57,10 @@ main PROC
 
         call draw_bloons    ; Draw where they should be 
 
-        ; Is the round over??? Here's some debug printing! (incompatible wiith frame counter)
-        ; xor ax, ax
-        ; xor dx, dx
         call IsRoundOver
         cmp dl, 1
         je awaitkey ; round over
-        ; add dl, '0'
-        ; mov ah, 2
-        ; int 21h
-
-        ; cmp dl, 0 ; Is the round over?
-        ; jne awaitkey ; The round is over
+    
         inc frame_counter ; new frame and start again! the game  goes on
         call Sleep
         jmp gameloop

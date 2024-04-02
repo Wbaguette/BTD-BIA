@@ -4,7 +4,7 @@ MONKEY struc
     upgrades db 0 ; upgrades
     radius db 3 ; radius of chunks it can see
     damage db 1 
-    fireRate db 5 ; how many frames before this monkey can inflict damage again
+    fireRate db 10 ; how many frames before this monkey can inflict damage again
     sprite db MONKEY_DART_1
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
