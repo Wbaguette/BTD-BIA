@@ -5,16 +5,15 @@
 
 
 2. In DOSBOX conf file do something like this under the autoexec portion:
-<br>
-```[autoexec]
+   ```
+   [autoexec]
    # Lines in this section will be run at startup.
    # You can put your MOUNT lines here.
    MOUNT C "AbsolutePath/To/Where/The/Project/Is"
    C:
    set PATH=%PATH%;C:\8086\
    cd src
-```
-<br>
+   ```
 
 
 Compile in DOSBOX with builda.bat <br>
