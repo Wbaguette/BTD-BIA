@@ -98,7 +98,10 @@ PopBloons proc far
 
     loop_alive_monkeys_for_pops:
         cmp ax, 0 
-        je done_pop_bloons
+        jne bypass_jmp_limit
+        jmp done_pop_bloons
+
+        bypass_jmp_limit:
 
         xor dh, dh
         mov dl, ds:[bx + MONKEY.fireRate]     ; dl now has this monkey's fire rate 
@@ -108,8 +111,10 @@ PopBloons proc far
         div dl       ;  AL: Quotient,    AH: Remainder 
         cmp ah, 0       ; If remainder = 0, then the monkey can fire 
         pop ax  
-        jne monkey_cant_fire ; Fall through if the monkey can fire 
+        je bypass_jmp_limit_2  
+        jmp monkey_cant_fire
 
+        bypass_jmp_limit_2:
         mov di, ds  ; Store ds of monkeys in di 
         mov si, bx  ; Store bx in si
 
@@ -152,22 +157,54 @@ PopBloons proc far
             ; CH : Horizontal distance between A & B
             ; CL : Vertical distance between A & B
             push ds
+            push bx 
             mov ds, di
             mov bx, si
             cmp ch, ds:[bx + MONKEY.radius]
-            jne not_in_range        ; Fall through if we wanna check CL
+            jg not_in_range_        ; Fall through if we wanna check CL
             cmp cl, ds:[bx + MONKEY.radius]
-            jne not_in_range        ; Fall through if its in range 
-
-            push dx
-            xor dx, dx
-            mov dl, RED
-            call DrawBackground
-            pop dx
+            jg not_in_range_       ; Fall through if its in range 
+            pop bx 
             pop ds
-            jmp done_check_alive_bloons_iter
 
-            not_in_range:
+            ; push ax
+            ; xor ax, ax
+            ; mov al, 1
+            inc ds:[bx + BLOON.state]
+            ; inc ds:[bx + BLOON.level]
+            ; pop ax
+            jmp done_check_alive_bloons_iter
+            ; DS is pointing to bloons now 
+            ; BX has pointer to BLOON
+            ; push dx 
+            ; xor dx, dx 
+            ; mov dx, ds:[bx + BLOON.level]  ; DX has bloon level, 
+
+            ; push bx 
+            ; push ds
+            ; mov bx, si
+            ; mov ds, di
+            ; ; DS is now pointing to monkeys
+            ; ; BX is now pointing to MONKEY instance 
+            ; sub dx, ds:[bx + MONKEY.damage]
+    
+            ; and dx, 0FFh ; Clear top bits 
+            ; pop ds
+            ; pop bx
+
+            ; cmp dx, BLOON_RED
+            ; jl bloon_was_killed_by_mky ; Fall through if the bloon isn't dead 
+            ; mov ds:[bx + BLOON.level], dx
+            ; pop dx 
+            ; jmp done_check_alive_bloons_iter
+
+            ; bloon_was_killed_by_mky:
+            ; mov ds:[bx + BLOON.state], 1 
+            ; pop dx 
+            ; jmp done_check_alive_bloons_iter
+
+            not_in_range_:
+            pop bx 
             pop ds
 
             continue_check_alive_bloons_iter:
@@ -196,9 +233,7 @@ PopBloons proc far
     pop ds
     ret
 PopBloons endp
-
-
-
+    
 ; TODO: Bounds check
 ; draw the monkey's sightline relative to current chunk
 DrawRadius proc near
