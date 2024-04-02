@@ -31,7 +31,7 @@ main PROC
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
-    call DrawLives ; update live counter
+    ; call DrawLives ; update live counter
 
     start_round:
     jmp awaitkey
@@ -76,7 +76,9 @@ main PROC
     awaitkey: ; terminates program on key press
         mov ah, 10h
         int 16h
-        cmp al, 32 ; space key is pressed, terminate
+        cmp al, 32 ; space key is pressed, start Round
+        je startRound
+        cmp al, 27 ; ESC, terminate
         je ex
         cmp al, 'd'
         je selectRight
