@@ -41,6 +41,7 @@ STAGE_WATERLINE EQU 01Fh
 
 ; HUD
 HUD_BACKGROUND EQU 041h
+MONKEY_BAR_X_OFFSET EQU X_CHUNKS - 12 ; X coordinate of chunk to begin drawing from
 
 ; Monkeys
 MAX_MKYS EQU 10
