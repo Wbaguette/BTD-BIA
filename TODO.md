@@ -8,7 +8,6 @@
 - UPDATE SPRITES 
     - LIVES REMAINING, NUMBER SPRITES, DIFFERENT BLOON LEVELS
 
-2. Bloon popping interaction 
 3. IsRoundOver, next round after a round is over
 4. Life visuals (hearts)
 

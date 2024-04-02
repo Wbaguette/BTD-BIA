@@ -4,7 +4,7 @@ MONKEY struc
     upgrades db 0 ; upgrades
     radius db 3 ; radius of chunks it can see
     damage db 1 
-    fireRate db 1 ; how many frames before this monkey can inflict damage again
+    fireRate db 5 ; how many frames before this monkey can inflict damage again
     sprite db MONKEY_DART_1
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
@@ -167,41 +167,34 @@ PopBloons proc far
             pop bx 
             pop ds
 
-            ; push ax
-            ; xor ax, ax
-            ; mov al, 1
-            inc ds:[bx + BLOON.state]
-            ; inc ds:[bx + BLOON.level]
-            ; pop ax
-            jmp done_check_alive_bloons_iter
             ; DS is pointing to bloons now 
             ; BX has pointer to BLOON
-            ; push dx 
-            ; xor dx, dx 
-            ; mov dx, ds:[bx + BLOON.level]  ; DX has bloon level, 
+            push dx 
+            xor dx, dx 
+            mov dx, ds:[bx + BLOON.level]  ; DX has bloon level, 
 
-            ; push bx 
-            ; push ds
-            ; mov bx, si
-            ; mov ds, di
-            ; ; DS is now pointing to monkeys
-            ; ; BX is now pointing to MONKEY instance 
-            ; sub dx, ds:[bx + MONKEY.damage]
+            push bx 
+            push ds
+            mov bx, si
+            mov ds, di
+            ; DS is now pointing to monkeys
+            ; BX is now pointing to MONKEY instance 
+            sub dx, ds:[bx + MONKEY.damage]
     
-            ; and dx, 0FFh ; Clear top bits 
-            ; pop ds
-            ; pop bx
+            and dx, 0FFh ; Clear top bits 
+            pop ds
+            pop bx
 
-            ; cmp dx, BLOON_RED
-            ; jl bloon_was_killed_by_mky ; Fall through if the bloon isn't dead 
-            ; mov ds:[bx + BLOON.level], dx
-            ; pop dx 
-            ; jmp done_check_alive_bloons_iter
+            cmp dx, BLOON_RED
+            jl bloon_was_killed_by_mky ; Fall through if the bloon isn't dead 
+            mov ds:[bx + BLOON.level], dx
+            pop dx 
+            jmp done_check_alive_bloons_iter
 
-            ; bloon_was_killed_by_mky:
-            ; mov ds:[bx + BLOON.state], 1 
-            ; pop dx 
-            ; jmp done_check_alive_bloons_iter
+            bloon_was_killed_by_mky:
+            inc ds:[bx + BLOON.state]
+            pop dx 
+            jmp done_check_alive_bloons_iter
 
             not_in_range_:
             pop bx 
