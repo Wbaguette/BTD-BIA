@@ -6,8 +6,8 @@
 - UPDATE SPRITES 
     - LIVES REMAINING, NUMBER SPRITES
 
-1. Bloon popping interaction 
-2. Life visuals (hearts)
+3. IsRoundOver, next round after a round is over
+4. Life visuals (hearts)
 
 3. Documentation and author titles 
 4. Review how we wanna showcase game
