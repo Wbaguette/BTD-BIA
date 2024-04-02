@@ -13,7 +13,7 @@ include macros.inc
 include monkey.inc
 include util.inc
 include round.inc
-
+include hud.inc
 
 .data?
     frame_counter dw ?
@@ -30,6 +30,7 @@ main PROC
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
+    call DrawMonkeyBar ; onetime hud init
 
     start_round:
     jmp awaitkey
