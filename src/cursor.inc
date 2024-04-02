@@ -33,7 +33,6 @@ GetPos proc far
     ret
 GetPos endp
 
-
 MoveRight proc near
     inc x   ; move right
     cmp x, CURSOR_X_UPPER ; bounds checking
@@ -93,3 +92,9 @@ MoveDown proc near
         dec y   ; go back to original position
         ret
 MoveDown endp
+
+ViewMonkeyRange proc near
+    
+
+    ret
+ViewMonkeyRange endp
