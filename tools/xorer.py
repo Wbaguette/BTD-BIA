@@ -3,9 +3,9 @@ import glob
 import re
 
 # XOR each byte with background (02h), replace the byte with the result
-bg = int('8', 16)
+bg = int('2', 16)
 def main():   
-    for f in glob.glob('../sprites/lives.txt'):
+    for f in glob.glob('../sprites/monkey_bar/inst*.txt'):
         print(f'File {f}')
         with open(f, 'r+') as ff:
             # overwrite every string matching the regex with another string

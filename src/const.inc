@@ -41,7 +41,8 @@ STAGE_WATERLINE EQU 01Fh
 
 ; HUD
 HUD_BACKGROUND EQU 041h
-MONKEY_BAR_X_OFFSET EQU X_CHUNKS - 12 ; X coordinate of chunk to begin drawing from
+INST_X_OFFSET EQU X_CHUNKS - 12 ; X coordinate of chunk to begin drawing from
+INST_Y_OFFSET EQU Y_CHUNKS - 10 ; X coordinate of chunk to begin drawing from
 LIVES_X_OFFSET EQU X_CHUNKS - 9
 LIVES_Y_OFFSET EQU 0
 
