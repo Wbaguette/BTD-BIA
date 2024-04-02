@@ -1,3 +1,5 @@
+# YOU NEED DOSBOX TO RUN THIS 🎈
+
 ### DOSBOX Prereqs: <br>
 1. 8086 masm.exe and link.exe in 8086 folder <br>
 2. In DOSBOX conf file do something like this under the autoexec portion: <br>
