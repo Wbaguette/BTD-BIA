@@ -33,8 +33,8 @@ GetPos proc far
     ret
 GetPos endp
 
-
 MoveRight proc near
+    push dx
     inc x   ; move right
     cmp x, CURSOR_X_UPPER ; bounds checking
     jge s
@@ -43,6 +43,13 @@ MoveRight proc near
     call DrawCursor ; clear the cursor at current location
     inc x   ; now we can draw the new cursor
     call DrawCursor ; draw at new position
+
+    ; Checker if we're on a monkey!
+    xor dx, dx
+    mov dh, x
+    mov dl, y
+    call IsMonkeySelected
+    pop dx
     ret     ; completed successfully
     s:
         dec x   ; go back to original position
@@ -50,6 +57,7 @@ MoveRight proc near
 MoveRight endp
 
 MoveLeft proc near
+    push dx
     dec x ; move left
     cmp x, CURSOR_X_LOWER ; bounds checking
     jl s2
@@ -58,6 +66,12 @@ MoveLeft proc near
     call DrawCursor ; clear the cursor at current location
     dec x   ; move Left
     call DrawCursor ; draw at new position
+    ; Checker if we're on a monkey!
+    xor dx, dx
+    mov dh, x
+    mov dl, y
+    call IsMonkeySelected
+    pop dx
     ret     ; completed successfully
     s2:
         inc x   ; go back to original position
@@ -65,6 +79,7 @@ MoveLeft proc near
 MoveLeft endp
 
 MoveUp proc near
+    push dx
     dec y
     cmp y, CURSOR_Y_LOWER ; bounds checking
     jl s3
@@ -73,6 +88,12 @@ MoveUp proc near
     call DrawCursor ; clear the cursor at current location
     dec y   ; move Up
     call DrawCursor ; draw at new position
+    ; Checker if we're on a monkey!
+    xor dx, dx
+    mov dh, x
+    mov dl, y
+    call IsMonkeySelected
+    pop dx
     ret     ; completed successfully
     s3:
         inc y   ; go back to original position
@@ -80,6 +101,7 @@ MoveUp proc near
 MoveUp endp
 
 MoveDown proc near
+    push dx
     inc y
     cmp y, CURSOR_Y_UPPER ; bounds checking
     jge s4
@@ -88,8 +110,20 @@ MoveDown proc near
     call DrawCursor ; clear the cursor at current location
     inc y   ; move Down
     call DrawCursor ; draw at new position
+    ; Checker if we're on a monkey!
+    xor dx, dx
+    mov dh, x
+    mov dl, y
+    call IsMonkeySelected
+    pop dx
     ret     ; completed successfully
     s4:
         dec y   ; go back to original position
         ret
 MoveDown endp
+
+ViewMonkeyRange proc near
+
+
+    ret
+ViewMonkeyRange endp

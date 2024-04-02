@@ -42,6 +42,7 @@ InitStage proc far
     mov dl, STAGE_BACKGROUND
     call DrawBackground
     call DrawPath
+    call DrawWater
 
     pop dx 
     ret
@@ -64,3 +65,120 @@ DrawPath proc near
         loop dp
     ret
 DrawPath endp
+
+DrawWater proc near
+    push dx
+    push cx
+
+    ; First Row (4 32x32 tiles)
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4 ; 4 chunks larger than INST
+    mov cl, STAGE_WATER_0
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4 ; 4 chunks larger than INST
+    add dh, 4
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4 ; 4 chunks larger than INST
+    add dh, 8
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4 ; 4 chunks larger than INST
+    add dh, 12
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    ; Second Row (4 32x32 tiles)
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4; 4 chunks larger than INST
+    mov dl, 4
+    mov cl, STAGE_WATER_1
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4; 4 chunks larger than INST
+    add dh, 4
+    mov dl, 4
+    mov cl, STAGE_WATER_2
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4; 4 chunks larger than INST
+    add dh, 8
+    mov dl, 4
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET - 4; 4 chunks larger than INST
+    add dh, 12
+    mov dl, 4
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    ; Third Row (3 32x32 tiles along X)
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET
+    mov dl, 8
+    mov cl, STAGE_WATER_3
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET
+    add dh, 4
+    mov dl, 8
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET
+    add dh, 8
+    mov dl, 8
+    mov cl, STAGE_DEEP_WATER
+    call ShowSprite
+
+    ; Last Row (3 32x24 tiles)
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET
+    mov dl, 12
+    mov cl, STAGE_WATER_4
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET
+    add dh, 4
+    mov dl, 12
+    mov cl, STAGE_DEEP_WATER_SMALL
+    call ShowSprite
+
+    xor cx, cx
+    xor dx, dx
+    mov dh, INST_X_OFFSET
+    add dh, 8
+    mov dl, 12
+    mov cl, STAGE_DEEP_WATER_SMALL
+    call ShowSprite
+   
+    pop cx
+    pop dx
+    ret
+DrawWater endp

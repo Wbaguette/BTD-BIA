@@ -31,7 +31,6 @@ main PROC
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
-    ; call DrawLives ; update live counter
 
     start_round:
     jmp awaitkey
@@ -46,9 +45,17 @@ main PROC
         call move_alive_bloons ; returns amount of damage to do to player in cx 
         sub lives, cx
 
+        ; cmp cx, 0 ; Check if any lives were lost
+        ; jne UpdateLives ; Lives were lost somewhere update the HUD
+
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
         exit_err ; Exit game on loss, good enough for now
+
+        ; UpdateLives:
+        ;     xor cx, cx
+        ;     mov cx, lives
+        ;     call DrawLives ; Clear
 
         continueGame:
         mov cx, frame_counter
@@ -68,7 +75,9 @@ main PROC
     awaitkey: ; terminates program on key press
         mov ah, 10h
         int 16h
-        cmp al, 32 ; space key is pressed, terminate
+        cmp al, 32 ; space key is pressed, start Round
+        je startRound
+        cmp al, 27 ; ESC, terminate
         je ex
         cmp al, 'd'
         je selectRight

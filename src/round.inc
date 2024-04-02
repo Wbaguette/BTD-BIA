@@ -29,7 +29,10 @@ r1_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_BLUE, 0, 2, 4, 1, 1>, <BLOON_R
 r2_queue_length dw 8
 r2_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_BLUE, 0, 1, 3, 1, 1>, <BLOON_BLUE, 0, 2, 6, 1, 1>, <BLOON_BLUE, 0, 2, 9, 2, 1>, <BLOON_RED, 0, 2, 12, 2, 1>, <BLOON_BLUE, 0, 2, 15, 1, 1>, <BLOON_BLUE, 0, 2, 18, 1, 1>, <BLOON_GREEN, 0, 1, 24, 1, 1>
 
-queue_registry dw OFFSET r0_queue, OFFSET r1_queue, OFFSET r2_queue
+r3_queue_length dw 7
+r3_queue BLOON <BLOON_PINK, 0, 3, 0, 1, 1>, <BLOON_GREEN, 0, 1, 3, 1, 1>, <BLOON_GREEN, 0, 2, 6, 1, 1>, <BLOON_GREEN, 0, 2, 9, 2, 1>, <BLOON_GREEN, 0, 2, 15, 1, 1>, <BLOON_GREEN, 0, 2, 18, 1, 1>, <BLOON_PINK, 0, 1, 24, 1, 1>
+
+queue_registry dw OFFSET r0_queue, OFFSET r1_queue, OFFSET r2_queue, OFFSET r3_queue
 
 .code
 ; Returns this ds in ax
