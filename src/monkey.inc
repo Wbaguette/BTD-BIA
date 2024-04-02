@@ -55,8 +55,8 @@ PlaceMonkey proc far
         mov cl, ds:[bx + MONKEY.sprite] ; get sprite 
         call ShowSprite
 
-        ; mov ds:[bx + MONKEY.highlighted], 1
-        ; call DrawRadius ; The monkey is highlighted so let's show the range!
+        mov ds:[bx + MONKEY.highlighted], 1
+        call DrawRadius ; The monkey is highlighted so let's show the range!
 
         jmp finish_place_monkey ; Don't bother iterating more
 
