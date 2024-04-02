@@ -26,7 +26,8 @@ SPRITE_REGISTRY dw 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h
 	dw OFFSET MONKEY_DART_1_SPRITE, OFFSET MONKEY_DART_1_SPRITE, OFFSET MONKEY_DART_1_SPRITE, OFFSET MONKEY_DART_1_SPRITE, OFFSET MONKEY_DART_1_SPRITE, OFFSET MONKEY_DART_1_SPRITE
 	dw OFFSET MONKEY_DART_1_SPRITE, OFFSET MONKEY_DART_1_SPRITE
 	; UX
-	dw OFFSET CURSOR_SPRITE, OFFSET CURSOR_INVALID_SPRITE, OFFSET RANGE_SPRITE
+	dw OFFSET CURSOR_SPRITE, OFFSET CURSOR_INVALID_SPRITE, OFFSET RANGE_SPRITE, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h, 0000h
+	dw OFFSET BAR0_SPRITE, OFFSET BAR1_SPRITE, OFFSET BAR2_SPRITE, OFFSET BAR3_SPRITE, OFFSET BAR4_SPRITE, OFFSET BAR5_SPRITE
 
 ; Bloons
 BLOON_RED EQU 50
@@ -41,6 +42,13 @@ MONKEY_END EQU 89
 CURSOR EQU 90
 CURSOR_INVALID EQU 91
 RANGE EQU 92
+
+HUD_MB_0 EQU 100
+HUD_MB_1 EQU 101
+HUD_MB_2 EQU 102
+HUD_MB_3 EQU 103
+HUD_MB_4 EQU 104
+HUD_MB_5 EQU 105
 
 RANGE_SPRITE db 8, 8
              db 08h, 00h, 08h, 00h, 08h, 00h, 08h, 00h
@@ -102,7 +110,254 @@ MONKEY_DART_1_SPRITE db 8, 8
               db 00h, 04h, 012h, 04h, 04h, 012h, 04h, 00h
               db 00h, 00h, 04h, 04h, 04h, 04h, 00h, 00h
               db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-			  
+
+BAR0_SPRITE db 32, 40
+            db 08bh, 070h, 04h, 08bh, 070h, 073h, 073h, 073h, 073h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 073h, 073h, 073h, 073h, 0b8h, 073h, 0d3h, 073h, 073h, 070h, 070h, 070h, 070h
+            db 073h, 070h, 073h, 0d3h, 08bh, 04h, 04h, 04h, 04h, 070h, 073h, 0d3h, 0d3h, 070h, 073h, 070h, 0d3h, 073h, 070h, 070h, 070h, 0d3h, 073h, 070h, 070h, 0d3h, 073h, 073h, 070h, 073h, 073h, 073h
+            db 04h, 04h, 08bh, 070h, 070h, 0b8h, 073h, 073h, 070h, 073h, 0d3h, 073h, 0d3h, 073h, 070h, 073h, 073h, 0b8h, 0bbh, 073h, 073h, 0b8h, 0bbh, 0bbh, 0bbh, 0b8h, 073h, 0b8h, 073h, 073h, 070h, 070h
+            db 073h, 073h, 073h, 073h, 070h, 070h, 073h, 070h, 070h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0b8h, 070h, 073h, 073h, 073h, 073h, 073h, 0d3h, 070h, 070h, 073h, 073h, 073h, 0d3h, 073h, 0d3h, 073h
+            db 070h, 073h, 073h, 073h, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 0d3h, 0d3h, 0d3h, 0d3h, 0d3h, 0b8h, 073h, 0d3h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 070h, 0d3h, 0d3h, 0d3h, 073h, 073h, 070h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 0d3h, 073h, 0d3h, 070h, 073h, 073h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 04h, 08bh, 071h, 070h, 070h, 070h, 070h, 070h, 070h
+            db 073h, 070h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 028h, 028h, 04h, 04h, 08bh, 04h, 04h, 070h, 070h, 073h, 0d3h, 0d3h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 08bh, 073h, 073h, 070h, 04h, 04h, 04h, 070h, 08bh, 08bh, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 028h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 0d3h, 070h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 073h, 070h, 070h
+            db 070h, 070h, 070h, 073h, 070h, 04h, 04h, 08bh, 04h, 08bh, 04h, 04h, 08bh, 08bh, 08bh, 070h, 08bh, 073h, 08bh, 073h, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 073h, 073h, 070h, 073h, 073h
+            db 04h, 04h, 070h, 04h, 08bh, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 073h, 070h, 073h, 070h, 08bh, 04h, 04h, 04h, 08bh, 070h, 071h, 08bh, 04h, 08bh, 04h
+            db 04h, 04h, 04h, 04h, 08bh, 070h, 073h, 070h, 070h, 08bh, 070h, 073h, 0d3h, 070h, 070h, 08bh, 08bh, 04h, 04h, 08bh, 08bh, 070h, 071h, 070h, 04h, 04h, 04h, 08bh, 08bh, 070h, 08bh, 08bh
+            db 070h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 08bh, 04h, 04h, 08bh, 070h, 08bh, 08bh, 04h, 08bh, 070h, 070h, 08bh, 08bh, 04h, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 08bh
+            db 070h, 073h, 073h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 08bh, 04h, 08bh, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 04h, 070h, 070h, 070h, 071h, 070h, 070h, 04h, 04h, 04h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 073h, 08bh, 04h, 04h, 04h, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 070h, 073h, 073h, 073h, 0d3h, 0b8h, 0d3h
+            db 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 073h, 073h, 0b8h, 0bbh, 073h, 073h, 0bbh, 0bbh, 0d3h, 073h, 0d3h, 073h, 070h, 070h, 070h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 073h, 073h, 073h, 0bbh, 073h, 0bbh, 0bbh, 0bbh, 0b8h, 073h, 08bh, 070h, 070h, 073h, 070h, 070h, 0b8h, 0bbh, 0b8h, 0d3h, 0d3h, 0d3h, 073h
+            db 04h, 04h, 04h, 070h, 073h, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0d3h, 070h, 070h, 08bh, 070h, 070h, 0d3h, 0bbh, 0d3h, 0d3h, 070h, 070h, 073h, 070h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh
+            db 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 08bh, 08bh, 04h, 070h, 070h, 0d3h, 0b8h, 0d3h, 073h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 08bh, 070h, 070h, 073h, 0bbh, 0d3h, 070h, 08bh, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 073h, 070h, 070h, 08bh, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 04h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 070h, 08bh, 08bh, 04h, 04h
+            db 08bh, 04h, 070h, 08bh, 070h, 08bh, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 04h, 08bh, 070h, 070h, 070h, 073h, 073h, 073h, 073h, 073h, 073h, 070h, 073h, 070h, 070h, 070h
+            db 070h, 070h, 08bh, 08bh, 070h, 073h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 073h, 0d3h, 0d3h, 0d3h, 0d3h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 0d3h, 073h
+            db 0d3h, 073h, 070h, 070h, 073h, 070h, 070h, 073h, 073h, 073h, 070h, 073h, 0b8h, 0b8h, 0d3h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 08bh, 08bh, 070h, 08bh, 08bh, 08bh
+            db 070h, 070h, 0d3h, 073h, 073h, 0d3h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 04h, 070h, 073h, 08bh, 04h, 04h, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 08bh, 08bh, 070h, 08bh, 08bh, 071h, 08bh, 073h, 070h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 08bh, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 04h, 04h, 04h
+            db 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h
+            db 08bh, 08bh, 04h, 04h, 08bh, 04h, 04h, 08bh, 070h, 08bh, 070h, 070h, 070h, 0d3h, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0b8h, 0b8h, 0b8h, 0b8h, 0bbh, 0b8h, 073h, 073h, 0b8h, 073h, 073h, 0b8h, 0b8h
+            db 070h, 0d3h, 073h, 0bbh, 0bbh, 0bbh, 073h, 0d3h, 073h, 0b8h, 0bbh, 0d2h, 0bbh, 0d3h, 0d3h, 0b8h, 0bbh, 0d3h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh
+            db 0d3h, 0b8h, 0bbh, 0b8h, 0d3h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 042h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 0eh, 028h, 028h
+            db 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h
+            db 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 028h, 028h, 04h, 04h, 028h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 028h, 04h, 028h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 08bh, 070h, 070h, 08bh, 070h, 08bh, 070h, 070h, 08bh
+BAR1_SPRITE db 32, 40
+            db 070h, 070h, 070h, 073h, 073h, 073h, 073h, 073h, 073h, 0b8h, 073h, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 070h, 073h, 073h, 0d3h, 073h, 070h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 04h, 04h
+            db 073h, 0b8h, 073h, 073h, 073h, 0d3h, 073h, 0d3h, 070h, 073h, 073h, 070h, 070h, 073h, 070h, 073h, 073h, 073h, 0b8h, 070h, 08bh, 04h, 04h, 04h, 08bh, 070h, 070h, 0d3h, 070h, 0d3h, 070h, 070h
+            db 070h, 0d3h, 0d3h, 0d3h, 073h, 073h, 073h, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 073h, 073h, 073h, 0d3h, 073h, 073h, 0d3h, 073h, 0b8h, 0d3h, 073h, 070h, 04h, 04h, 04h, 04h, 08bh
+            db 073h, 073h, 073h, 073h, 0b8h, 0d3h, 0d3h, 0d3h, 0d3h, 073h, 070h, 073h, 070h, 073h, 073h, 073h, 073h, 0b8h, 0bbh, 0b8h, 0b8h, 0bbh, 0d3h, 073h, 070h, 070h, 070h, 070h, 073h, 073h, 073h, 0b8h
+            db 04h, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 04h, 070h, 0d3h, 0d3h, 0d3h, 070h, 073h, 0b8h, 0b8h, 0d3h, 0d3h, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 073h, 070h, 0d3h
+            db 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 073h, 073h, 073h, 0d3h, 0d3h, 0d3h, 073h, 0bbh, 073h
+            db 070h, 070h, 070h, 070h, 08bh, 08bh, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 08bh, 08bh, 08bh, 08bh, 04h, 04h, 04h, 070h, 073h, 0d3h, 073h, 073h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 070h, 073h, 070h, 073h, 070h, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 073h, 073h, 073h, 08bh, 08bh, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 04h
+            db 0d3h, 0d3h, 073h, 073h, 073h, 070h, 070h, 070h, 070h, 08bh, 08bh, 04h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 04h, 04h, 04h, 04h, 073h, 070h, 070h, 070h, 04h, 04h, 04h, 04h
+            db 073h, 073h, 073h, 070h, 073h, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 04h, 04h, 04h, 04h, 070h, 04h, 08bh, 08bh, 04h, 04h, 04h, 073h, 070h, 070h, 070h
+            db 08bh, 08bh, 070h, 070h, 08bh, 04h, 04h, 08bh, 070h, 070h, 073h, 073h, 073h, 0d3h, 070h, 070h, 070h, 073h, 070h, 073h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 04h, 08bh, 070h
+            db 04h, 04h, 08bh, 08bh, 070h, 08bh, 04h, 070h, 08bh, 08bh, 08bh, 071h, 08bh, 071h, 04h, 070h, 073h, 073h, 073h, 070h, 08bh, 08bh, 073h, 070h, 08bh, 070h, 04h, 04h, 04h, 04h, 04h, 08bh
+            db 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 073h, 070h, 08bh, 08bh, 08bh, 070h, 070h, 04h, 08bh, 04h, 070h, 073h, 073h, 070h, 070h, 070h, 0d3h, 070h, 08bh, 070h, 08bh, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 073h, 04h, 04h, 070h, 08bh, 04h, 08bh, 04h, 070h, 073h, 073h, 073h, 070h, 08bh, 070h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 04h, 04h, 08bh, 070h, 08bh, 070h, 08bh, 08bh, 04h, 08bh, 04h, 04h, 070h
+            db 073h, 073h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 08bh, 08bh, 04h, 08bh, 0d3h, 08bh, 04h, 08bh
+            db 073h, 073h, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0bbh, 0d3h, 073h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 070h, 070h
+            db 0b8h, 0bbh, 073h, 073h, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 0d3h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 073h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 08bh, 08bh, 08bh, 070h, 08bh, 073h, 070h, 070h, 070h, 0d3h, 08ah, 073h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 0d3h, 0bbh, 0d2h, 0bbh, 0bbh, 0b8h, 073h, 070h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 08bh, 070h, 073h, 070h, 073h, 073h, 070h, 070h, 04h, 08bh, 070h, 0bbh, 0bbh, 0d2h, 0b8h, 0b8h, 0d3h
+            db 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 073h, 0d3h, 073h, 070h, 070h, 08bh, 070h, 073h
+            db 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 070h, 070h, 070h, 08bh, 070h, 073h, 0bbh
+            db 04h, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 070h, 070h, 04h, 08bh, 070h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 08bh, 070h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 070h, 08bh, 070h, 08bh, 04h, 08bh, 08bh, 08bh, 04h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h
+            db 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 070h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 070h, 08bh, 08bh, 070h, 071h, 08bh, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 073h, 0d3h, 073h, 073h, 073h, 0d3h, 073h, 073h, 073h, 070h, 070h, 073h, 073h, 0d3h, 073h, 070h, 073h, 070h, 08bh, 08bh, 04h, 04h, 04h, 070h, 08bh, 04h, 08bh, 08bh, 08bh, 04h, 08bh, 070h
+            db 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 070h, 073h, 0d3h, 0bbh, 070h, 0d3h, 070h, 070h, 070h, 0d3h, 073h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 070h, 08bh
+            db 04h, 04h, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 08bh, 08bh, 070h, 070h, 08bh, 070h, 070h, 0d3h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 070h
+            db 08bh, 070h, 04h, 070h, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 070h, 070h, 08bh, 04h, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 0d3h, 073h
+            db 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h
+            db 0b8h, 0d3h, 0d3h, 073h, 0b8h, 073h, 0b8h, 0d3h, 0b8h, 0bbh, 0bbh, 0bbh, 0d3h, 073h, 073h, 073h, 070h, 08bh, 08bh, 070h, 04h, 04h, 070h, 08bh, 04h, 04h, 04h, 04h, 071h, 08bh, 08bh, 08bh
+            db 070h, 073h, 0b8h, 073h, 073h, 0d3h, 073h, 0d3h, 0d3h, 0d3h, 0d3h, 0b8h, 0bbh, 0bbh, 0b8h, 0bbh, 0bbh, 0bbh, 0b8h, 073h, 073h, 0b8h, 0bbh, 0bbh, 0bbh, 0b8h, 073h, 073h, 073h, 073h, 070h, 073h
+            db 04h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 070h, 070h, 0d3h, 0b8h, 0b8h, 0d3h
+            db 028h, 04h, 028h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 028h, 028h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 0eh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h
+            db 070h, 04h, 08bh, 08bh, 070h, 08bh, 08bh, 070h, 08bh, 08bh, 070h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+BAR2_SPRITE db 32, 40
+            db 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 04h, 04h
+            db 073h, 070h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 04h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 04h, 04h, 04h, 070h, 070h, 073h, 073h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 04h, 08bh, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 073h, 070h, 070h, 070h, 04h, 08bh, 070h
+            db 0d3h, 070h, 070h, 0d3h, 073h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 070h, 073h, 073h, 070h, 073h, 073h, 0b8h, 070h, 073h, 073h, 070h, 0d3h, 073h, 070h, 070h, 070h, 070h, 073h, 073h, 070h
+            db 0d2h, 0d3h, 073h, 070h, 070h, 070h, 070h, 0d3h, 073h, 0d3h, 0b8h, 073h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 0bbh, 0d3h, 0bbh, 0bbh, 073h, 0bbh, 073h, 073h, 070h, 0d3h, 0d3h, 073h, 070h, 073h, 070h, 070h, 070h, 070h, 073h, 073h, 073h, 073h, 073h, 073h, 073h, 073h, 073h, 073h, 073h, 0d3h, 073h, 073h
+            db 070h, 073h, 0d3h, 070h, 0d3h, 0b8h, 0b8h, 0b8h, 0bbh, 0bbh, 0bbh, 073h, 0bbh, 0bbh, 0b8h, 0b8h, 0d3h, 073h, 0d3h, 073h, 070h, 070h, 070h, 070h, 073h, 0d3h, 070h, 070h, 070h, 070h, 073h, 073h
+            db 04h, 04h, 04h, 08bh, 04h, 070h, 073h, 073h, 070h, 070h, 073h, 070h, 073h, 073h, 073h, 073h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h
+            db 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 073h, 0d3h, 073h, 0d3h, 070h, 0d3h, 070h, 070h, 073h, 073h, 0d3h, 073h, 0d3h, 0d3h, 073h, 070h, 070h, 073h, 070h, 0d3h
+            db 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 070h, 08bh, 04h, 08bh, 04h, 04h, 04h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 04h, 04h, 04h, 070h, 070h, 070h, 070h, 070h, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 070h, 08bh, 08bh, 04h, 04h, 04h, 08bh, 0b8h, 0d3h, 070h, 070h, 073h, 073h, 070h, 070h, 070h, 073h, 0d3h, 070h, 073h, 0d3h, 070h, 070h, 073h, 073h
+            db 070h, 073h, 070h, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h
+            db 073h, 073h, 073h, 070h, 070h, 08bh, 08bh, 070h, 0d3h, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h
+            db 08bh, 08bh, 08bh, 04h, 08bh, 04h, 04h, 08bh, 070h, 070h, 073h, 070h, 070h, 073h, 070h, 0d3h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 04h, 08bh, 070h, 070h, 070h
+            db 070h, 08bh, 04h, 08bh, 073h, 08bh, 04h, 070h, 08bh, 04h, 070h, 070h, 08bh, 08bh, 04h, 08bh, 04h, 08bh, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 04h, 071h, 071h, 08bh
+            db 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 08bh, 08bh, 070h, 04h, 04h, 08bh, 08bh, 08bh, 070h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 08bh, 08bh, 08bh
+            db 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 08bh, 04h, 08bh, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h
+            db 0d3h, 071h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h
+            db 0d3h, 0bbh, 0b8h, 0bbh, 0bbh, 073h, 070h, 070h, 073h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 08bh, 070h, 08bh, 070h, 0d3h, 0bbh, 0bbh, 0bbh, 0d2h, 0b8h, 0bbh, 0bbh, 0bbh, 0b8h, 0bbh, 0b8h, 073h, 0b8h, 0bbh, 0bbh, 073h, 0bbh, 0bbh, 0b8h, 0b8h, 0d2h, 0bbh, 0bbh, 0bbh, 0bbh
+            db 070h, 08bh, 070h, 0d3h, 0b8h, 0b8h, 0d3h, 070h, 070h, 073h, 070h, 070h, 08bh, 04h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 04h, 08bh, 070h, 070h, 08bh, 08bh, 070h, 070h, 0d3h, 0b8h, 0bbh, 0b8h
+            db 04h, 08bh, 070h, 08bh, 08bh, 070h, 073h, 070h, 073h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 0d3h, 0d3h, 070h, 08bh, 08bh, 070h, 08bh, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 071h, 070h, 08bh, 04h, 08bh, 04h, 08bh
+            db 08bh, 08bh, 070h, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 071h, 070h, 070h, 070h, 08bh, 08bh, 04h
+            db 073h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 0d3h, 0d3h, 070h, 070h, 073h, 073h, 0d3h, 070h, 070h, 073h, 0d3h, 0d3h, 073h, 073h, 073h
+            db 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h
+            db 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 08bh, 04h, 04h, 04h, 071h, 04h, 08bh, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h
+            db 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 08bh, 070h, 08bh, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h
+            db 0d3h, 073h, 0d3h, 0b8h, 0d2h, 073h, 0bbh, 0b8h, 0d3h, 0d3h, 0bbh, 0bbh, 0b8h, 0bbh, 0bbh, 0b8h, 073h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 073h, 0b8h, 0d3h, 0d3h, 0d3h, 0bbh, 0bbh, 073h, 073h, 0b8h, 0b8h, 0b8h, 0b8h, 0b8h, 0b8h, 0bbh, 0b8h, 0b8h, 0bbh, 0bbh
+            db 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 071h, 070h, 070h, 0d3h, 0b8h, 0b8h, 0d3h, 0b8h, 0bbh, 0b8h, 073h, 070h
+            db 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 028h, 04h, 04h, 04h, 028h, 028h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+BAR3_SPRITE db 32, 40
+            db 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 08bh, 070h, 070h, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 08bh
+            db 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h
+            db 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h
+            db 028h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h
+            db 028h, 028h, 04h, 04h, 028h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 028h, 028h, 028h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 028h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 028h, 04h, 04h, 028h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 028h, 04h, 04h
+            db 073h, 08bh, 071h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h
+            db 0b8h, 0b8h, 0b8h, 0b8h, 0bbh, 0bbh, 0d3h, 0d3h, 0d3h, 073h, 073h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 08bh, 070h, 070h, 08bh, 070h, 070h, 070h, 070h, 0d3h, 073h, 073h, 0b8h, 073h, 073h, 073h, 073h, 0b8h, 0bbh, 0b8h, 0bbh, 0bbh, 0bbh, 0b8h, 0d3h, 0b8h, 0d3h, 070h, 070h, 070h, 071h, 04h
+            db 070h, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 070h, 070h, 08bh, 070h, 073h, 070h, 073h, 070h, 0d3h, 0b8h, 0bbh, 073h
+            db 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 04h, 04h, 04h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 070h, 070h, 08bh, 070h, 070h, 070h, 04h, 04h, 04h, 04h
+            db 08bh, 08bh, 070h, 070h, 070h, 0d3h, 0d3h, 0d3h, 073h, 0b8h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 070h, 070h, 073h, 073h, 073h, 070h, 070h, 0d3h, 073h, 0d3h, 0d3h, 070h, 073h, 073h, 073h, 070h, 073h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 08bh, 04h, 070h, 08bh, 08bh, 04h, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 070h, 04h, 071h, 04h, 04h, 04h, 071h
+            db 073h, 073h, 08bh, 070h, 070h, 071h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 0bbh, 0bbh, 0d3h, 073h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 0d3h, 0d3h, 0b8h, 0b8h, 073h, 0b8h, 073h, 073h, 0b8h, 0bbh, 0b8h, 073h, 073h
+            db 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 073h, 0b8h, 073h, 073h, 0b8h, 073h, 073h, 0d3h, 073h, 0bbh, 073h, 0d2h, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh
+            db 04h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 073h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 08bh, 08bh, 04h, 08bh, 08bh, 08bh, 08bh
+            db 04h, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 071h, 04h, 04h, 04h, 04h, 04h, 071h, 08bh, 04h, 04h, 071h, 08bh, 08bh
+            db 08bh, 08bh, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 04h, 08bh, 070h, 08bh, 08bh, 070h, 08bh, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 08bh, 08bh, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 070h, 070h, 070h, 073h, 0d3h, 073h, 073h, 073h, 073h, 0b8h, 073h, 070h, 073h, 073h, 073h, 0d3h, 0d3h
+            db 070h, 070h, 070h, 070h, 0d3h, 070h, 070h, 073h, 0d3h, 073h, 0d3h, 073h, 073h, 073h, 070h, 0d3h, 0b8h, 0d2h, 073h, 0b8h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0d2h, 0b8h, 0b8h, 073h, 0bbh, 0bbh
+            db 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 073h, 0d3h, 0b8h, 0d3h, 0d3h, 073h, 0d3h, 073h, 070h, 070h, 070h, 070h, 073h, 070h, 0d3h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 0d3h, 070h, 070h, 070h
+            db 070h, 070h, 070h, 073h, 073h, 070h, 070h, 073h, 0d3h, 0d3h, 0b8h, 0bbh, 073h, 073h, 073h, 073h, 073h, 073h, 073h, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 071h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 073h, 073h, 073h, 070h, 073h, 0b8h, 073h, 070h, 073h, 070h, 073h, 070h, 070h, 070h, 070h
+            db 073h, 08ah, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 04h, 08bh, 070h, 070h, 04h, 08bh, 08bh, 070h, 08bh, 04h, 08bh, 070h, 070h, 070h, 08bh, 04h, 08bh, 08bh, 070h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 070h
+            db 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 0eh, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 073h, 073h, 073h, 073h, 0d3h, 073h, 070h, 070h, 073h, 073h, 0d3h, 073h, 0d3h, 0d3h, 0d3h, 0d3h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0d2h, 0b8h, 0b8h, 0b8h, 073h, 0b8h, 073h, 0bbh, 073h
+BAR4_SPRITE db 32, 40
+            db 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 070h, 070h, 070h, 070h, 04h, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 08bh, 08bh, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 04h, 070h, 070h, 04h, 070h, 070h, 08bh, 070h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 070h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 073h, 073h, 070h, 070h, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 028h, 0eh, 028h, 04h, 028h, 028h
+            db 028h, 04h, 028h, 04h, 04h, 028h, 04h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 028h
+            db 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 0d3h, 0d3h, 0b8h, 0b8h, 0bbh, 0bbh, 0b8h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 073h, 0b8h, 0d3h, 0d3h, 0b8h, 0bbh, 0b8h, 0b8h, 0b8h, 0bbh, 0b8h, 0b8h, 070h, 073h, 070h, 070h, 08bh, 08bh, 08bh
+            db 0b8h, 073h, 0b8h, 073h, 0d3h, 073h, 073h, 0bbh, 073h, 0b8h, 0b8h, 0b8h, 073h, 073h, 070h, 070h, 08bh, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 070h, 04h
+            db 04h, 08bh, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 070h, 070h, 08bh, 070h, 08bh, 070h, 08bh, 070h, 08bh, 04h, 04h, 08bh, 070h, 08bh, 08bh, 070h, 08bh, 08bh, 070h, 070h, 073h, 073h
+            db 04h, 04h, 04h, 08bh, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 073h, 0d3h, 070h, 073h, 073h, 070h, 070h, 070h, 070h, 073h, 073h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 04h
+            db 073h, 073h, 070h, 073h, 070h, 070h, 070h, 070h, 073h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 08bh, 08bh, 08bh, 08bh, 04h, 08bh, 08bh, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h
+            db 08bh, 070h, 070h, 070h, 04h, 070h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 0d3h, 0d3h, 08bh, 070h, 0d3h, 0b8h, 070h, 070h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 073h, 070h, 073h, 0b8h, 0b8h, 070h, 070h, 04h, 08bh, 0d3h, 0d2h, 0bbh, 0bbh, 0b8h, 0b8h, 0bbh, 073h, 073h
+            db 073h, 073h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 08bh, 070h, 0d3h, 0bbh, 0bbh, 0bbh, 0b8h, 0d3h, 0d3h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 0bbh, 0bbh, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 0d3h, 073h, 0d3h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 070h, 070h, 08bh, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 070h, 073h, 073h, 070h, 04h, 04h, 04h, 08bh, 04h, 08bh, 070h, 073h, 070h, 070h, 08bh, 04h, 08bh, 070h, 08bh
+            db 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 071h, 08bh, 071h, 070h, 08bh, 04h, 08bh, 04h, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 04h, 08bh, 070h, 070h, 070h
+            db 070h, 08bh, 08bh, 070h, 070h, 04h, 070h, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 070h, 0d3h, 0b8h, 0d3h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h
+            db 08bh, 08bh, 08bh, 04h, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 0d3h, 070h, 08bh, 070h, 070h, 070h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 08bh, 08bh, 070h, 073h, 0d3h, 073h, 070h, 0d3h, 073h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 070h, 070h, 070h
+            db 04h, 04h, 04h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh
+            db 073h, 073h, 0d3h, 0d3h, 073h, 073h, 0d3h, 0d3h, 073h, 0d3h, 073h, 073h, 073h, 0d3h, 0d3h, 073h, 070h, 0b8h, 0b8h, 0d3h, 0d3h, 073h, 0d3h, 0d3h, 0d3h, 0d3h, 0d3h, 0d3h, 0d3h, 073h, 073h, 073h
+            db 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 0b8h, 073h, 073h
+            db 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 070h
+            db 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 04h
+            db 070h, 070h, 073h, 0d3h, 073h, 073h, 073h, 073h, 070h, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 0d3h, 073h, 073h, 073h, 073h, 070h, 073h, 073h, 073h, 070h, 073h, 070h
+            db 070h, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 04h, 071h, 08bh, 04h, 04h, 08bh
+            db 070h, 070h, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 070h, 04h, 08bh, 070h, 08bh, 08bh, 08bh
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 0bbh, 0b8h, 0d3h, 0d3h, 0d3h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 073h, 070h, 073h, 073h, 073h, 070h, 0b8h, 0d3h, 0b8h, 0b8h, 0bbh, 0bbh
+BAR5_SPRITE db 32, 40
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 042h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 042h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 04h, 028h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 028h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 028h, 04h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 028h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 028h, 04h, 028h, 028h, 028h, 04h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 04h, 028h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 04h, 028h, 028h, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 028h, 028h, 028h, 028h, 028h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 073h, 0b8h, 0d3h, 073h, 073h, 073h, 073h, 0d3h, 0d3h, 0b8h, 073h, 0b8h, 0d3h, 0d3h, 0d3h
+            db 04h, 04h, 04h, 04h, 070h, 073h, 0d3h, 0d3h, 0d3h, 0bbh, 0bbh, 0b8h, 0b8h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0bbh, 0b8h, 073h, 0d3h, 0b8h, 0d3h, 0d3h, 0b8h, 073h, 0d3h, 073h, 073h, 0b8h
+            db 0d3h, 0b8h, 0b8h, 0d3h, 0bbh, 0d3h, 0d3h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 08bh, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 08bh, 08bh, 070h, 08bh, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 08bh, 04h
+            db 04h, 070h, 08bh, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 073h, 070h, 070h, 073h, 0b8h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 073h
+            db 073h, 073h, 0d3h, 070h, 073h, 070h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 04h, 04h, 04h
+            db 08bh, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 08bh, 070h, 08bh, 070h, 073h, 070h, 070h, 070h, 0d3h, 0d3h, 0d3h, 0d3h, 0bbh, 0bbh, 073h, 073h, 0bbh, 0bbh, 0bbh, 073h, 0b8h, 073h, 0bbh, 0b8h, 0d3h, 0d3h, 070h, 08bh, 070h, 073h, 073h
+            db 08bh, 08bh, 08bh, 070h, 070h, 073h, 073h, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0d3h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0b8h, 0bbh, 0bbh, 0bbh, 073h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 073h, 073h
+            db 073h, 0d3h, 070h, 070h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 070h, 070h, 073h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 08bh, 070h, 070h, 08bh, 08bh, 070h, 08bh, 070h, 08bh, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 08bh, 08bh
+            db 08bh, 08bh, 070h, 04h, 04h, 04h, 08bh, 08bh, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 08bh, 070h, 08bh, 08bh, 08bh, 04h, 08bh, 08bh, 071h, 04h, 04h, 08bh, 073h, 070h
+            db 070h, 070h, 073h, 073h, 070h, 070h, 070h, 070h, 073h, 0d3h, 073h, 070h, 073h, 0d3h, 073h, 073h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 04h, 071h, 04h, 070h, 08bh, 04h, 04h
+            db 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 070h, 073h, 0d3h, 073h, 070h, 070h, 08bh, 04h, 08bh, 08bh, 070h, 070h, 070h, 0d3h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 08bh, 070h, 070h, 08bh
+            db 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 08bh, 08bh, 08bh, 08bh, 04h, 04h
+            db 070h, 08bh, 08bh, 08bh, 08bh, 071h, 04h, 04h, 04h, 04h, 04h, 08bh, 070h, 08bh, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 08bh, 070h, 070h, 070h, 070h, 08bh, 08bh, 070h, 073h, 073h, 070h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 028h, 028h, 028h, 028h, 04h, 028h, 028h, 04h, 04h, 028h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 071h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 08bh, 04h, 04h, 04h, 08bh, 08bh, 08bh, 04h, 04h, 04h, 04h, 04h, 04h
+            db 070h, 0d3h, 0d3h, 070h, 070h, 070h, 070h, 070h, 073h, 073h, 070h, 070h, 070h, 070h, 0d3h, 0d3h, 0d3h, 073h, 0b8h, 0b8h, 0b8h, 073h, 073h, 0d3h, 0d3h, 073h, 073h, 070h, 070h, 070h, 08bh, 04h
+            db 0b8h, 073h, 0bbh, 0bbh, 073h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 0b8h, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 0bbh, 073h, 0bbh, 0bbh, 0bbh, 0b8h, 0d3h, 073h, 073h, 0bbh, 073h, 0d3h
+            db 070h, 070h, 070h, 073h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 073h, 070h, 070h, 073h, 073h, 073h, 073h, 070h, 070h, 073h, 073h, 073h, 070h, 073h, 070h, 073h
+            db 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 070h, 070h, 070h, 08bh, 070h, 070h, 08bh, 08bh, 070h, 070h, 0d3h, 0bbh, 0b8h, 0b8h, 0b8h, 073h, 073h, 073h, 0d3h, 073h, 0d3h, 073h
+            db 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 073h, 073h, 0d3h, 070h, 073h, 070h, 073h, 073h, 073h, 0d3h, 073h, 073h, 073h, 073h, 073h, 073h, 070h, 070h, 070h, 08bh, 08bh, 08bh
+            db 08bh, 08bh, 08bh, 070h, 070h, 070h, 070h, 04h, 04h, 08bh, 04h, 04h, 04h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 08bh, 08bh, 08bh, 08bh, 08bh, 08bh, 070h, 070h, 070h, 08bh
+            db 08bh, 08bh, 04h, 08bh, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 070h, 08bh, 070h, 070h, 08bh, 08bh, 04h, 070h, 08bh, 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h
+            db 04h, 04h, 04h, 04h, 04h, 08bh, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h, 04h
+            db 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 042h, 028h, 028h, 028h, 028h, 028h, 042h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h, 028h
+            db 0b8h, 0b8h, 0bbh, 0b8h, 073h, 0d2h, 0b8h, 073h, 0b8h, 0d3h, 0d3h, 0b8h, 0b8h, 0b8h, 0bbh, 0b8h, 0d3h, 0d3h, 0d3h, 0d2h, 0d3h, 0d3h, 0d3h, 0d3h, 073h, 0b8h, 0b8h, 0b8h, 0b8h, 0b8h, 073h, 073h
+
 .code
 ; XORs the sprite bitmap with whatever was there before, meaning that we can easily restore the background, by XORing again
 ; Careful: Showing the sprite (calling this function) to the same position twice will REMOVE it
