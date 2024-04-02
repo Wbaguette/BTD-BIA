@@ -55,6 +55,9 @@ PlaceMonkey proc far
         mov cl, ds:[bx + MONKEY.sprite] ; get sprite 
         call ShowSprite
 
+        ; mov ds:[bx + MONKEY.highlighted], 1
+        ; call DrawRadius ; The monkey is highlighted so let's show the range!
+
         jmp finish_place_monkey ; Don't bother iterating more
 
         continue_mky_checks:
@@ -230,6 +233,10 @@ PopBloons endp
 ; TODO: Bounds check
 ; draw the monkey's sightline relative to current chunk
 DrawRadius proc near
+    push cx
+    push ax
+    push dx
+    push bx
     ; chunks visible = range * 2 + 1 (range for either side + 1 for tile monkey is on)
     xor cx, cx
     mov cl, ds:[bx + MONKEY.radius] ; get range
@@ -261,5 +268,58 @@ DrawRadius proc near
         pop cx
         inc al ; Y offset
         loop radY
+    pop bx
+    pop dx
+    pop ax
+    pop cx
     ret
 DrawRadius endp
+
+; Highlight a monkey if it exists at the given chunk coordinates
+; Also unhighlights any previously selected monkeys
+; DX : X/Y
+IsMonkeySelected proc near
+    push bx
+    push cx
+    push ax
+
+    mov ax, @data
+    mov ds, ax
+
+     ; Check if a monkey exists at AX already
+    mov bx, OFFSET alive_monkeys
+    mov cx, alive_monkey_head
+
+    IsMonkeyHighlighted:
+        cmp ds:[bx + MONKEY.deployed], 0 ; Not deployed don't even bother
+        je IsMonkeyEnd ; Since the array is sequential we can exit immediately
+
+        cmp dx, ds:[bx + MONKEY.chunk]  ; Is the monkey at target chunk?
+        jne GoNextMonkey          ; This monkey is selected, highlight it
+        ; jmp GoNextMonkey
+
+        ; ; The monkey is not selected, is it highlighted from a previous selection?
+        ; CheckHighlighted:
+        ; cmp ds:[bx + MONKEY.highlighted], 1 
+        ; je RemoveOldHighlight ; Has a previous highlight, remove it
+        ; jmp GoNextMonkey ; No previous highlight to remove, move on to next monkey
+
+        SetHighlight:
+        mov ds:[bx + MONKEY.highlighted], 1
+        call DrawRadius
+        jmp IsMonkeyEnd ; Go to the next monkey to check for needed removals
+
+        ; RemoveOldHighlight:
+        ; mov ds:[bx + MONKEY.highlighted], 0 ; Set to 0
+        ; call DrawRadius ; Remove the sightline and fallthrough to next monkey
+
+        GoNextMonkey:
+        add bl, monkey_struc_size
+    loop IsMonkeyHighlighted
+
+    IsMonkeyEnd:
+    pop ax
+    pop cx
+    pop bx
+    ret
+IsMonkeySelected endp
