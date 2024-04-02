@@ -1,7 +1,7 @@
 # YOU NEED DOSBOX TO RUN THIS 🎈
 
 ### DOSBOX Prereqs: <br>
-1. 8086 masm.exe and link.exe in 8086 folder <br>
+1. 8086 masm.exe and link.exe in 8086 folder. Mediafire link: https://www.mediafire.com/file/mm7cjztce9efj4w/8086.zip (no this is not going to break your pc) <br>
 2. In DOSBOX conf file do something like this under the autoexec portion: <br>
   ``` 
       [autoexec]
