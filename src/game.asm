@@ -1,6 +1,8 @@
 ; Main game loop of our game :)
 ; Authors: Jean-Pierre Derbes, Vincent Quintero
 
+; ATTENTION PROOFREADER: READ THE README FOR INSTRUCTIONS
+
 .model small
 .stack 200h ; 512 bytes (book recommended it ¯\_(ツ)_/¯)
 ; DOCS - https://stanislavs.org/helppc/idx_interrupt.html 
