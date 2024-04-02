@@ -2,9 +2,9 @@ MONKEY struc
     chunk dw 0FFFFh ; monkey's location (X/Y upper/lower 8 bits)
     pops dw 0 
     upgrades db 0 ; upgrades
-    radius db 1 ; radius of chunks it can see
+    radius db 3 ; radius of chunks it can see
     damage db 1 
-    fireRate db 12 ; how many frames before this monkey can inflict damage again
+    fireRate db 1 ; how many frames before this monkey can inflict damage again
     sprite db MONKEY_DART_1
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
@@ -68,6 +68,135 @@ PlaceMonkey proc far
     pop bx 
     ret
 PlaceMonkey endp
+
+
+; Takes in CX the frame number 
+; Iterate through monkeys, for each monkey if they can fire this frame, iterate through the alive bloons 
+;   If there is any bloon in range, destroy the bloon
+; Use FrameNumber / FireRate , if remainder = 0, the monkey can fire, except for frame 0
+PopBloons proc far
+    push ds
+    push ax
+    push bx
+    push dx
+    push di
+    push si
+
+    xor bx, bx
+
+    mov ax, @data
+    mov ds, ax
+
+    cmp alive_monkey_head, 0   ; If head is 0, we have no monkeys placed, don't bother doing stuff
+    jne go_ahead_passenger
+    jmp done_pop_bloons
+    
+    go_ahead_passenger:
+
+    mov bx, OFFSET alive_monkeys ; Pointer to beginning of alive monkeys 
+    mov ax, alive_monkey_head    ; Number of times to iterate
+
+    loop_alive_monkeys_for_pops:
+        cmp ax, 0 
+        je done_pop_bloons
+
+        xor dh, dh
+        mov dl, ds:[bx + MONKEY.fireRate]     ; dl now has this monkey's fire rate 
+
+        push ax 
+        mov ax, cx 
+        div dl       ;  AL: Quotient,    AH: Remainder 
+        cmp ah, 0       ; If remainder = 0, then the monkey can fire 
+        pop ax  
+        jne monkey_cant_fire ; Fall through if the monkey can fire 
+
+        mov di, ds  ; Store ds of monkeys in di 
+        mov si, bx  ; Store bx in si
+
+        mov dx, ds:[bx + MONKEY.chunk]  ; DX now has monkey position 
+
+        ; Iterate through alive bloons, and shoot the first one that is in range!
+        push ax
+        push bx 
+        push cx
+        push ds
+        push si
+
+        call get_round_ds
+        mov ds, ax
+
+        mov ax, alive_bloons_head ; alive_bloons_head tells us how many bloons are alive
+        mov bx, OFFSET alive_bloons
+        
+        check_alive_bloons_iter:
+            cmp ax, 0
+            je done_check_alive_bloons_iter
+            xor cx, cx 
+            
+            cmp ds:[bx + BLOON.state], 0  ; Only go forward with this code if the bloon is alive
+            jne continue_check_alive_bloons_iter
+            
+            ; At this point, the bloon is alive, need to check if its in range
+            xor ch, ch
+            push si
+            xor si, si
+            mov si, ds:[bx + BLOON.pathIndex]
+            and si, 0FFh
+
+            shl si, 1
+
+            mov cx, [PATH + si]    ; Now cx has the chunk of the bloon ,   dx has the position of the monkey
+            pop si
+            call DistanceBetweenChunks
+            ; Returns 
+            ; CH : Horizontal distance between A & B
+            ; CL : Vertical distance between A & B
+            push ds
+            mov ds, di
+            mov bx, si
+            cmp ch, ds:[bx + MONKEY.radius]
+            jne not_in_range        ; Fall through if we wanna check CL
+            cmp cl, ds:[bx + MONKEY.radius]
+            jne not_in_range        ; Fall through if its in range 
+
+            push dx
+            xor dx, dx
+            mov dl, RED
+            call DrawBackground
+            pop dx
+            pop ds
+            jmp done_check_alive_bloons_iter
+
+            not_in_range:
+            pop ds
+
+            continue_check_alive_bloons_iter:
+            add bl, bloon_struc_size ; Align ourselves to next bloon struct
+            dec ax
+            jmp check_alive_bloons_iter
+
+        done_check_alive_bloons_iter:
+        pop si
+        pop ds
+        pop cx
+        pop bx
+        pop ax
+        
+        monkey_cant_fire:
+        add bl, monkey_struc_size
+        dec ax
+        jmp loop_alive_monkeys_for_pops
+
+    done_pop_bloons:
+    pop si
+    pop di
+    pop dx
+    pop bx
+    pop ax
+    pop ds
+    ret
+PopBloons endp
+
 
 
 ; TODO: Bounds check

@@ -38,6 +38,9 @@ main PROC
         call draw_bloons  ; Clear bloons 
         
         mov cx, frame_counter
+        call PopBloons
+
+        mov cx, frame_counter
         call move_alive_bloons ; returns amount of damage to do to player in cx 
         sub lives, cx
 

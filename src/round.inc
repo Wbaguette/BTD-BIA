@@ -34,6 +34,12 @@ r1_queue BLOON <BLOON_RED, 0, 2, 0, 1, 1>, <BLOON_RED, 0, 2, 4, 1, 1>, <BLOON_RE
 queue_registry dw OFFSET r0_queue, OFFSET r1_queue
 
 .code
+; Returns this ds in ax
+get_round_ds PROC near
+   mov ax, @data
+   ret
+get_round_ds ENDP
+
 ; Every frame check if we need to spawn a balloon 
 ; Expected register params:
 ;  CX : the current frame number
