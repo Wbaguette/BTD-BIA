@@ -4,13 +4,35 @@
 
 
 ; array of all chunk X/Y coordinates the path follows
-PATH dw 0008h, 0108h, 0208h, 0308h, 0408h
-    dw 0508h, 0509h, 050ah, 050bh, 050ch, 050dh, 050eh
-    dw 050fh, 0510h, 0511h, 0512h, 0513h, 0514h, 0515h
-    dw 0615h, 0715h
-    dw 0815h, 0915h, 0a15h, 0b15h, 0c15h, 0d15h, 0e15h, 0f15h
-    dw 1015h, 1115h, 1215h, 1315h, 1415h, 1515h, 1516h, 1517h
-    dw 1518h
+; Seek resources/map_reference.jpg to see corresponding locations
+PATH dw 000bh, 010bh, 020bh, 030bh, 040bh, 050bh, 060bh, 070bh ; A
+    dw 070ah, 0709h, 0708h, 0707h, 0706h ; B
+    dw 0806h, 0906h, 0a06h, 0b06h, 0c06h ; C
+
+    ; D
+    dw 0c07h, 0c08h, 0c09h, 0c0ah, 0c0bh, 0c0ch, 0c0dh
+    dw 0c0eh, 0c0fh, 0c10h, 0c11h 
+
+    dw 0b11h, 0a11h, 0911h, 0811h, 0711h, 0611h, 0511h, 0411h ; E 
+    dw 0412h, 0413h, 0414h, 0415h ; F
+
+    ; G
+    dw 0515h, 0615h, 0715h, 0815h, 0915h, 0a15h, 0b15h, 0c15h, 0d15h
+    dw 0e15h, 0f15h, 1015h, 1115h, 1215h, 1315h, 1415h, 1515h, 1615h 
+    dw 1715h, 1815h
+
+    dw 1814h, 1813h, 1812h, 1811h, 1810h, 180fh, 180eh ; H
+    dw 170eh, 160eh, 150eh, 140eh, 130eh, 120eh, 110eh, 100eh ; I
+    dw 100dh, 100ch, 100bh, 100ah, 1009h ; J
+    dw 1109h, 1209h, 1309h, 1409h, 1509h, 1609h, 1709h, 1809h ; K
+    dw 1808h, 1807h, 1806h, 1805h, 1804h, 1803h ; L
+    
+    ; M
+    dw 1703h, 1603h, 1503h, 1403h, 1303h, 1203h, 1103h, 1003h 
+    dw 0f03h
+
+    dw 0f03h, 0f02h, 0f01h, 0f00h ; N
+
 PATH_LENGTH = ($ - PATH) / 2
 
 .code
