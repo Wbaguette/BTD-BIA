@@ -65,14 +65,22 @@ DrawMonkeyBar endp
 DrawLives proc far
     push cx
     push dx
-    push ax
 
-    mov dh, LIVES_X_OFFSET
-    mov dl, LIVES_Y_OFFSET
-    mov cl, HEART
-    call ShowSprite
+    DrawLivesRemaining:
+        cmp ax, 0 ; All lives drawn
+        je DrawLivesDone
 
-    pop ax
+        ; More lives to draw
+        mov dh, LIVES_X_OFFSET
+        add dh, al ; Easy offset!
+        mov dl, LIVES_Y_OFFSET
+        mov cl, HEART
+        call ShowSprite
+
+        dec ax
+        jmp DrawLivesRemaining
+
+    DrawLivesDone:
     pop dx
     pop cx
     ret

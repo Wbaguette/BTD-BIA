@@ -3,7 +3,7 @@ import glob
 import re
 
 # XOR each byte with background (02h), replace the byte with the result
-bg = int('2', 16)
+bg = int('3', 16)
 def main():   
     for f in glob.glob('../sprites/pond/water*.txt'):
         print(f'File {f}')
