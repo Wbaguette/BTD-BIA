@@ -1,19 +1,16 @@
 ### PRIORITIES
 - POPPING INTERACTION / MONKEY POP BLOON (depdendent on monkey array and distance function) 
     - [For every monkey, if the monkey can fire, go through every bloon and check if the distance falls within monkey's radius. If so, pop the bloon]
-- MONKEY ARRAY (HOLD EVERY MONKEY ON THE MAP (cap 10))
-    - When a monkey is spawned, add it to this array. If the array is full, do not spawn any more monkeys.
+
 - LOSE LIFE (visually showcased)
-- UPDATE MAP
 - UPDATE SPRITES 
-    - LIVES REMAINING, NUMBER SPRITES, DIFFERENT BLOON LEVELS
+    - LIVES REMAINING, NUMBER SPRITES
 
-2. Bloon popping interaction 
-3. IsRoundOver, next round after a round is over
-4. Life visuals (hearts)
+1. Bloon popping interaction 
+2. Life visuals (hearts)
 
-5. Documentation and author titles 
-6. Review how we wanna showcase game
+3. Documentation and author titles 
+4. Review how we wanna showcase game
 
 ## DOING
 3. Distance function between two chunks
