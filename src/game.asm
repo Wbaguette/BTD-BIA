@@ -34,6 +34,9 @@ main PROC
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
 
+    mov ax, lives
+    call DrawLives
+
     start_round:
     jmp awaitkey
 
@@ -47,10 +50,10 @@ main PROC
         call move_alive_bloons ; returns amount of damage to do to player in cx 
         sub lives, cx
 
-        ; cmp cx, 0 ; Check if any lives were lost
-        ; xor cx, cx 
-        ; mov cx, lives
-        ; call DrawLives
+        cmp cx, 0 ; Check if any lives were lost
+        je continueGame ; Fall through if cx != 0 meaning we lost lives 
+        mov ax, lives
+        call DrawLives
 
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
