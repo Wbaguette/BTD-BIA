@@ -34,7 +34,7 @@ main PROC
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
 
-    mov ax, lives
+    mov ax, lives ; Show initial lives
     call DrawLives
 
     start_round:
