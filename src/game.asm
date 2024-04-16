@@ -48,16 +48,14 @@ main PROC
         sub lives, cx
 
         ; cmp cx, 0 ; Check if any lives were lost
-        ; jne UpdateLives ; Lives were lost somewhere update the HUD
+        ; xor cx, cx 
+        ; mov cx, lives
+        ; call DrawLives
 
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
         exit_err ; Exit game on loss, good enough for now
 
-        ; UpdateLives:
-        ;     xor cx, cx
-        ;     mov cx, lives
-        ;     call DrawLives ; Clear
 
         continueGame:
         mov cx, frame_counter
