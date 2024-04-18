@@ -42,6 +42,9 @@ main PROC
 
     gameloop:        
         call draw_bloons  ; Clear bloons 
+
+        mov ax, lives     ; Clear lives
+        call DrawLives
         
         mov cx, frame_counter
         call PopBloons
@@ -50,20 +53,18 @@ main PROC
         call move_alive_bloons ; returns amount of damage to do to player in cx 
         sub lives, cx
 
-        cmp cx, 0 ; Check if any lives were lost
-        je continueGame ; Fall through if cx != 0 meaning we lost lives 
-        mov ax, lives
-        call DrawLives
-
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
-        exit_err ; Exit game on loss, good enough for now
+        exit_err                  ; Exit game on loss with error in order for bat file to work properly
 
 
         continueGame:
         mov cx, frame_counter
         mov bx, round_number
         call spawn_bloon
+
+        mov ax, lives   ; Redraw lives
+        call DrawLives
 
         call draw_bloons    ; Draw where they should be 
 
