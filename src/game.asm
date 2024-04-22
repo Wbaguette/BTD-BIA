@@ -124,7 +124,7 @@ main PROC
         call MoveDown
         jmp awaitkey
 
-    ex: ; terminates program
-        exit           ; Normal exit, just exits 
+    ex:
+        exit           ; Normal exit 
 main ENDP
 END main 

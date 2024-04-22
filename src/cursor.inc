@@ -5,10 +5,6 @@ x db CURSOR_X_LOWER  ; chunk
 y db CURSOR_Y_LOWER  ; chunk
 selected db 0   ; the thing the cursor is hovering above 
 
-; TODO: Cursor should disallow actions on PATH/OCCUPIED tiles
-; TODO: Cursor should have special INFO behavior when hovering monkeys (show sightline)
-; FEAT: When selecting a monkey, it is held and dragged in cursor, not placed at cursor position
-
 .code
 ; Draw the cursor at screen origin
 DrawCursor proc far

@@ -251,11 +251,13 @@ PopBloons endp
     
 ; TODO: Bounds check
 ; draw the monkey's sightline relative to current chunk
+; BX : beginning of monkey struct that we want to highlight 
 DrawRadius proc near
     push cx
     push ax
     push dx
     push bx
+
     ; chunks visible = range * 2 + 1 (range for either side + 1 for tile monkey is on)
     xor cx, cx
     mov cl, ds:[bx + MONKEY.radius] ; get range
@@ -287,6 +289,7 @@ DrawRadius proc near
         pop cx
         inc al ; Y offset
         loop radY
+        
     pop bx
     pop dx
     pop ax
@@ -296,7 +299,7 @@ DrawRadius endp
 
 ; Highlight a monkey if it exists at the given chunk coordinates
 ; Also unhighlights any previously selected monkeys
-; DX : X/Y
+; DX : X/Y position of cursor
 IsMonkeySelected proc near
     push bx
     push cx
@@ -305,7 +308,7 @@ IsMonkeySelected proc near
     mov ax, @data
     mov ds, ax
 
-     ; Check if a monkey exists at AX already
+    ; Check if a monkey exists at AX already
     mov bx, OFFSET alive_monkeys
     mov cx, alive_monkey_head
 
@@ -317,7 +320,7 @@ IsMonkeySelected proc near
         je SetHighlight          ; This monkey is selected, highlight it
         ; jmp GoNextMonkey
 
-        ; ; The monkey is not selected, is it highlighted from a previous selection?
+        ; The monkey is not selected, is it highlighted from a previous selection?
         cmp ds:[bx + MONKEY.highlighted], 1 
         je RemoveOldHighlight ; Has a previous highlight, remove it
         jmp GoNextMonkey ; No previous highlight to remove, move on to next monkey
