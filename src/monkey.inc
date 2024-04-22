@@ -280,16 +280,28 @@ DrawRadius proc near
 
             sub dl, ds:[bx + MONKEY.radius] ; central monkey y
             add dh, cl ; x offset
+            
+            cmp dh, XZ_CHUNKS
+            jg failed_bounds_check
+            cmp dh, 0
+            jl failed_bounds_check
+
+            cmp dl, YZ_CHUNKS
+            jg failed_bounds_check
+            cmp dl, 0
+            jl failed_bounds_check
+
 
             push cx ; save iter
             mov cl, RANGE ; sprite to draw
             call ShowSprite
             pop cx ; restore iter
+            failed_bounds_check:
             loop radX
         pop cx
         inc al ; Y offset
         loop radY
-        
+
     pop bx
     pop dx
     pop ax
