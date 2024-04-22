@@ -18,21 +18,66 @@ curr_round dw 0
 bloon_struc_size db 9
 queue_head dw 0 ; Index of the top of the queue
 alive_bloons_head dw 0 ; Index of the top of the alive bloons list 
-alive_bloons BLOON 50 DUP(<>)
+alive_bloons BLOON 30 DUP(<>)
 ; Bloon queues for rounds 
+; r0_queue_length dw 5
+; r0_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_RED, 0, 3, 3, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_RED, 0, 3, 9, 1, 1>, <BLOON_RED, 0, 3, 12, 1, 1>
+
+; r1_queue_length dw 6
+; r1_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_BLUE, 0, 2, 4, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_BLUE, 0, 2, 8, 2, 1>, <BLOON_RED, 0, 3, 10, 2, 1>, <BLOON_BLUE, 0, 2, 12, 1, 1>
+
+; r2_queue_length dw 8
+; r2_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_BLUE, 0, 1, 3, 1, 1>, <BLOON_BLUE, 0, 2, 6, 1, 1>, <BLOON_BLUE, 0, 2, 9, 2, 1>, <BLOON_RED, 0, 2, 12, 2, 1>, <BLOON_BLUE, 0, 2, 15, 1, 1>, <BLOON_BLUE, 0, 2, 18, 1, 1>, <BLOON_GREEN, 0, 1, 24, 1, 1>
+
+; r3_queue_length dw 7
+; r3_queue BLOON <BLOON_PINK, 0, 3, 0, 1, 1>, <BLOON_GREEN, 0, 1, 3, 1, 1>, <BLOON_GREEN, 0, 2, 6, 1, 1>, <BLOON_GREEN, 0, 2, 9, 2, 1>, <BLOON_GREEN, 0, 2, 15, 1, 1>, <BLOON_GREEN, 0, 2, 18, 1, 1>, <BLOON_PINK, 0, 1, 24, 1, 1>
+
+; queue_registry dw OFFSET r0_queue, OFFSET r1_queue, OFFSET r2_queue, OFFSET r3_queue
+
 r0_queue_length dw 5
 r0_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_RED, 0, 3, 3, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_RED, 0, 3, 9, 1, 1>, <BLOON_RED, 0, 3, 12, 1, 1>
 
-r1_queue_length dw 6
-r1_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_BLUE, 0, 2, 4, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_BLUE, 0, 2, 8, 2, 1>, <BLOON_RED, 0, 3, 10, 2, 1>, <BLOON_BLUE, 0, 2, 12, 1, 1>
+r1_queue_length dw 10
+r1_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_RED, 0, 3, 3, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_RED, 0, 3, 9, 1, 1>, <BLOON_RED, 0, 3, 12, 1, 1>, <BLOON_RED, 0, 3, 15, 1, 1>, <BLOON_RED, 0, 3, 18, 1, 1>
+	 BLOON <BLOON_RED, 0, 3, 21, 1, 1>, <BLOON_RED, 0, 3, 24, 1, 1>, <BLOON_RED, 0, 3, 27, 1, 1>
 
-r2_queue_length dw 8
-r2_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_BLUE, 0, 1, 3, 1, 1>, <BLOON_BLUE, 0, 2, 6, 1, 1>, <BLOON_BLUE, 0, 2, 9, 2, 1>, <BLOON_RED, 0, 2, 12, 2, 1>, <BLOON_BLUE, 0, 2, 15, 1, 1>, <BLOON_BLUE, 0, 2, 18, 1, 1>, <BLOON_GREEN, 0, 1, 24, 1, 1>
+r2_queue_length dw 15
+r2_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_RED, 0, 3, 3, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_RED, 0, 3, 9, 1, 1>, <BLOON_RED, 0, 3, 12, 1, 1>, <BLOON_RED, 0, 3, 15, 1, 1>, <BLOON_RED, 0, 3, 18, 1, 1>
+	 BLOON <BLOON_RED, 0, 3, 21, 1, 1>, <BLOON_RED, 0, 3, 24, 1, 1>, <BLOON_RED, 0, 3, 27, 1, 1>, <BLOON_BLUE, 0, 2, 30, 2, 1>, <BLOON_BLUE, 0, 2, 32, 2, 1>, <BLOON_BLUE, 0, 2, 34, 2, 1>, <BLOON_BLUE, 0, 2, 36, 2, 1>
+	 BLOON <BLOON_BLUE, 0, 2, 38, 2, 1>
 
-r3_queue_length dw 7
-r3_queue BLOON <BLOON_PINK, 0, 3, 0, 1, 1>, <BLOON_GREEN, 0, 1, 3, 1, 1>, <BLOON_GREEN, 0, 2, 6, 1, 1>, <BLOON_GREEN, 0, 2, 9, 2, 1>, <BLOON_GREEN, 0, 2, 15, 1, 1>, <BLOON_GREEN, 0, 2, 18, 1, 1>, <BLOON_PINK, 0, 1, 24, 1, 1>
+r3_queue_length dw 14
+r3_queue BLOON <BLOON_BLUE, 0, 2, 0, 2, 1>, <BLOON_BLUE, 0, 2, 2, 2, 1>, <BLOON_BLUE, 0, 2, 4, 2, 1>, <BLOON_BLUE, 0, 2, 6, 2, 1>, <BLOON_BLUE, 0, 2, 8, 2, 1>, <BLOON_BLUE, 0, 2, 10, 2, 1>, <BLOON_BLUE, 0, 2, 12, 2, 1>
+	 BLOON <BLOON_BLUE, 0, 2, 14, 2, 1>, <BLOON_BLUE, 0, 2, 16, 2, 1>, <BLOON_RED, 0, 3, 20, 1, 1>, <BLOON_RED, 0, 3, 23, 1, 1>, <BLOON_RED, 0, 3, 26, 1, 1>, <BLOON_RED, 0, 3, 29, 1, 1>, <BLOON_RED, 0, 3, 32, 1, 1>
 
-queue_registry dw OFFSET r0_queue, OFFSET r1_queue, OFFSET r2_queue, OFFSET r3_queue
+r4_queue_length dw 15
+r4_queue BLOON <BLOON_BLUE, 0, 2, 0, 2, 1>, <BLOON_BLUE, 0, 2, 2, 2, 1>, <BLOON_BLUE, 0, 2, 4, 2, 1>, <BLOON_BLUE, 0, 2, 6, 2, 1>, <BLOON_BLUE, 0, 2, 8, 2, 1>, <BLOON_BLUE, 0, 2, 10, 2, 1>, <BLOON_BLUE, 0, 2, 12, 2, 1>
+	 BLOON <BLOON_BLUE, 0, 2, 14, 2, 1>, <BLOON_BLUE, 0, 2, 16, 2, 1>, <BLOON_BLUE, 0, 2, 18, 2, 1>, <BLOON_BLUE, 0, 2, 20, 2, 1>, <BLOON_BLUE, 0, 2, 22, 2, 1>, <BLOON_BLUE, 0, 2, 24, 2, 1>, <BLOON_BLUE, 0, 2, 26, 2, 1>
+	 BLOON <BLOON_BLUE, 0, 2, 28, 2, 1>
+
+r5_queue_length dw 15
+r5_queue BLOON <BLOON_GREEN, 0, 1, 0, 3, 1>, <BLOON_GREEN, 0, 1, 1, 3, 1>, <BLOON_GREEN, 0, 1, 2, 3, 1>, <BLOON_GREEN, 0, 1, 3, 3, 1>, <BLOON_GREEN, 0, 1, 4, 3, 1>, <BLOON_BLUE, 0, 2, 10, 2, 1>, <BLOON_BLUE, 0, 2, 12, 2, 1>
+	 BLOON <BLOON_BLUE, 0, 2, 14, 2, 1>, <BLOON_BLUE, 0, 2, 16, 2, 1>, <BLOON_BLUE, 0, 2, 18, 2, 1>, <BLOON_BLUE, 0, 2, 20, 2, 1>, <BLOON_BLUE, 0, 2, 22, 2, 1>, <BLOON_BLUE, 0, 2, 24, 2, 1>, <BLOON_BLUE, 0, 2, 26, 2, 1>
+	 BLOON <BLOON_BLUE, 0, 2, 28, 2, 1>
+
+r6_queue_length dw 15
+r6_queue BLOON <BLOON_RED, 0, 3, 0, 1, 1>, <BLOON_RED, 0, 3, 3, 1, 1>, <BLOON_RED, 0, 3, 6, 1, 1>, <BLOON_RED, 0, 3, 9, 1, 1>, <BLOON_RED, 0, 3, 12, 1, 1>, <BLOON_GREEN, 0, 1, 20, 3, 1>, <BLOON_GREEN, 0, 1, 21, 3, 1>
+	 BLOON <BLOON_GREEN, 0, 1, 22, 3, 1>, <BLOON_GREEN, 0, 1, 23, 3, 1>, <BLOON_GREEN, 0, 1, 24, 3, 1>, <BLOON_GREEN, 0, 1, 25, 3, 1>, <BLOON_GREEN, 0, 1, 26, 3, 1>, <BLOON_GREEN, 0, 1, 27, 3, 1>, <BLOON_GREEN, 0, 1, 28, 3, 1>
+	 BLOON <BLOON_GREEN, 0, 1, 29, 3, 1>
+
+r7_queue_length dw 9
+r7_queue BLOON <BLOON_YELLOW, 0, 1, 0, 4, 1>, <BLOON_YELLOW, 0, 1, 1, 4, 1>, <BLOON_YELLOW, 0, 1, 2, 4, 1>, <BLOON_GREEN, 0, 1, 5, 3, 1>, <BLOON_GREEN, 0, 1, 6, 3, 1>, <BLOON_GREEN, 0, 1, 7, 3, 1>, <BLOON_GREEN, 0, 1, 8, 3, 1>
+	 BLOON <BLOON_GREEN, 0, 1, 9, 3, 1>, <BLOON_GREEN, 0, 1, 10, 3, 1>
+
+r8_queue_length dw 6
+r8_queue BLOON <BLOON_YELLOW, 0, 1, 0, 4, 1>, <BLOON_YELLOW, 0, 1, 1, 4, 1>, <BLOON_YELLOW, 0, 1, 2, 4, 1>, <BLOON_YELLOW, 0, 1, 3, 4, 1>, <BLOON_YELLOW, 0, 1, 4, 4, 1>, <BLOON_YELLOW, 0, 1, 5, 4, 1>
+
+r9_queue_length dw 5
+r9_queue BLOON <BLOON_PINK, 0, 1, 0, 5, 1>, <BLOON_PINK, 0, 1, 1, 5, 1>, <BLOON_PINK, 0, 1, 2, 5, 1>, <BLOON_PINK, 0, 1, 3, 5, 1>, <BLOON_PINK, 0, 1, 4, 5, 1>
+
+queue_registry dw OFFSET r0_queue, OFFSET r1_queue, OFFSET r2_queue, OFFSET r3_queue, OFFSET r4_queue, OFFSET r5_queue, OFFSET r6_queue
+	 dw OFFSET r7_queue, OFFSET r8_queue, OFFSET r9_queue
+
 
 .code
 
