@@ -63,15 +63,25 @@ STAGE_WATER_4 EQU 110
 STAGE_DEEP_WATER EQU 111
 STAGE_DEEP_WATER_SMALL EQU 112
 
-HEART_SPRITE db 8, 8
-             db 00h, 0fh, 0fh, 00h, 00h, 0fh, 0fh, 00h
-             db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
-             db 0fh, 0fh, 0fh, 0fh, 0fh, 0ch, 0fh, 0fh
-             db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0ch, 0fh
-             db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
-             db 00h, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 00h
-             db 00h, 00h, 0fh, 0fh, 0fh, 0fh, 00h, 00h
-             db 00h, 00h, 00h, 0fh, 0fh, 00h, 00h, 00h
+HEART_SPRITE db 7, 7
+            db 00h, 0fh, 0fh, 00h, 0fh, 0fh, 00h
+            db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
+            db 0fh, 0fh, 0fh, 0fh, 0fh, 0ch, 0fh
+            db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
+            db 00h, 0fh, 0fh, 0fh, 0fh, 0fh, 00h
+            db 00h, 00h, 0fh, 0fh, 0fh, 00h, 00h
+            db 00h, 00h, 00h, 0fh, 00h, 00h, 00h
+
+; Old 8x8 heart sprite, these looked weird         
+; HEART_SPRITE db 8, 8
+;              db 00h, 0fh, 0fh, 00h, 00h, 0fh, 0fh, 00h
+;              db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
+;              db 0fh, 0fh, 0fh, 0fh, 0fh, 0ch, 0fh, 0fh
+;              db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0ch, 0fh
+;              db 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh
+;              db 00h, 0fh, 0fh, 0fh, 0fh, 0fh, 0fh, 00h
+;              db 00h, 00h, 0fh, 0fh, 0fh, 0fh, 00h, 00h
+;              db 00h, 00h, 00h, 0fh, 0fh, 00h, 00h, 00h
 
 RANGE_SPRITE db 8, 8
              db 08h, 00h, 08h, 00h, 08h, 00h, 08h, 00h

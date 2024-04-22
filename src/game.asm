@@ -28,7 +28,7 @@ main PROC
 
     mov frame_counter, 0 
     mov round_number, -1 ; first round not started yet
-    mov lives, 3  ; Change to some higher number later 
+    mov lives, 8  ; Change to some higher number later 
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
