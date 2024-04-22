@@ -4,7 +4,7 @@ MONKEY struc
     upgrades db 0 ; upgrades
     radius db 3 ; radius of chunks it can see
     damage db 1 
-    fireRate db 7 ; how many frames before this monkey can inflict damage again
+    fireRate db 10 ; how many frames before this monkey can inflict damage again
     sprite db MONKEY_DART_1
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
@@ -68,7 +68,7 @@ PlaceMonkey proc far
 
         mov ds:[bx + MONKEY.chunk], ax    ; Write monkey's chunk position
         mov ds:[bx + MONKEY.deployed], 1  ; Deploy the monkey to the front lines. Godspeed soldier o7 
-        mov ds:[bx + MONKEY.canFire], 0   ; monkey can fire immediately after spawning
+        mov ds:[bx + MONKEY.canFire], 0 ; monkey can fire immediately after spawning
         inc alive_monkey_head             ; We wrote new monkey data, so increase this pointer
 
         ; Now we gotta draw the monkey 
@@ -129,8 +129,8 @@ PopBloons proc far
 
         xor dh, dh
 
-        mov dl, ds:[bx + MONKEY.canFire] 
-        cmp dl, 0 ; monkey cannot fire if nonzero
+        mov dh, ds:[bx + MONKEY.canFire] 
+        cmp dh, 0 ; monkey cannot fire if nonzero
         je bypass_jmp_limit_2
 
         ; mov dl, ds:[bx + MONKEY.fireRate]     ; dl now has this monkey's fire rate 
@@ -212,7 +212,13 @@ PopBloons proc far
             ; DS is now pointing to monkeys
             ; BX is now pointing to MONKEY instance 
             sub dx, ds:[bx + MONKEY.damage]
-    
+
+            push ax
+            xor ax, ax
+            mov ah, ds:[bx + MONKEY.fireRate] 
+            mov ds:[bx + MONKEY.canFire], ah ; Reset for fire cooldown 
+            pop ax
+
             and dx, 0FFh ; Clear top bits 
             pop ds
             pop bx
@@ -224,7 +230,6 @@ PopBloons proc far
             jmp done_check_alive_bloons_iter
 
             bloon_was_killed_by_mky:
-            mov ds:[bx + BLOON.canFire], ds:[bx + BLOON.fireRate] ; Reset for fire cooldown 
             inc ds:[bx + BLOON.state]
             pop dx 
             jmp done_check_alive_bloons_iter
@@ -246,7 +251,6 @@ PopBloons proc far
         pop ax
         
         monkey_cant_fire:
-        dec ds:[bx + MONKEY.canFire] ; The monkey is one frame closer to firing
         add bl, monkey_struc_size
         dec ax
         jmp loop_alive_monkeys_for_pops
@@ -261,7 +265,6 @@ PopBloons proc far
     ret
 PopBloons endp
     
-; TODO: Bounds check
 ; draw the monkey's sightline relative to current chunk
 ; BX : beginning of monkey struct that we want to highlight 
 DrawRadius proc near
