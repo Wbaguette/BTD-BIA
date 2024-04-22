@@ -1,10 +1,5 @@
 ### PRIORITIES
 
-7. Sniper monkey
-
-5. Monkey upgrades (BACKLOG)
-6. Monkey pop count (BACKLOG)
-
 ### Conf Updates
 windowresolution=1920x780
 scaler=normal3x forced           
