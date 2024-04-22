@@ -28,7 +28,7 @@ main PROC
 
     mov frame_counter, 0 
     mov round_number, -1 ; first round not started yet
-    mov lives, 8  ; Change to some higher number later 
+    mov lives, 8  ; This cannot be > 8, there is no room for more than 8 on top of screen 
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
