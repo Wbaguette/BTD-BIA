@@ -9,11 +9,10 @@ MONKEY struc
     direction db 0 ; where should the monkey face
     highlighted db 0 ; (bool) when true, renders the monkey's range and allows for upgrading
     deployed db 0 ; Is the monkey on the front lines? PTSD      0 = no, 1 = yes 
-    canFire db 0 ; is ready to shoot again
 MONKEY ends
 
 .data?
-    monkey_struc_size db 13 
+    monkey_struc_size db 12
     alive_monkey_head dw 0
     alive_monkeys MONKEY MAX_MKYS DUP(<>)
 
@@ -68,7 +67,6 @@ PlaceMonkey proc far
 
         mov ds:[bx + MONKEY.chunk], ax    ; Write monkey's chunk position
         mov ds:[bx + MONKEY.deployed], 1  ; Deploy the monkey to the front lines. Godspeed soldier o7 
-        mov ds:[bx + MONKEY.canFire], 0 ; monkey can fire immediately after spawning
         inc alive_monkey_head             ; We wrote new monkey data, so increase this pointer
 
         ; Now we gotta draw the monkey 
@@ -128,22 +126,14 @@ PopBloons proc far
         bypass_jmp_limit:
 
         xor dh, dh
+        mov dl, ds:[bx + MONKEY.fireRate]     ; dl now has this monkey's fire rate 
+        push ax 
+        mov ax, cx 
+        div dl       ;  AL: Quotient,    AH: Remainder 
+        cmp ah, 0       ; If remainder = 0, then the monkey can fire 
+        pop ax
 
-        mov dh, ds:[bx + MONKEY.canFire] 
-        cmp dh, 0 ; monkey cannot fire if nonzero
-        je bypass_jmp_limit_2
-
-        ; mov dl, ds:[bx + MONKEY.fireRate]     ; dl now has this monkey's fire rate 
-
-        ; push ax 
-        ; mov ax, cx 
-        ; div dl       ;  AL: Quotient,    AH: Remainder 
-        ; cmp ah, 0       ; If remainder = 0, then the monkey can fire 
-        ; pop ax  
-        ; je bypass_jmp_limit_2  
-        
-        ; make monkey one frame closer to firing
-        dec ds:[bx + MONKEY.canFire] 
+        je bypass_jmp_limit_2  
         jmp monkey_cant_fire
 
         bypass_jmp_limit_2:
@@ -212,13 +202,6 @@ PopBloons proc far
             ; DS is now pointing to monkeys
             ; BX is now pointing to MONKEY instance 
             sub dx, ds:[bx + MONKEY.damage]
-
-            push ax
-            xor ax, ax
-            mov ah, ds:[bx + MONKEY.fireRate] 
-            mov ds:[bx + MONKEY.canFire], ah ; Reset for fire cooldown 
-            pop ax
-
             and dx, 0FFh ; Clear top bits 
             pop ds
             pop bx
