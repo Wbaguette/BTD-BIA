@@ -14,7 +14,6 @@ MONKEY ends
 .data?
     monkey_struc_size db 12 
     alive_monkey_head dw 0
-    ; alive_monkeys MONKEY <0A0Ah, 0, 0, 3, 1, 12, MONKEY_DART_1, 0, 0, 1> , 9 DUP(<>)
     alive_monkeys MONKEY MAX_MKYS DUP(<>)
 
 .code
@@ -47,7 +46,7 @@ PlaceMonkey proc far
         cmp ax, [PATH + bx]  ; Are we on a path tile?
         je finish_place_monkey ; Fall through if we should keep checking path tiles
 
-        add bx, 2
+        add bx, 2              ; Path indices are words so advance pointer by 2 
 
         jmp check_if_cursor_on_path_iter
     
