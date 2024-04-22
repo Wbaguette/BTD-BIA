@@ -28,17 +28,23 @@ main PROC
 
     mov frame_counter, 0 
     mov round_number, -1 ; first round not started yet
-    mov lives, 3  ; Change to some higher number later 
+    mov lives, 8  ; This cannot be > 8, there is no room for more than 8 on top of screen 
 
     call InitStage ; onetime background initialization
     call DrawCursor ; onetime cursor intitialization
     call DrawMonkeyBar ; onetime hud init
+
+    mov ax, lives ; Show initial lives
+    call DrawLives
 
     start_round:
     jmp awaitkey
 
     gameloop:        
         call draw_bloons  ; Clear bloons 
+
+        mov ax, lives     ; Clear lives
+        call DrawLives
         
         mov cx, frame_counter
         call PopBloons
@@ -47,22 +53,18 @@ main PROC
         call move_alive_bloons ; returns amount of damage to do to player in cx 
         sub lives, cx
 
-        ; cmp cx, 0 ; Check if any lives were lost
-        ; jne UpdateLives ; Lives were lost somewhere update the HUD
-
         cmp lives, 0 
         jg continueGame           ; fall through if the player is dead
-        exit_err ; Exit game on loss, good enough for now
+        exit_err                  ; Exit game on loss with error in order for bat file to work properly
 
-        ; UpdateLives:
-        ;     xor cx, cx
-        ;     mov cx, lives
-        ;     call DrawLives ; Clear
 
         continueGame:
         mov cx, frame_counter
         mov bx, round_number
         call spawn_bloon
+
+        mov ax, lives   ; Redraw lives
+        call DrawLives
 
         call draw_bloons    ; Draw where they should be 
 
@@ -122,7 +124,7 @@ main PROC
         call MoveDown
         jmp awaitkey
 
-    ex: ; terminates program
-        exit           ; Normal exit, just exits 
+    ex:
+        exit           ; Normal exit 
 main ENDP
 END main 

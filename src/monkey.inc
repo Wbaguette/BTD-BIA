@@ -14,7 +14,6 @@ MONKEY ends
 .data?
     monkey_struc_size db 12 
     alive_monkey_head dw 0
-    ; alive_monkeys MONKEY <0A0Ah, 0, 0, 3, 1, 12, MONKEY_DART_1, 0, 0, 1> , 9 DUP(<>)
     alive_monkeys MONKEY MAX_MKYS DUP(<>)
 
 .code
@@ -25,6 +24,8 @@ PlaceMonkey proc far
     push ds
     push dx 
     push cx 
+
+    xor si, si
     xor cx, cx
     xor bx, bx 
 
@@ -36,10 +37,28 @@ PlaceMonkey proc far
     cmp alive_monkey_head, MAX_MKYS ; If we have 10 monkeys, we can't place anymore
     je finish_place_monkey
 
+    ; Checking if this was called with the cursor on the path, we don't want monkeys on the bloon path!
+    mov bx, 0
+    check_if_cursor_on_path_iter:
+        cmp bx, PATH_LENGTH * 2 ; Have we iterated all the way through?
+        je cursor_not_on_path  ; Fall through if still iterating, we jumped if we have iterated through all path tiles 
+
+        cmp ax, [PATH + bx]  ; Are we on a path tile?
+        je finish_place_monkey ; Fall through if we should keep checking path tiles
+
+        add bx, 2              ; Path indices are words so advance pointer by 2 
+
+        jmp check_if_cursor_on_path_iter
+    
+
+    cursor_not_on_path:
+
+
     ; Check if a monkey exists at AX already
     mov bx, OFFSET alive_monkeys
     mov cx, MAX_MKYS
     check_monkey_already_there:
+    
         cmp ds:[bx + MONKEY.chunk], ax  ; if there's a monkey on this chunk, we cannot place a new one on top: exit the proc 
         je finish_place_monkey          ; Fall through if the monkeys' positions are not conflicting 
 
@@ -232,11 +251,13 @@ PopBloons endp
     
 ; TODO: Bounds check
 ; draw the monkey's sightline relative to current chunk
+; BX : beginning of monkey struct that we want to highlight 
 DrawRadius proc near
     push cx
     push ax
     push dx
     push bx
+
     ; chunks visible = range * 2 + 1 (range for either side + 1 for tile monkey is on)
     xor cx, cx
     mov cl, ds:[bx + MONKEY.radius] ; get range
@@ -259,15 +280,28 @@ DrawRadius proc near
 
             sub dl, ds:[bx + MONKEY.radius] ; central monkey y
             add dh, cl ; x offset
+            
+            cmp dh, XZ_CHUNKS
+            jg failed_bounds_check
+            cmp dh, 0
+            jl failed_bounds_check
+
+            cmp dl, YZ_CHUNKS
+            jg failed_bounds_check
+            cmp dl, 0
+            jl failed_bounds_check
+
 
             push cx ; save iter
             mov cl, RANGE ; sprite to draw
             call ShowSprite
             pop cx ; restore iter
+            failed_bounds_check:
             loop radX
         pop cx
         inc al ; Y offset
         loop radY
+
     pop bx
     pop dx
     pop ax
@@ -277,7 +311,7 @@ DrawRadius endp
 
 ; Highlight a monkey if it exists at the given chunk coordinates
 ; Also unhighlights any previously selected monkeys
-; DX : X/Y
+; DX : X/Y position of cursor
 IsMonkeySelected proc near
     push bx
     push cx
@@ -286,7 +320,7 @@ IsMonkeySelected proc near
     mov ax, @data
     mov ds, ax
 
-     ; Check if a monkey exists at AX already
+    ; Check if a monkey exists at AX already
     mov bx, OFFSET alive_monkeys
     mov cx, alive_monkey_head
 
@@ -298,7 +332,7 @@ IsMonkeySelected proc near
         je SetHighlight          ; This monkey is selected, highlight it
         ; jmp GoNextMonkey
 
-        ; ; The monkey is not selected, is it highlighted from a previous selection?
+        ; The monkey is not selected, is it highlighted from a previous selection?
         cmp ds:[bx + MONKEY.highlighted], 1 
         je RemoveOldHighlight ; Has a previous highlight, remove it
         jmp GoNextMonkey ; No previous highlight to remove, move on to next monkey
