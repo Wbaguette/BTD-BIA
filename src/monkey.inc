@@ -25,6 +25,8 @@ PlaceMonkey proc far
     push ds
     push dx 
     push cx 
+
+    xor si, si
     xor cx, cx
     xor bx, bx 
 
@@ -36,10 +38,28 @@ PlaceMonkey proc far
     cmp alive_monkey_head, MAX_MKYS ; If we have 10 monkeys, we can't place anymore
     je finish_place_monkey
 
+    ; Checking if this was called with the cursor on the path, we don't want monkeys on the bloon path!
+    mov bx, 0
+    check_if_cursor_on_path_iter:
+        cmp bx, PATH_LENGTH * 2 ; Have we iterated all the way through?
+        je cursor_not_on_path  ; Fall through if still iterating, we jumped if we have iterated through all path tiles 
+
+        cmp ax, [PATH + bx]  ; Are we on a path tile?
+        je finish_place_monkey ; Fall through if we should keep checking path tiles
+
+        add bx, 2
+
+        jmp check_if_cursor_on_path_iter
+    
+
+    cursor_not_on_path:
+
+
     ; Check if a monkey exists at AX already
     mov bx, OFFSET alive_monkeys
     mov cx, MAX_MKYS
     check_monkey_already_there:
+    
         cmp ds:[bx + MONKEY.chunk], ax  ; if there's a monkey on this chunk, we cannot place a new one on top: exit the proc 
         je finish_place_monkey          ; Fall through if the monkeys' positions are not conflicting 
 

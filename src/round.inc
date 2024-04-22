@@ -35,7 +35,8 @@ r3_queue BLOON <BLOON_PINK, 0, 3, 0, 1, 1>, <BLOON_GREEN, 0, 1, 3, 1, 1>, <BLOON
 queue_registry dw OFFSET r0_queue, OFFSET r1_queue, OFFSET r2_queue, OFFSET r3_queue
 
 .code
-; Returns this ds in ax
+
+; Returns this data segment in AX, idk if I even need to do this but it works 
 get_round_ds PROC near
    mov ax, @data
    ret

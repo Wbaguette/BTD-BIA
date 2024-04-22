@@ -1,7 +1,6 @@
 ### PRIORITIES
 - LOSE LIFE (visually showcased)
 
-2. Cursor needs to know if its over a path (OPTIONAL)
 7. Sniper monkey
 
 5. Monkey upgrades (BACKLOG)
