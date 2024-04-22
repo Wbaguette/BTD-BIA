@@ -61,20 +61,22 @@ DrawMonkeyBar proc far
 DrawMonkeyBar endp
 
 ; Draw lives on hud
+; Register params: 
 ; AX : Number of lives remaining
 DrawLives proc far
     push cx
     push dx
+    xor cx, cx
 
     DrawLivesRemaining:
         cmp ax, 0 ; All lives drawn
-        je DrawLivesDone
+        je DrawLivesDone   ; Fall through if we still have some lives remaining to draw  
 
         ; More lives to draw
         mov dh, LIVES_X_OFFSET
         add dh, al ; Easy offset!
         mov dl, LIVES_Y_OFFSET
-        mov cl, HEART
+        mov cx, HEART
         call ShowSprite
 
         dec ax
