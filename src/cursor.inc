@@ -48,6 +48,7 @@ MoveRight proc near
     pop dx
     ret     ; completed successfully
     s:
+        pop dx
         dec x   ; go back to original position
         ret
 MoveRight endp
@@ -70,6 +71,7 @@ MoveLeft proc near
     pop dx
     ret     ; completed successfully
     s2:
+        pop dx
         inc x   ; go back to original position
         ret
 MoveLeft endp
@@ -92,6 +94,7 @@ MoveUp proc near
     pop dx
     ret     ; completed successfully
     s3:
+        pop dx
         inc y   ; go back to original position
         ret
 MoveUp endp
@@ -114,12 +117,7 @@ MoveDown proc near
     pop dx
     ret     ; completed successfully
     s4:
+        pop dx
         dec y   ; go back to original position
         ret
 MoveDown endp
-
-ViewMonkeyRange proc near
-
-
-    ret
-ViewMonkeyRange endp
