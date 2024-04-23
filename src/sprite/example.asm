@@ -1,5 +1,4 @@
 ; Example usage of Sprite module
-; Author : Jean-Pierre Derbes
 .model small
 .stack 200h
 

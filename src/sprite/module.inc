@@ -1,5 +1,4 @@
 ; The include file for sprite drawing implementation
-; Author: Jean-Pierre Derbes
 
 .data?
 ; FORMAT : First two bytes are WIDTH, HEIGHT of the Sprite, respectively 

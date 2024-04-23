@@ -1,5 +1,4 @@
-; ShowTitle file
-; Authors: Jean-Pierre Derbes, Vincent Quintero
+; ShowTitle file, this code is ran first when play.bat is called 
 
 .model small
 .stack 200h

@@ -1,5 +1,4 @@
-; GameOver file
-; Authors: Jean-Pierre Derbes, Vincent Quintero
+; GameOver file, this code is ran when the game is over
 
 .model small
 .stack 200h 
